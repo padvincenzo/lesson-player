@@ -81,9 +81,9 @@ class Lesson {
     return tr;
   }
 
-  play() {
+  play(_autoplay = true) {
     this.dbGetSilences().then(() => {
-      Player.load(this)
+      Player.load(this, _autoplay);
     });
   }
 
