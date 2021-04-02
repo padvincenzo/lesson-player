@@ -1,0 +1,225 @@
+/*
+Lesson Player
+View your lessons, do not miss the mark.
+
+Copyright (C) 2021  Vincenzo Padula
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
+body {
+  padding: 0;
+  margin: 0;
+  text-align: left;
+  background-color: #222;
+  color: #FFF;
+}
+
+#my-p-background {
+  width: 100%;
+  display: block;
+  background-color: #111;
+  text-align: center;
+}
+
+#my-p-wrapper {
+  width: clamp(60vw, 100vh, 100vw);
+  display: inline-block;
+}
+
+#my-p-overlay {
+  background: #000A;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  color: #FFF;
+  text-align: left;
+  padding: 4em 5em;
+}
+
+#my-p-overlay #class {
+  font-size: clamp(1em, 8em, 7vw);
+  flex: 2;
+}
+
+#my-p-overlay #date {
+  font-size: clamp(1em, 2.5em, 2vw);
+  flex: 1;
+}
+
+#my-p-overlay #professor {
+  font-size: clamp(1em, 5.5em, 3vw);
+  flex: 2;
+}
+
+#my-p-overlay #title {
+  font-size: clamp(1em, 4em, 4vw);
+  flex: 2;
+}
+
+#my-p-overlay #description {
+  font-size: clamp(1em, 2.4em, 3vw);
+  flex: 3;
+}
+
+#notice {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 2em;
+  z-index: 4;
+  background: #000A;
+  border-radius: 1em;
+  color: #FFF;
+  text-align: center;
+  font-size: 2em;
+  line-height: 2em;
+  padding: 1em;
+  display: none;
+}
+
+#fastSilence {
+  position: absolute;
+  top: 0px;
+  left: 0;
+  margin: -0.2em 25em;
+  z-index: 2;
+  background: #FFFC;
+  border-radius: 0.3em;
+  color: darkred;
+  text-align: center;
+  font-size: 2em;
+  padding: 0.1em 0.5em;
+  display: none;
+}
+
+table {
+  width: 100%;
+  padding: 1em;
+}
+
+form {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  padding: 0 10vw;
+}
+
+label {
+  text-align: left;
+  margin-top: 1em;
+  margin-bottom: -0.5em;
+}
+
+input, textarea {
+  margin: 1em 0;
+  color: #FFF;
+  border-color: #DDD;
+  border-width: 0 0 0.2em 0;
+  border-style: solid;
+  border-radius: 0 0 0.3em 0.3em;
+  background-color: #DDD2;
+  box-sizing: border-box;
+}
+
+input {
+  text-align: center;
+  font-size: 1.2em;
+  line-height: 1.6em;
+  font-family: inherit;
+}
+
+textarea {
+  padding: 1em;
+  font-family: monospace;
+  height: 8em;
+  resize: vertical;
+}
+
+::-webkit-input-placeholder { color: #FFFA; }
+::-moz-placeholder { color: #FFFA; }
+:-ms-input-placeholder { color: #FFFA; }
+:-moz-placeholder { color: #FFFA; }
+
+button {
+  cursor: pointer;
+  width: 16em;
+  line-height: 2em;
+  color: #FFF;
+  background: #111;
+  border-width: 2px;
+  border-style: solid;
+  border-color: #FFFA;
+  margin: 1em;
+  font-size: 1.2em;
+  text-shadow: 1px 1px 2px #111;
+}
+
+button.btnSmall {
+  width: 7em;
+  line-height: 1.8em;
+  font-size: 1em;
+}
+
+#msg_background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  background: #0008;
+  text-align: center;
+  z-index: 10;
+}
+
+#msg_wrapper {
+  width: 60vw;
+  height: auto;
+  color: #222;
+  background-color: #777;
+  border-radius: 3px;
+  padding: 1vh 5vw;
+  margin-top: 20vh;
+  display: inline-block;
+}
+
+#msg_wrapper button {
+  max-width: 20vw;
+}
+
+#msg_content {
+  max-height: 60vh;
+  overflow-y: auto;
+  padding: 2vh 0;
+}
+
+@media only screen and (max-width: 600px) {
+  form {
+    padding: 0 5vw;
+  }
+
+  #msg_wrapper {
+    width: 80vw;
+  }
+
+  #msg_wrapper button {
+    max-width: 35vw;
+  }
+}
