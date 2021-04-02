@@ -45,7 +45,7 @@ class UI {
       let lastClass = Object.values(this.classes)[0];
       lastClass.dbGetNext().then(() => {
         if(lastClass.nextLesson != null)
-          Player.load(lastClass.nextLesson, false);
+          lastClass.nextLesson.play(false);
       });
     });
   }
