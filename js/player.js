@@ -76,27 +76,35 @@ class Player {
     Player.wrapper.addEventListener("keydown", (e) => {
       e.preventDefault();
       switch (e.code) {
-        case "ArrowLeft": {
+        case "ArrowLeft":
+        case "KeyA": {
           Player.changeTime(-5);
           break;
         }
-        case "ArrowRight": {
+        case "ArrowRight":
+        case "KeyD": {
           Player.changeTime(+5);
           break;
         }
-        case "ArrowUp": {
+        case "ArrowUp":
+        case "KeyW": {
           Player.changeVolume(+0.05);
           break;
         }
-        case "ArrowDown": {
+        case "ArrowDown":
+        case "KeyS": {
           Player.changeVolume(-0.05);
           break;
         }
-        case "BracketLeft": {
+        case "BracketLeft":
+        case "NumpadSubtract":
+        case "Minus": {
           Player.changePlaybackRate(-0.1);
           break;
         }
-        case "BracketRight": {
+        case "BracketRight":
+        case "NumpadAdd":
+        case "Equal": {
           Player.changePlaybackRate(+0.1);
           break;
         }
