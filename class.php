@@ -43,6 +43,13 @@ switch($request) {
 }
 
 
+function toDirectory($directory) {
+  if(substr($directory, -1) != "/")
+    $directory .= "/";
+
+  return $directory;
+}
+
 function editClass() {
   global $dbh, $data;
 
@@ -55,7 +62,7 @@ function editClass() {
   $idclass = $data["idclass"];
   $className = $data["className"];
   $professor = $data["professor"];
-  $directory = $data["directory"];
+  $directory = toDirectory($data["directory"]);
 
   $result = mysqli_query($dbh, "update class set name = '$className', professor = '$professor', directory = '$directory' where idclass = '$idclass';");
   if($result) {
@@ -79,7 +86,7 @@ function addClass() {
 
   $className = $data["className"];
   $professor = $data["professor"];
-  $directory = $data["directory"];
+  $directory = toDirectory($data["directory"]);
 
   $result = mysqli_query($dbh, "insert into class (name, professor, directory) values ('$className', '$professor', '$directory');");
   if($result) {
