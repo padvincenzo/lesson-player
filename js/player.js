@@ -19,12 +19,30 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 class Player {
   static player = null;
   static wrapper = null;
-  static shortcuts = {
-    keyup: {
-      "Space": {
-        name: "Space",
-        description: "Play/Pause",
-        action: () => {
+  static overlay = null;
+  static overlayData = null;
+  static notice = null;
+  static noticeTimeout = null;
+  static fastSilence = null;
+  static lesson = null;
+  static fastRate = 8;
+
+  static init() {
+    Player.player = videojs("my-player");
+    Player.wrapper = document.getElementById("my-player");
+
+    Player.player.el().parentNode.style.position = "relative";
+    Player.initShortcuts();
+    Player.initOverlay();
+    Player.initNotifier();
+    Player.initLessonUpdater();
+  }
+
+  static initShortcuts() {
+    Player.wrapper.addEventListener("keyup", (e) => {
+      e.preventDefault();
+      switch (e.code) {
+        case "Space": {
           if(Player.paused()) {
             Player.play();
             Player.notify(lang.playing);
@@ -32,12 +50,9 @@ class Player {
             Player.pause();
             Player.notify(lang.paused);
           }
+          break;
         }
-      },
-      "KeyM": {
-        name: "M",
-        description: "Mute/unmute",
-        action: () => {
+        case "KeyM": {
           if(Player.muted()) {
             Player.muted(false);
             Player.notify(lang.soundOn);
@@ -45,88 +60,46 @@ class Player {
             Player.muted(true);
             Player.notify(lang.soundOff);
           }
+          break;
         }
-      },
-      "KeyF": {
-        name: "F",
-        description: "Toggle fullscreen",
-        action: () => {
+        case "KeyF": {
           if(Player.isFullscreen()) {
             Player.exitFullscreen();
           } else {
             Player.requestFullscreen();
           }
+          break;;
         }
-      }
-    },
-    keydown: {
-      "ArrowLeft": {
-        name: "←",
-        description: "Rewind 5 seconds",
-        action: () => { Player.changeTime(-5); }
-      },
-      "ArrowRight": {
-        name: "→",
-        description: "Skip 5 seconds",
-        action: () => { Player.changeTime(+5); }
-      },
-      "ArrowUp": {
-        name: "↑",
-        description: "Volume up",
-        action: () => { Player.changeVolume(+0.05); }
-      },
-      "ArrowDown": {
-        name: "↓",
-        description: "Volume down",
-        action: () => { Player.changeVolume(-0.05); }
-      },
-      "BracketLeft": {
-        name: "[",
-        description: "Slower by 0.1x",
-        action: () => { Player.changePlaybackRate(-0.1); }
-      },
-      "BracketRight": {
-        name: "]",
-        description: "Faster by 0.1x",
-        action: () => { Player.changePlaybackRate(+0.1); }
-      },
-      "Space": {
-        name: "Space",
-        description: "Do nothing",
-        action: () => {}
-      }
-    }
-  };
-  static overlay = null;
-  static overlayData = null;
-  static notice = null;
-  static noticeTimeout = null;
-  static fastSilence = null;
-  static lesson = null;
-
-  static init() {
-    Player.player = videojs("my-player");
-    Player.wrapper = document.getElementById("my-player");
-
-    Player.player.el().parentNode.style.position = "relative";
-    Player.initKeyListeners();
-    Player.initOverlay();
-    Player.initNotifier();
-    Player.initLessonUpdater();
-  }
-
-  static initKeyListeners() {
-    Player.wrapper.addEventListener("keyup", (e) => {
-      if(Player.shortcuts.keyup.hasOwnProperty(e.code)) {
-        e.preventDefault();
-        Player.shortcuts.keyup[e.code].action();
       }
     });
 
     Player.wrapper.addEventListener("keydown", (e) => {
-      if(Player.shortcuts.keydown.hasOwnProperty(e.code)) {
-        e.preventDefault();
-        Player.shortcuts.keydown[e.code].action();
+      e.preventDefault();
+      switch (e.code) {
+        case "ArrowLeft": {
+          Player.changeTime(-5);
+          break;
+        }
+        case "ArrowRight": {
+          Player.changeTime(+5);
+          break;
+        }
+        case "ArrowUp": {
+          Player.changeVolume(+0.05);
+          break;
+        }
+        case "ArrowDown": {
+          Player.changeVolume(-0.05);
+          break;
+        }
+        case "BracketLeft": {
+          Player.changePlaybackRate(-0.1);
+          break;
+        }
+        case "BracketRight": {
+          Player.changePlaybackRate(+0.1);
+          break;
+        }
       }
     });
   }
@@ -179,15 +152,30 @@ class Player {
   }
 
   static initLessonUpdater() {
+    Player.on("ratechange", () => {
+      let rate = Player.playbackRate();
+      if(rate != Player.fastRate && rate != Player.lesson.playbackRate) {
+        console.log(`rate changed: ${rate}`);
+        Player.lesson.playbackRate = rate;
+      }
+    });
+
     Player.on("timeupdate", () => {
       let currentTime = Player.currentTime();
+      let rate = Player.playbackRate();
 
       if(Player.lesson.isInSilence(currentTime)) {
-        Player.playbackRate(8);
-        Player.fastSilence.style.display = "inline-block";
+        if(rate != Player.fastRate) {
+          Player.playbackRate(Player.fastRate);
+          Player.fastSilence.style.display = "inline-block";
+          console.log("rate 8x");
+        }
       } else {
-        Player.playbackRate(Player.lesson.playbackRate);
-        Player.fastSilence.style.display = "none";
+        if(rate == Player.fastRate) {
+          Player.playbackRate(Player.lesson.playbackRate);
+          Player.fastSilence.style.display = "none";
+          console.log(`rate ${Player.lesson.playbackRate}`);
+        }
       }
 
       if(Player.lesson != null)
