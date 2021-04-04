@@ -153,28 +153,34 @@ class Player {
 
   static initLessonUpdater() {
     Player.on("ratechange", () => {
+      if(Player.lesson == null)
+        return;
+
       let rate = Player.playbackRate();
       if(rate != Player.fastRate && rate != Player.lesson.playbackRate) {
-        console.log(`rate changed: ${rate}`);
-        Player.lesson.playbackRate = rate;
+        Player.lesson.dbRate(rate);
       }
     });
 
     Player.on("timeupdate", () => {
+      if(Player.lesson == null)
+        return;
+
       let currentTime = Player.currentTime();
       let rate = Player.playbackRate();
+
+      if(currentTime == null || rate == null)
+        return;
 
       if(Player.lesson.isInSilence(currentTime)) {
         if(rate != Player.fastRate) {
           Player.playbackRate(Player.fastRate);
           Player.fastSilence.style.display = "inline-block";
-          console.log("rate 8x");
         }
       } else {
         if(rate == Player.fastRate) {
           Player.playbackRate(Player.lesson.playbackRate);
           Player.fastSilence.style.display = "none";
-          console.log(`rate ${Player.lesson.playbackRate}`);
         }
       }
 
@@ -202,6 +208,7 @@ class Player {
 
     Player.player.src(Player.lesson.url());
     Player.currentTime(Player.lesson.mark);
+    Player.player.defaultPlaybackRate(Player.lesson.playbackRate);
 
     Player.overlayData.class.innerText = Player.lesson.parentClass.name;
     Player.overlayData.date.innerText = Player.lesson.dated;
@@ -214,55 +221,94 @@ class Player {
   }
 
   static play() {
+    if(Player.lesson == null)
+      return;
+
     Player.wrapper.focus();
     return Player.player.play();
   }
 
   static pause() {
+    if(Player.lesson == null)
+      return;
+
     return Player.player.pause();
   }
 
   static paused() {
+    if(Player.lesson == null)
+      return;
+
     return Player.player.paused();
   }
 
   static seeking() {
+    if(Player.lesson == null)
+      return;
+
     return Player.player.seeking();
   }
 
   static currentTime(_time = null) {
+    if(Player.lesson == null)
+      return;
+
     return _time == null ? Player.player.currentTime() : Player.player.currentTime(_time);
   }
 
   static duration() {
+    if(Player.lesson == null)
+      return;
+
     return Player.player.duration();
   }
 
   static muted(_muted = null) {
+    if(Player.lesson == null)
+      return;
+
     return _muted == null ? Player.player.muted() : Player.player.muted(_muted);
   }
 
   static isFullscreen() {
+    if(Player.lesson == null)
+      return;
+
     return Player.player.isFullscreen();
   }
 
   static exitFullscreen() {
+    if(Player.lesson == null)
+      return;
+
     return Player.player.exitFullscreen();
   }
 
   static requestFullscreen() {
+    if(Player.lesson == null)
+      return;
+
     return Player.player.requestFullscreen();
   }
 
   static playbackRate(_rate = null) {
+    if(Player.lesson == null)
+      return;
+
     return _rate == null ? Player.player.playbackRate() : Player.player.playbackRate(_rate);
   }
 
   static volume(_volume = null) {
+    if(Player.lesson == null)
+      return;
+
     return _volume == null ? Player.player.volume() : Player.player.volume(_volume);
   }
 
   static currentTime(_time = null) {
+    if(Player.lesson == null)
+      return;
+
     return _time == null ? Player.player.currentTime() : Player.player.currentTime(_time);
   }
 
@@ -286,6 +332,9 @@ class Player {
   }
 
   static changeVolume(_amount) {
+    if(Player.lesson == null)
+      return;
+
     let currentVolume = Player.volume();
     let newVolume = limit(+currentVolume + +_amount, 0, 1);
 
@@ -294,6 +343,9 @@ class Player {
   }
 
   static changePlaybackRate(_amount) {
+    if(Player.lesson == null)
+      return;
+
     let currentPlaybackRate = Player.playbackRate();
     let newPlaybackRate = limit(currentPlaybackRate + +_amount, 0.5, 2.5).toFixed(1);
 
@@ -302,6 +354,9 @@ class Player {
   }
 
   static changeTime(_amount) {
+    if(Player.lesson == null)
+      return;
+
     let currentTime = Player.currentTime();
     let newTime = limit(currentTime + +_amount, 0, Player.duration());
 

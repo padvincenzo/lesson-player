@@ -28,7 +28,7 @@ class Lesson {
   filename = null;
   parentClass = null;
   silences = null;
-  playbackRate = 1.5;
+  playbackRate = null;
 
   btnPlay = null;
   btnEdit = null;
@@ -43,6 +43,7 @@ class Lesson {
     this.mark = _data.mark;
     this.watched = _data.watched;
     this.filename = _data.filename;
+    this.playbackRate = _data.playbackRate;
     this.parentClass = _class;
 
     this.btnPlay = Button.small(this.mark == 0 ? lang.play : lang.resume, () => { this.play(); });
@@ -187,5 +188,10 @@ class Lesson {
   dbSetAsWatched() {
     this.watched = true;
     return request("lesson.php", {request: "setAsWatched", idlesson: this.idlesson});
+  }
+
+  dbRate(_rate) {
+    this.playbackRate = _rate;
+    return request("lesson.php", {request: "rate", idlesson: this.idlesson, rate: this.playbackRate});
   }
 }
