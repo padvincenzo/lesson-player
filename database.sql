@@ -36,6 +36,7 @@ create table lesson (
   lastPlayed datetime null,
   mark float default 0,
   watched boolean default false,
+  playbackRate float default 1,
   filename varchar(100) not null
 );
 

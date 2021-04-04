@@ -52,6 +52,9 @@ switch($request) {
   case "getSilences": {
     return getSilences();
   }
+  case "rate": {
+    return changeRate();
+  }
   default: {
     Response::err_data();
   }
@@ -104,6 +107,20 @@ function markLesson() {
   $mark = $data["mark"];
 
   $result = mysqli_query($dbh, "update lesson set mark = '$mark', lastPlayed = now() where idlesson = '$idlesson';");
+  return $result ? Response::ok() : Response::err();
+}
+
+function changeRate() {
+  global $dbh, $data;
+
+  if(! Input::number($data, "idlesson") ||
+    ! Input::float($data, "rate"))
+    return Response::err_data();
+
+  $idlesson = $data["idlesson"];
+  $rate = $data["rate"];
+
+  $result = mysqli_query($dbh, "update lesson set playbackRate = '$rate' where idlesson = '$idlesson';");
   return $result ? Response::ok() : Response::err();
 }
 
