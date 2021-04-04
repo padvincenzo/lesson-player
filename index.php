@@ -32,7 +32,12 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 		<link href="theme.css" rel="stylesheet">
 		<link href="style.css" rel="stylesheet">
 
-		<script src="js/language.js" type="text/javascript"></script>
+		<script type="text/javascript">
+			<?php
+			include("_language.php");
+			echo "const lang = " . json_encode($lang) . ";";
+			?>
+		</script>
 
 		<script src="code.js" type="text/javascript"></script>
 		<script src="js/message.js" type="text/javascript"></script>

@@ -17,25 +17,54 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-class Lang {
-  const classAdded = "Corso aggiunto";
-  const classEdited = "Corso modificato";
-  const classList = "Lista dei corsi";
-  const classNotAdded = "Corso non aggiunto";
-  const classNotEdited = "Corso non modificato";
-  const dataMiss = "Dati mancanti";
-  const dbConnectionFailed = "Database connection failed.";
-  const failed = "Operation failed";
-  const invalidData = "Dati non validi";
-  const lessonAdded = "Lezione aggiunta";
-  const lessonEdited = "Lezione modificata";
-  const lessonList = "Lista delle lezioni";
-  const lessonNotAdded = "Lezione non aggiunta";
-  const lessonNotEdited = "Lezione non modificata";
-  const nextLesson = "Lezione successiva";
-  const previousLesson = "Lezione precedente";
-  const silencesList = "Elenco dei silenzi";
-  const success = "Success";
-}
+$lang = array(
+  "cancel" => "Annulla",
+  "class" => "Corso",
+  "classAdded" => "Corso aggiunto",
+  "classCompleted" => "Questo corso sembra essere completato",
+  "classDirectory" => "Cartella delle videolezioni",
+  "classEdited" => "Corso modificato",
+  "classList" => "Lista dei corsi",
+  "className" => "Nome del corso",
+  "classNotAdded" => "Corso non aggiunto",
+  "classNotEdited" => "Corso non modificato",
+  "confirm" => "Conferma",
+  "dataMiss" => "Dati mancanti",
+  "dated" => "Data",
+  "dbConnectionFailed" => "Database connection failed.",
+  "edit" => "Modifica",
+  "failed" => "Operation failed",
+  "ffmpegOutput" => "Output di ffmpeg",
+  "filename" => "Nome del file",
+  "homePage" => "Pagina iniziale",
+  "invalidData" => "Dati non validi",
+  "lessonAdded" => "Lezione aggiunta",
+  "lessonEdited" => "Lezione modificata",
+  "lessonList" => "Lista delle lezioni",
+  "lessonNotAdded" => "Lezione non aggiunta",
+  "lessonNotEdited" => "Lezione non modificata",
+  "nextLesson" => "Lezione successiva",
+  "newClass" => "Crea un nuovo corso",
+  "newLesson" => "Nuova lezione",
+  "ok" => "Ok",
+  "paused" => "In pausa",
+  "play" => "Riproduci",
+  "playing" => "In riproduzione",
+  "previousLesson" => "Lezione precedente",
+  "professor" => "Professore",
+  "progress" => "Progresso",
+  "rate" => "Velocità",
+  "resume" => "Riprendi",
+  "show" => "Mostra",
+  "silencesList" => "Elenco dei silenzi",
+  "soundOff" => "Muto",
+  "soundOn" => "Sonoro",
+  "success" => "Success",
+  "started" => "Iniziata",
+  "title" => "Titolo",
+  "toBeWatched" => "Da guardare",
+  "volume" => "Volume",
+  "watched" => "Guardata"
+);
 
 ?>

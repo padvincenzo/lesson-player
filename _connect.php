@@ -28,7 +28,7 @@ $psw = '';
 $dbh = mysqli_connect($host, $user, $psw, $database);
 
 if(!$dbh) {
-  Response::err(Lang::dbConnectionFailed);
+  Response::err($lang["dbConnectionFailed"]);
   die();
 }
 
@@ -87,16 +87,23 @@ class Response {
     echo json_encode($this->response);
   }
 
-  public static function err($message = Lang::failed) {
+  public static function err($message = null) {
+    global $lang;
+    if($message == null)
+      $message = $lang["failed"];
     return new Response(false, $message);
   }
 
-  public static function ok($message = Lang::success, $data = "") {
+  public static function ok($message = null, $data = "") {
+    global $lang;
+    if($message == null)
+      $message = $lang["success"];
     return new Response(true, $message, $data);
   }
 
   public static function err_data() {
-    return Response::err(Lang::invalidData);
+    global $lang;
+    return Response::err($lang["invalidData"]);
   }
 }
 

@@ -20,7 +20,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 include("_connect.php");
 
 if(!isset($_POST["data"])) {
-  Response::err(Lang::dataMiss);
+  Response::err($lang["dataMiss"]);
   die();
 }
 
@@ -62,7 +62,7 @@ switch($request) {
 
 
 function getNext() {
-  global $dbh, $data;
+  global $dbh, $lang, $data;
 
   if(! Input::number($data, "idclass"))
     return Response::err_data();
@@ -72,14 +72,14 @@ function getNext() {
   $result = mysqli_query($dbh, "select * from lesson where idclass = '$idclass' and watched = false order by dated asc limit 1;");
   if($result) {
     $lesson = mysqli_fetch_array($result);
-    return Response::ok(Lang::nextLesson, $lesson);
+    return Response::ok($lang["nextLesson"], $lesson);
   }
 
   return Response::err();
 }
 
 function getPrevious() {
-  global $dbh, $data;
+  global $dbh, $lang, $data;
 
   if(! Input::number($data, "idclass"))
     return Response::err_data();
@@ -90,14 +90,14 @@ function getPrevious() {
   $result = mysqli_query($dbh, "select * from lesson where idclass = '$idclass' and watched = true order by dated desc limit 1;");
   if($result) {
     $lesson = mysqli_fetch_array($result);
-    return Response::ok(Lang::previousLesson, $lesson);
+    return Response::ok($lang["previousLesson"], $lesson);
   }
 
   return Response::err();
 }
 
 function markLesson() {
-  global $dbh, $data;
+  global $dbh, $lang, $data;
 
   if(! Input::number($data, "idlesson") ||
     ! Input::float($data, "mark"))
@@ -111,7 +111,7 @@ function markLesson() {
 }
 
 function changeRate() {
-  global $dbh, $data;
+  global $dbh, $lang, $data;
 
   if(! Input::number($data, "idlesson") ||
     ! Input::float($data, "rate"))
@@ -125,7 +125,7 @@ function changeRate() {
 }
 
 function getSilences() {
-  global $dbh, $data;
+  global $dbh, $lang, $data;
 
   if(! Input::number($data, "idlesson"))
     return Response::err_data();
@@ -134,11 +134,11 @@ function getSilences() {
 
   $result = mysqli_query($dbh, "select t_start, t_end from silence where idlesson = '$idlesson' order by t_start asc;");
   $silences = mysqli_fetch_all($result, MYSQLI_ASSOC);
-  return Response::ok(Lang::silencesList, $silences);
+  return Response::ok($lang["silencesList"], $silences);
 }
 
 function setAsWatched() {
-  global $dbh, $data;
+  global $dbh, $lang, $data;
 
   if(! Input::number($data, "idlesson"))
     return Response::err_data();
@@ -150,7 +150,7 @@ function setAsWatched() {
 }
 
 function editLesson() {
-  global $dbh, $data;
+  global $dbh, $lang, $data;
 
   if(! Input::number($data, "idlesson") ||
     ! Input::date($data, "dated") ||
@@ -168,7 +168,7 @@ function editLesson() {
   $result = mysqli_query($dbh, "update lesson set dated = '$dated', title = '$title', professor = '$professor', filename = '$filename' where idlesson = '$idlesson';");
   if($result) {
     insertSilences();
-    return Response::ok(Lang::lessonEdited, array(
+    return Response::ok($lang["lessonEdited"], array(
       "dated" => $dated,
       "title" => $title,
       "professor" => $professor,
@@ -176,11 +176,11 @@ function editLesson() {
     ));
   }
 
-  return Response::err(Lang::lessonNotEdited);
+  return Response::err($lang["lessonNotEdited"]);
 }
 
 function addLesson() {
-  global $dbh, $data;
+  global $dbh, $lang, $data;
 
   if(! Input::number($data, "idclass") ||
     ! Input::date($data, "dated") ||
@@ -199,7 +199,7 @@ function addLesson() {
   if($result) {
     $data["idlesson"] = $idlesson = mysqli_insert_id($dbh);
     insertSilences();
-    return Response::ok(Lang::lessonAdded, array(
+    return Response::ok($lang["lessonAdded"], array(
       "idclass" => $idclass,
       "idlesson" => $idlesson,
       "dated" => $dated,
@@ -209,11 +209,11 @@ function addLesson() {
     ));
   }
 
-  return Response::err(Lang::lessonNotAdded);
+  return Response::err($lang["lessonNotAdded"]);
 }
 
 function listLessons() {
-  global $dbh, $data;
+  global $dbh, $lang, $data;
 
   if(! Input::number($data, "idclass"))
     return Response::err_data();
@@ -221,11 +221,11 @@ function listLessons() {
   $idclass = $data["idclass"];
   $result = mysqli_query($dbh, "select * from lesson where idclass = '$idclass' order by dated, idlesson;");
   $lessons = mysqli_fetch_all($result, MYSQLI_ASSOC);
-  return Response::ok(Lang::lessonList, $lessons);
+  return Response::ok($lang["lessonList"], $lessons);
 }
 
 function insertSilences() {
-  global $dbh, $data;
+  global $dbh, $lang, $data;
 
   if(! isset($data["silences"]) || $data["silences"] == "")
     return;
