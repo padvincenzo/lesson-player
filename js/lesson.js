@@ -54,32 +54,49 @@ class Lesson {
     return this.parentClass.directory + this.filename;
   }
 
-  toLine() {
-    const tr = document.createElement("tr");
+  toCard() {
+    const card = document.createElement("div");
+    card.setAttribute("class", "card lesson");
 
-    const dated = document.createElement("td");
-    dated.innerText = this.dated;
+    // const dated = document.createElement("div");
+    // dated.innerText = this.dated;
 
-    const title = document.createElement("td");
+    const cardTitle = document.createElement("div");
+    cardTitle.setAttribute("class", "title");
+
+    const title = document.createElement("div");
     title.innerText = this.title;
-
-    const professor = document.createElement("td");
+    const professor = document.createElement("div");
     professor.innerText = this.professor;
 
-    const progress = document.createElement("td");
-    progress.innerText = this.watched == true ? lang.watched : (this.mark > 0 ? lang.started : lang.toBeWatched);
+    cardTitle.appendChild(title);
+    cardTitle.appendChild(professor);
 
-    const buttons = document.createElement("td");
+    const progress = document.createElement("div");
+    progress.innerText = this.watched == true ? lang.watched : (this.mark > 0 ? lang.started : lang.toBeWatched);
+    progress.setAttribute("class", "progress");
+
+    const buttons = document.createElement("div");
+    buttons.setAttribute("class", "buttons");
     buttons.appendChild(this.btnPlay.btn);
     buttons.appendChild(this.btnEdit.btn);
 
-    tr.appendChild(dated);
-    tr.appendChild(title);
-    tr.appendChild(professor);
-    tr.appendChild(progress);
-    tr.appendChild(buttons);
+    // card.appendChild(dated);
+    card.appendChild(cardTitle);
+    card.appendChild(progress);
+    card.appendChild(buttons);
 
-    return tr;
+    card.addEventListener("dblclick", () => {
+      this.play();
+    });
+
+    card.addEventListener("keyup", (e) => {
+      if(e.code == "Enter") {
+        this.play();
+      }
+    });
+
+    return card;
   }
 
   play(_autoplay = true) {
@@ -108,7 +125,7 @@ class Lesson {
       title: "",
       professor: _class.professor,
       filename: "",
-      class: _class
+      parentClass: _class
     };
   }
 
@@ -117,20 +134,31 @@ class Lesson {
   }
 
   static form(_lesson) {
-    const form = new Form();
-    form.appendDate("dated", _lesson.dated, lang.dated);
-    form.appendText("title", _lesson.title, lang.title);
+    var form = new Form();
+    var dated = form.appendDate("dated", _lesson.dated, lang.dated);
+    var title = form.appendText("title", _lesson.title, lang.title);
     form.appendText("professor", _lesson.professor, lang.professor);
-    form.appendText("filename", _lesson.filename, lang.filename);
+    var filename = form.appendText("filename", _lesson.filename, lang.filename);
     form.appendTextarea("silences", "", lang.ffmpegOutput);
-    form.appendLabel("", "$ ffmpeg -hide_banner -nostats -vn -i <FILE> -af silencedetect=n=0.002:d=2 -f null -");
+    var code = form.help(`${lang.ffmpegCopyPaste}: $ ffmpeg -hide_banner -nostats -vn -i ${Lesson.isDummy(_lesson) ? "<FILE>" : _lesson.url()} -af silencedetect=n=0.002:d=2.3 -f null -`);
 
     form.appendButton(lang.confirm, () => {
       if(Lesson.isDummy(_lesson)) {
-        Lesson.dbAdd(form.values(), _lesson.class);
+        Lesson.dbAdd(form.values(), _lesson.parentClass);
+        Lesson.form(Lesson.dummy(_lesson.parentClass));
       } else {
         _lesson.dbEdit(form.values());
       }
+    });
+
+    dated.addEventListener("focusout", () => {
+      if(title.value == "") {
+        title.value = lang.defaultLessonTitle.replace("{dated}", dated.value);
+      }
+    });
+
+    filename.addEventListener("focusout", () => {
+      code.innerText = `${lang.ffmpegCopyPaste}: $ ffmpeg -hide_banner -nostats -vn -i ${_lesson.parentClass.directory}${filename.value} -af silencedetect=n=0.002:d=2.3 -f null -`;
     });
 
     UI.display(form.wrapper);

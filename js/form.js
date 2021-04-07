@@ -36,6 +36,7 @@ class Form {
     if(_for != "")
       label.setAttribute("for", _for);
     this.wrapper.appendChild(label);
+    return label;
   }
 
   appendText(_name = "", _value = "", _placeholder = "") {
@@ -49,18 +50,20 @@ class Form {
     text.placeholder = _placeholder;
     this.wrapper.appendChild(text);
     this.form.push({name: _name, dom: text});
+    return text;
   }
 
   appendDate(_name = "", _value = "", _placeholder = "Data") {
     let id = this.prefix + _name;
     this.appendLabel(id, _placeholder);
-    const data = document.createElement("input");
-    data.type = "date";
-    data.name = _name;
-    data.id = id;
-    data.value = _value;
-    this.wrapper.appendChild(data);
-    this.form.push({name: _name, dom: data});
+    const date = document.createElement("input");
+    date.type = "date";
+    date.name = _name;
+    date.id = id;
+    date.value = _value;
+    this.wrapper.appendChild(date);
+    this.form.push({name: _name, dom: date});
+    return date;
   }
 
   appendTextarea(_name = "", _value = "", _placeholder = "") {
@@ -72,6 +75,7 @@ class Form {
     text.innerText = _value;
     this.wrapper.appendChild(text);
     this.form.push({name: _name, dom: text});
+    return text;
   }
 
   appendButton(_text, _click) {
@@ -80,6 +84,17 @@ class Form {
     btn.type = "button";
     btn.addEventListener("click", _click);
     this.wrapper.appendChild(btn);
+    return btn;
+  }
+
+  help(_message = "") {
+    if(_message == "")
+      return;
+
+    const div = document.createElement("div");
+    div.innerText = _message;
+    this.wrapper.appendChild(div);
+    return div;
   }
 
   values() {

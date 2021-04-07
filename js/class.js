@@ -42,34 +42,51 @@ class Class {
     this.lessons = {};
 
     this.btnResume = Button.small(lang.resume, () => { this.resume(); });
-    this.btnEdit = Button.small(lang.edit, () => { Class.form(this); });
+    this.btnEdit = Button.small(lang.edit, () => { this.edit(); });
     this.btnAddLesson = new Button(lang.newLesson, () => { this.newLesson(); });
     this.btnShow = Button.small(lang.show, () => { this.show(); });
   }
 
-  toLine() {
-    const tr = document.createElement("tr");
+  toCard() {
+    const card = document.createElement("div");
+    card.setAttribute("class", "card class");
 
-    const name = document.createElement("td");
+    const title = document.createElement("div");
+    title.setAttribute("class", "title");
+
+    const name = document.createElement("div");
     name.innerText = this.name;
-
-    const professor = document.createElement("td");
+    const professor = document.createElement("div");
     professor.innerText = this.professor;
 
-    const n = document.createElement("td");
-    n.innerText = `${this.nWatched} / ${this.nLessons}`;
+    title.appendChild(name);
+    title.appendChild(professor);
 
-    const buttons = document.createElement("td");
+    const progress = document.createElement("div");
+    progress.innerText = `${this.nWatched} / ${this.nLessons}`;
+    progress.setAttribute("class", "progress");
+
+    const buttons = document.createElement("div");
+    buttons.setAttribute("class", "buttons");
     buttons.appendChild(this.btnResume.btn);
-    buttons.appendChild(this.btnEdit.btn);
     buttons.appendChild(this.btnShow.btn);
+    buttons.appendChild(this.btnEdit.btn);
 
-    tr.appendChild(name);
-    tr.appendChild(professor);
-    tr.appendChild(n);
-    tr.appendChild(buttons);
+    card.appendChild(title);
+    card.appendChild(progress);
+    card.appendChild(buttons);
 
-    return tr;
+    card.addEventListener("dblclick", () => {
+      this.resume();
+    });
+
+    card.addEventListener("keyup", (e) => {
+      if(e.code == "Enter") {
+        this.resume();
+      }
+    });
+
+    return card;
   }
 
   retrieveLessons() {
@@ -88,8 +105,10 @@ class Class {
   show() {
     return this.retrieveLessons().then(() => {
       UI.display(this.listLessons());
+      UI.br();
       UI.append(UI.btnHome.btn);
       UI.append(this.btnAddLesson.btn);
+      document.title = `${this.name} | Lesson Player`;
     });
   }
 
@@ -103,34 +122,23 @@ class Class {
   }
 
   listLessons() {
-    const table = document.createElement("table");
-    table.setAttribute("id", "lessons");
-    const tr = document.createElement("tr");
+    const lessons = document.createElement("div");
+    lessons.setAttribute("class", "cards");
 
-    const dated = document.createElement("td");
-    dated.innerText = lang.dated;
-
-    const title = document.createElement("td");
-    title.innerText = lang.title;
-
-    const professor = document.createElement("td");
-    professor.innerText = lang.professor;
-
-    const progress = document.createElement("td");
-    progress.innerText = lang.progress;
-
-    tr.appendChild(dated);
-    tr.appendChild(title);
-    tr.appendChild(professor);
-    tr.appendChild(progress);
-    table.appendChild(tr);
-
+    let i = 2;
     for(let idlesson in this.lessons) {
       let l = this.lessons[idlesson];
-      table.appendChild(l.toLine());
+      let card = l.toCard();
+      card.tabIndex = i;
+      lessons.appendChild(card);
+      i++;
     };
 
-    return table;
+    return lessons;
+  }
+
+  edit() {
+    Class.form(this);
   }
 
   newLesson() {

@@ -19,6 +19,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 class Player {
   static player = null;
   static wrapper = null;
+  static background = null;
   static overlay = null;
   static overlayData = null;
   static notice = null;
@@ -30,6 +31,7 @@ class Player {
   static init() {
     Player.player = videojs("my-player");
     Player.wrapper = document.getElementById("my-player");
+    Player.background = document.getElementById("my-p-background");
 
     Player.player.el().parentNode.style.position = "relative";
     Player.initShortcuts();
@@ -39,10 +41,10 @@ class Player {
   }
 
   static initShortcuts() {
-    Player.wrapper.addEventListener("keyup", (e) => {
-      e.preventDefault();
+    Player.background.addEventListener("keyup", (e) => {
       switch (e.code) {
         case "Space": {
+          e.preventDefault();
           if(Player.paused()) {
             Player.play();
             Player.notify(lang.playing);
@@ -53,6 +55,7 @@ class Player {
           break;
         }
         case "KeyM": {
+          e.preventDefault();
           if(Player.muted()) {
             Player.muted(false);
             Player.notify(lang.soundOn);
@@ -63,6 +66,7 @@ class Player {
           break;
         }
         case "KeyF": {
+          e.preventDefault();
           if(Player.isFullscreen()) {
             Player.exitFullscreen();
           } else {
@@ -73,38 +77,43 @@ class Player {
       }
     });
 
-    Player.wrapper.addEventListener("keydown", (e) => {
-      e.preventDefault();
+    Player.background.addEventListener("keydown", (e) => {
       switch (e.code) {
         case "ArrowLeft":
         case "KeyA": {
+          e.preventDefault();
           Player.changeTime(-5);
           break;
         }
         case "ArrowRight":
         case "KeyD": {
+          e.preventDefault();
           Player.changeTime(+5);
           break;
         }
         case "ArrowUp":
         case "KeyW": {
+          e.preventDefault();
           Player.changeVolume(+0.05);
           break;
         }
         case "ArrowDown":
         case "KeyS": {
+          e.preventDefault();
           Player.changeVolume(-0.05);
           break;
         }
         case "BracketLeft":
         case "NumpadSubtract":
         case "Minus": {
+          e.preventDefault();
           Player.changePlaybackRate(-0.1);
           break;
         }
         case "BracketRight":
         case "NumpadAdd":
         case "Equal": {
+          e.preventDefault();
           Player.changePlaybackRate(+0.1);
           break;
         }
@@ -208,6 +217,14 @@ class Player {
     return Player.player.on(_event, _function);
   }
 
+  static hide() {
+    Player.background.style.display = "none";
+  }
+
+  static show() {
+    Player.background.style.display = "block";
+  }
+
   static load(_lesson, _autoplay = true) {
     if(_lesson == null)
       return;
@@ -232,8 +249,8 @@ class Player {
     if(Player.lesson == null)
       return;
 
-    Player.wrapper.focus();
-    return Player.player.play();
+    Player.background.focus();
+    Player.player.play();
   }
 
   static pause() {
