@@ -13,9 +13,10 @@ Per installare il sito è necessario disporre di un server PHP (personalmente ut
 * Crea il database `lessons` utilizzando ``phpmyadmin`` (``http://localhost/phpmyadmin/``) ed esegui lo [script sql ``database.sql``](https://github.com/padvincenzo/lesson-player/blob/main/database.sql);
 * Apri la pagina principale del sito e inizia a riempire il database, aggiungendo i corsi e le videolezioni;
 * Per ogni lezione è possibile trovare e velocizzare i silenzi, tramite ``ffmpeg``:
-  * Scarica e installa ffmpeg sul tuo PC;
+  * Scarica e installa [ffmpeg](https://ffmpeg.org/) sul tuo PC;
   * Esegui per ogni videolezione ffmpeg con il filtro ``silencedetect``, come indicato nel form di creazione/modifica della videolezione. Si possono anche apportare modifiche al filtro, ma per un corretto funzionamento la durata minima dei silenzi (``d``) deve essere > 2.25.
-  * Per velocizzare questa operazione ho creato un piccolo [script in _bash_](https://github.com/padvincenzo/lesson-player/blob/main/silences.sh) (utilizzabile solo da linux, per altri sistemi operativi è necessario modificarlo in base al linguaggio utilizzato) che esegue il filtro e salva il risultato in un file di testo dallo stesso nome della videolezione (va copiato ed eseguito dalla directory che contiene le lezioni).
+    * Per velocizzare questa operazione ho creato un piccolo [script in _bash_](https://github.com/padvincenzo/lesson-player/blob/main/silences.sh) (utilizzabile solo da linux, per altri sistemi operativi è necessario modificarlo in base al linguaggio utilizzato) che esegue il filtro e salva il risultato in un file di testo dallo stesso nome della videolezione (va copiato ed eseguito dalla directory che contiene le lezioni).
+  * Copia e incolla l'output di ffmpeg nel form di creazione/modifica della videolezione.
 
 ## Contribuire
 Chiunque può contribuire a questo progetto, in diversi modi:
