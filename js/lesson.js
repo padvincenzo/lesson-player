@@ -145,20 +145,20 @@ class Lesson {
     form.appendButton(lang.confirm, () => {
       if(Lesson.isDummy(_lesson)) {
         Lesson.dbAdd(form.values(), _lesson.parentClass);
-        Lesson.form(Lesson.dummy(_lesson.parentClass));
       } else {
         _lesson.dbEdit(form.values());
       }
     });
 
     dated.addEventListener("focusout", () => {
-      if(title.value == "") {
+      if(title.value == "" && dated.value != "") {
         title.value = lang.defaultLessonTitle.replace("{dated}", dated.value);
       }
     });
 
     filename.addEventListener("focusout", () => {
-      code.innerText = `${lang.ffmpegCopyPaste}: $ ffmpeg -hide_banner -nostats -vn -i ${_lesson.parentClass.directory}${filename.value} -af silencedetect=n=0.002:d=2.3 -f null -`;
+      let url = filename.value == "" ? "<FILE>" : _lesson.parentClass.directory + filename.value;
+      code.innerText = `${lang.ffmpegCopyPaste}: $ ffmpeg -hide_banner -nostats -vn -i ${url} -af silencedetect=n=0.002:d=2.3 -f null -`;
     });
 
     UI.display(form.wrapper);
@@ -172,12 +172,10 @@ class Lesson {
       .then((_lesson) => {
         _class.lessons.push(new Lesson(_lesson, _class));
         Message.view(lang.lessonAdded);
+        Lesson.form(Lesson.dummy(_class));
       })
       .catch((_message) => {
         Message.view("FAILED: " + _message);
-      })
-      .then(() => {
-        _class.show();
       });
   }
 
