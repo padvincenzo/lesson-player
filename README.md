@@ -1,8 +1,3 @@
-# lesson-player
-View your lessons, do not miss the mark.
-
-Also, with the help of ffmpeg, you can speedup silence parts.
-
 # Lesson Player [![Donate](https://img.shields.io/badge/donate-paypal-blue.svg)](https://www.paypal.com/paypalme/VincenzoPadula)
 Guarda le tue videolezioni senza perdere il segno.
 
