@@ -37,10 +37,9 @@ class UI {
     });
 
     UI.retrieveClasses().then(() => {
-      let lastClass = Object.values(this.classes)[0];
-      lastClass.dbGetNext().then(() => {
-        if(lastClass.nextLesson != null)
-          lastClass.nextLesson.play(false);
+      UI.classes[0].dbGetNext().then(() => {
+        if(UI.classes[0].nextLesson != null)
+          UI.classes[0].nextLesson.play(false);
       });
     });
 
@@ -73,9 +72,9 @@ class UI {
   static retrieveClasses() {
     return request("class.php", {request: "list"})
       .then((_classes) => {
-        this.classes = {};
+        UI.classes = [];
         _classes.forEach((c, i) => {
-          UI.classes[c.idclass] = new Class(c);
+          UI.classes.push(new Class(c));
         });
 
         UI.listClasses();
@@ -90,13 +89,12 @@ class UI {
     classes.setAttribute("class", "cards");
 
     let i = 2;
-    for(let idclass in UI.classes) {
-      let c = UI.classes[idclass];
+    UI.classes.forEach((c) => {
       let card = c.toCard();
       card.tabIndex = i;
       classes.appendChild(card);
       i++;
-    };
+    });
 
     UI.display(classes);
     UI.br();

@@ -170,7 +170,7 @@ class Lesson {
     _data.idclass = _class.idclass;
     return request("lesson.php", _data)
       .then((_lesson) => {
-        _class.lessons[_lesson.idlesson] = new Lesson(_lesson, _class);
+        _class.lessons.push(new Lesson(_lesson, _class));
         Message.view(lang.lessonAdded);
       })
       .catch((_message) => {

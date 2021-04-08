@@ -92,9 +92,9 @@ class Class {
   retrieveLessons() {
     return request("lesson.php", {request:"list", idclass:this.idclass})
       .then((_lessons) => {
-        this.lessons = {};
+        this.lessons = [];
         _lessons.forEach((l) => {
-          this.lessons[l.idlesson] = new Lesson(l, this);
+          this.lessons.push(new Lesson(l, this));
         });
       })
       .catch((_message) => {
@@ -114,10 +114,11 @@ class Class {
 
   resume() {
     return this.dbGetNext().then(() => {
-      if(this.nextLesson == null)
+      if(this.nextLesson == null) {
         Message.view(lang.classCompleted);
-      else
+      } else {
         this.nextLesson.play();
+      }
     });
   }
 
@@ -126,13 +127,12 @@ class Class {
     lessons.setAttribute("class", "cards");
 
     let i = 2;
-    for(let idlesson in this.lessons) {
-      let l = this.lessons[idlesson];
+    this.lessons.forEach((l) => {
       let card = l.toCard();
       card.tabIndex = i;
       lessons.appendChild(card);
       i++;
-    };
+    });
 
     return lessons;
   }
@@ -193,8 +193,9 @@ class Class {
     _data.request = "add";
     return request("class.php", _data)
       .then((_class) => {
-        UI.classes[_class.idclass] = new Class(_class);
+        UI.classes.push(new Class(_class));
         Message.view(lang.classAdded);
+        Class.form(Class.dummy());
       })
       .catch((_message) => {
         Message.view("FAIL: " + _message);
