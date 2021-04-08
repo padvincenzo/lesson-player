@@ -91,7 +91,7 @@ function addClass() {
   $result = mysqli_query($dbh, "insert into class (name, professor, directory) values ('$className', '$professor', '$directory');");
   if($result) {
     return Response::ok($lang["classAdded"], array(
-      "idclass" => mysqly_insert_id($dbh),
+      "idclass" => mysqli_insert_id($dbh),
       "name" => $className,
       "professor" => $professor,
       "directory" => $directory,
