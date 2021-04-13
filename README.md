@@ -9,7 +9,7 @@ Guarda le tue videolezioni senza perdere il segno.
 ## Installazione
 Per installare il sito è necessario disporre di un server PHP (personalmente utilizzo [xampp](https://www.apachefriends.org/download.html)).
 * Copia tutti i file all'interno di una directory (es: ``/lesson-player/``);
-* Copia le videolezioni all'interno della directory del server (es: ``/lesson-player/corsi/``), organizzate come meglio credi;
+* Copia le videolezioni all'interno della directory del server (es: ``/lesson-player/corsi/``), ad ogni corso la sua cartella;
 * Crea il database `lessons` utilizzando ``phpmyadmin`` (``http://localhost/phpmyadmin/``) ed esegui lo [script sql ``database.sql``](https://github.com/padvincenzo/lesson-player/blob/main/database.sql);
 * Apri la pagina principale del sito e inizia a riempire il database, aggiungendo i corsi e le videolezioni;
 * Per ogni lezione è possibile trovare e velocizzare i silenzi, tramite ``ffmpeg``:
