@@ -1,10 +1,6 @@
 # Lesson Player [![Donate](https://img.shields.io/badge/donate-paypal-blue.svg)](https://www.paypal.com/paypalme/VincenzoPadula)
 Guarda le tue videolezioni senza perdere il segno.
 
-## Indice dei contenuti
-  - [Installazione](#installazione)
-  - [Contribuire](#contribuire)
-  - [Crediti](#crediti)
 
 ## Installazione
 Per installare il sito è necessario disporre di un server PHP (personalmente utilizzo [xampp](https://www.apachefriends.org/download.html)).
