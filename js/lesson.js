@@ -105,6 +105,12 @@ class Lesson {
     });
   }
 
+  playNext() {
+    this.parentClass.dbGetNext().then(() => {
+      this.parentClass.nextLesson.play();
+    });
+  }
+
   isInSilence(_time) {
     if(this.silences == null)
       return false;
@@ -140,7 +146,8 @@ class Lesson {
     form.appendText("professor", _lesson.professor, lang.professor);
     var filename = form.appendText("filename", _lesson.filename, lang.filename);
     form.appendTextarea("silences", "", lang.ffmpegOutput);
-    var code = form.help(`${lang.ffmpegCopyPaste}: $ ffmpeg -hide_banner -nostats -vn -i ${Lesson.isDummy(_lesson) ? "<FILE>" : _lesson.url()} -af silencedetect=n=0.002:d=2.3 -f null -`);
+    let url = Lesson.isDummy(_lesson) ? "<FILE>" : _lesson.url();
+    var code = form.help(`${lang.ffmpegCopyPaste}: $ ffmpeg -hide_banner -nostats -vn -i "${url}" -af silencedetect=n=0.002:d=2.3 -f null -`);
 
     form.appendButton(lang.confirm, () => {
       if(Lesson.isDummy(_lesson)) {
@@ -158,7 +165,7 @@ class Lesson {
 
     filename.addEventListener("focusout", () => {
       let url = filename.value == "" ? "<FILE>" : _lesson.parentClass.directory + filename.value;
-      code.innerText = `${lang.ffmpegCopyPaste}: $ ffmpeg -hide_banner -nostats -vn -i ${url} -af silencedetect=n=0.002:d=2.3 -f null -`;
+      code.innerText = `${lang.ffmpegCopyPaste}: $ ffmpeg -hide_banner -nostats -vn -i "${url}" -af silencedetect=n=0.002:d=2.3 -f null -`;
     });
 
     UI.display(form.wrapper);
