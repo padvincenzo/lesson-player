@@ -79,6 +79,10 @@ class Player {
 
     Player.background.addEventListener("keydown", (e) => {
       switch (e.code) {
+        case "Space": {
+          e.preventDefault();
+          break;
+        }
         case "ArrowLeft":
         case "KeyA": {
           e.preventDefault();
@@ -207,9 +211,7 @@ class Player {
 
     Player.on("ended", () => {
       Player.lesson.dbSetAsWatched();
-      Player.lesson.parentClass.dbGetNext().then(() => {
-        Player.load(Player.lesson.parentClass.nextLesson);
-      });
+      Player.lesson.playNext();
     });
   }
 
@@ -240,6 +242,8 @@ class Player {
     Player.overlayData.professor.innerText = Player.lesson.professor;
     Player.overlayData.title.innerText = Player.lesson.title;
     Player.overlayData.description.innerText = "";
+
+    document.title = `${Player.lesson.parentClass.name}: ${Player.lesson.title}`;
 
     if(_autoplay)
       Player.play();
