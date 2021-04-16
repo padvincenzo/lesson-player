@@ -14,6 +14,7 @@ Guarda le tue videolezioni senza perdere il segno.
   * Apri il browser all'indirizzo ``http://localhost/phpmyadmin/`` e crea un nuovo database (es: ``lessons``);
   * Dalla cartella di xampp apri il file ``_connect.php`` e aggiorna le credenziali del database;
   * Dal browser vai all'indirizzo ``http://localhost/<nome_cartella>/install.php`` (es: ``http://localhost/lesson-player/install.php``);
+  * (Opzionale) Imposta xampp per l'avvio automatico all'avvio del pc.
 
 ### Inserimento videolezioni
   * Nella cartella ``htdocs/lessons`` crea una sottocartella (es: ``classes/``) e copia qui tuttle le videolezioni, organizzate in una struttura tipo:
