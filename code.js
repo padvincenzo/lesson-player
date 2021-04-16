@@ -17,8 +17,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 window.addEventListener("load", () => {
-  UI.init();
   Player.init();
+  UI.init();
 });
 
 class Button {
