@@ -2,17 +2,56 @@
 Guarda le tue videolezioni senza perdere il segno.
 
 
-## Installazione
-Per installare il sito è necessario disporre di un server PHP (personalmente utilizzo [xampp](https://www.apachefriends.org/download.html)).
-* Copia tutti i file all'interno di una directory (es: ``/lesson-player/``);
-* Copia le videolezioni all'interno della directory del server (es: ``/lesson-player/corsi/``), ad ogni corso la sua cartella;
-* Crea il database `lessons` utilizzando ``phpmyadmin`` (``http://localhost/phpmyadmin/``) ed esegui lo [script sql ``database.sql``](https://github.com/padvincenzo/lesson-player/blob/main/database.sql);
-* Apri la pagina principale del sito e inizia a riempire il database, aggiungendo i corsi e le videolezioni;
-* Per ogni lezione è possibile trovare e velocizzare i silenzi, tramite ``ffmpeg``:
-  * Scarica e installa [ffmpeg](https://ffmpeg.org/) sul tuo PC;
-  * Esegui per ogni videolezione ffmpeg con il filtro ``silencedetect``, come indicato nel form di creazione/modifica della videolezione. Si possono anche apportare modifiche al filtro, ma per un corretto funzionamento la durata minima dei silenzi (``d``) deve essere > 2.25.
-    * Per velocizzare questa operazione ho creato un piccolo [script in _bash_](https://github.com/padvincenzo/lesson-player/blob/main/silences.sh) (utilizzabile solo da linux, per altri sistemi operativi è necessario modificarlo in base al linguaggio utilizzato) che esegue il filtro e salva il risultato in un file di testo dallo stesso nome della videolezione (va copiato ed eseguito dalla directory che contiene le lezioni).
-  * Copia e incolla l'output di ffmpeg nel form di creazione/modifica della videolezione.
+## Guida all'utilizzo
+
+### Installazione
+  * Scarica, installa e avvia [xampp](https://www.apachefriends.org/download.html);
+  * Apri la cartella di xampp:
+    * Su Linux: ``/opt/lampp/htdocs/``
+    * Su Windows: ``C:\\xampp\htdocs\``
+    * Su Mac: monta il volume Xampp e apri la cartella ``htdocs``
+  * Crea una cartella (es: ``lesson-player/``) e copia tutti i file al suo interno;
+  * Apri il browser all'indirizzo ``http://localhost/phpmyadmin/`` e crea un nuovo database (es: ``lessons``);
+  * Dalla cartella di xampp apri il file ``_connect.php`` e aggiorna le credenziali del database;
+  * Dal browser vai all'indirizzo ``http://localhost/<nome_cartella>/install.php`` (es: ``http://localhost/lesson-player/install.php``);
+
+### Inserimento videolezioni
+  * Nella cartella ``htdocs/lessons`` crea una sottocartella (es: ``classes/``) e copia qui tuttle le videolezioni, organizzate in una struttura tipo:
+```
+    classes/
+      Physics I/
+        Lesson 01.mp4
+        Lesson 02.mp4
+        ...
+      Chemistry/
+        Lesson 2021-01-01.mp4
+        Lesson 2021-01-02.mp4
+        ...
+      ...
+```
+  * Apri il browser all'indirizzo ``http://localhost/lesson-player/``;
+  * Inserisci tutti i corsi: nome, professore, percorso della cartella (es: ``classes/Physics I/``);
+  * Tornando alla pagina principale:
+    * Seleziona un corso e premi il pulsante ``Mostra``;
+    * Inserisci tutte le videolezioni appartenenti a quel corso: data, titolo, nome del file (es: ``Lesson 01.mp4``);
+
+### Velocizzare i silenzi
+Per ogni lezione è possibile trovare e velocizzare i silenzi, tramite ``ffmpeg``:
+  * Scarica e installa [ffmpeg](https://ffmpeg.org/);
+  * Apri il terminale (o il prompt dei comandi);
+  * Spostati nella cartella ``lesson-player/`` tramite il comando ``cd cartella_xampp/lesson-player/``;
+  * Esegui ffmpeg con il filtro ``silencedetect``, come indicato nel form di creazione/modifica della videolezione. Es:
+```
+    ffmpeg -hide_banner -nostats -vn \
+    -i "classes/Physics I/Lesson 01.mp4" \
+    -af silencedetect=n=0.002:d=2.3 \
+    -f null -
+```
+  * Copia e incolla l'output nel form di modifica/aggiunta della videolezione.
+  * Si possono anche apportare modifiche al filtro, ma per un corretto funzionamento la durata minima dei silenzi (``d``) deve essere > 2.25.
+
+Per velocizzare questa operazione ho creato un piccolo [script in _bash_](https://github.com/padvincenzo/lesson-player/blob/main/silences.sh) che esegue il filtro su tutte le videolezioni presenti nella cartella in cui è eseguito, e salva il risultato in un file di testo dallo stesso nome della videolezione (va copiato ed eseguito dalla directory che contiene le lezioni).
+È utilizzabile solo da linux, per altri sistemi operativi è necessario modificarlo in base al linguaggio utilizzato.
 
 ## Contribuire
 Chiunque può contribuire a questo progetto, in diversi modi:
