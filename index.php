@@ -21,7 +21,7 @@ include("_language.php");
 ?>
 
 <!DOCTYPE html>
-<html lang="it">
+<html lang="<?php echo $langCode; ?>">
 	<head>
 		<title>Lesson Player</title>
 		<meta charset="UTF-8">
@@ -62,6 +62,13 @@ include("_language.php");
 				</video>
 			</div>
 		</div>
+
+		<div id="container"></div>
+
+		<footer>
+			<p>Developed by Vincenzo Padula</p>
+			<p><a href="credits.php" target="_blank">Credits</a></p>
+		</footer>
 
 	</body>
 </html>

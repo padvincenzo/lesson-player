@@ -17,6 +17,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+$langCode = "it";
 $lang = array(
   "cancel"              => "Annulla",
   "class"               => "Corso",
@@ -29,16 +30,20 @@ $lang = array(
   "classNotAdded"       => "Corso non aggiunto",
   "classNotEdited"      => "Corso non modificato",
   "confirm"             => "Conferma",
+  "credits"             => "Crediti",
   "dataMiss"            => "Dati mancanti",
   "dated"               => "Data",
   "dbConnectionFailed"  => "Database connection failed.",
   "defaultLessonTitle"  => "Lezione del {dated}",
   "edit"                => "Modifica",
+  "errorOpeningFile"        => "Errore nell'apertura del file",
   "failed"              => "Operation failed",
   "ffmpegCopyPaste"     => "Copia e incolla l'output di",
   "ffmpegOutput"        => "Output di ffmpeg",
   "filename"            => "Nome del file",
   "homePage"            => "Pagina iniziale",
+  "installSuccessful"   => "Installazione riuscita.",
+  "installFailed"       => "Installazione fallita.",
   "invalidData"         => "Dati non validi",
   "lessonAdded"         => "Lezione aggiunta",
   "lessonEdited"        => "Lezione modificata",
