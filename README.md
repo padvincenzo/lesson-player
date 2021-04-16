@@ -19,15 +19,15 @@ Guarda le tue videolezioni senza perdere il segno.
   * Nella cartella ``htdocs/lessons`` crea una sottocartella (es: ``classes/``) e copia qui tuttle le videolezioni, organizzate in una struttura tipo:
 ```
     classes/
-      Physics I/
-        Lesson 01.mp4
-        Lesson 02.mp4
+        Physics I/
+            Lesson 01.mp4
+            Lesson 02.mp4
+            ...
+        Chemistry/
+            Lesson 2021-01-01.mp4
+            Lesson 2021-01-02.mp4
+            ...
         ...
-      Chemistry/
-        Lesson 2021-01-01.mp4
-        Lesson 2021-01-02.mp4
-        ...
-      ...
 ```
   * Apri il browser all'indirizzo ``http://localhost/lesson-player/``;
   * Inserisci tutti i corsi: nome, professore, percorso della cartella (es: ``classes/Physics I/``);
