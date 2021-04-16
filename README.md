@@ -17,17 +17,21 @@ Guarda le tue videolezioni sulla rete locale, non perdere il segno e accelera du
   * (Opzionale) Imposta xampp per l'avvio automatico all'avvio del pc.
 
 ### Inserimento videolezioni
-  * Nella cartella ``htdocs/lessons`` crea una sottocartella (es: ``classes/``) e copia qui tuttle le videolezioni, organizzate in una struttura tipo:
+  * Nella cartella ``htdocs/lesson-player`` crea una sottocartella (es: ``classes/``) e copia qui tuttle le videolezioni, organizzate in una struttura tipo:
 ```
-    classes/
-        Physics I/
-            Lesson 01.mp4
-            Lesson 02.mp4
+    lesson-player/
+        classes/
+            Physics I/
+                Lesson 01.mp4
+                Lesson 02.mp4
+                ...
+            Chemistry/
+                Lesson 2021-01-01.mp4
+                Lesson 2021-01-02.mp4
+                ...
             ...
-        Chemistry/
-            Lesson 2021-01-01.mp4
-            Lesson 2021-01-02.mp4
-            ...
+        _connect.php
+        _language.php
         ...
 ```
   * Apri il browser all'indirizzo ``http://localhost/lesson-player/``;
