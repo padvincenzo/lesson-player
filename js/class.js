@@ -162,7 +162,12 @@ class Class {
     const form = new Form();
     form.appendText("className", _class.name, lang.className);
     form.appendText("professor", _class.professor, lang.professor);
-    form.appendText("directory", _class.directory, lang.classDirectory);
+    var directory = form.appendText("directory", _class.directory, lang.classDirectory);
+
+    directory.addEventListener("focusout", () => {
+      if(directory.value != "" && directory.value.slice(-1) != "/")
+        directory.value += "/";
+    });
 
     form.appendButton(lang.confirm, () => {
       if(Class.isDummy(_class)) {
