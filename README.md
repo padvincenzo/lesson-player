@@ -43,10 +43,7 @@ Per ogni lezione è possibile trovare e velocizzare i silenzi, tramite ``ffmpeg`
   * Spostati nella cartella ``lesson-player/`` tramite il comando ``cd cartella_xampp/lesson-player/``;
   * Esegui ffmpeg con il filtro ``silencedetect``, come indicato nel form di creazione/modifica della videolezione. Es:
 ```
-    ffmpeg -hide_banner -nostats -vn \
-    -i "classes/Physics I/Lesson 01.mp4" \
-    -af silencedetect=n=0.002:d=2.3 \
-    -f null -
+    ffmpeg -hide_banner -nostats -vn -i "classes/Physics I/Lesson 01.mp4" -af silencedetect=n=0.002:d=2.3 -f null -
 ```
   * Copia e incolla l'output nel form di modifica/aggiunta della videolezione.
   * Si possono anche apportare modifiche al filtro, ma per un corretto funzionamento la durata minima dei silenzi (``d``) deve essere > 2.25.
