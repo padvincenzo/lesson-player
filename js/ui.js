@@ -24,9 +24,7 @@ class UI {
   btnNewClass = null;
 
   static init() {
-    UI.wrapper = document.createElement("div");
-    UI.wrapper.setAttribute("id", "container");
-    document.body.appendChild(UI.wrapper);
+    UI.wrapper = document.getElementById("container");
 
     UI.btnNewClass = new Button(lang.newClass, () => {
       Class.form(Class.dummy());
@@ -42,17 +40,6 @@ class UI {
           UI.classes[0].nextLesson.play(false);
       });
     });
-
-    let footer = document.createElement("footer");
-    let text = document.createElement("div");
-    text.innerText = "Developed by Vincenzo Padula";
-    footer.appendChild(text);
-
-    let credits = document.createElement("div");
-    credits.innerHTML = "Credits: <div>Icons made by <a href='https://www.freepik.com' title='Freepik'>Freepik</a> from <a href='https://www.flaticon.com/' title='Flaticon'>www.flaticon.com</a></div>";
-    footer.appendChild(credits);
-
-    document.body.appendChild(footer);
   }
 
   static clean() {
