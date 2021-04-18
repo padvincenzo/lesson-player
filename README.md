@@ -36,7 +36,7 @@ Guarda le tue videolezioni sulla rete locale, non perdere il segno e accelera du
         ...
 ```
 
-    Nota: le cartelle e i file dentro la cartella ``classes`` possono anche essere collegamenti.
+  * Nota: le cartelle e i file dentro la cartella ``classes`` possono anche essere collegamenti.
   * Apri il browser all'indirizzo ``http://localhost/lesson-player/``;
   * Inserisci tutti i corsi: nome, professore, percorso della cartella (es: ``classes/Physics I/``);
   * Tornando alla pagina principale:
