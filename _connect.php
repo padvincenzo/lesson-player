@@ -45,8 +45,8 @@ class Input {
 
     if(isset($from[$id]) && preg_match($exp, $from[$id]))
       return true;
-
-    return Input::err($id);
+    else
+      return Input::err($id);
   }
 
   public static function float($from, $id) {
@@ -54,8 +54,8 @@ class Input {
 
     if(isset($from[$id]) && preg_match($exp, $from[$id]))
       return true;
-
-    return Input::err($id);
+    else
+      return Input::err($id);
   }
 
   public static function text($from, $id, $maxlenght = 100) {
@@ -63,8 +63,8 @@ class Input {
 
     if(isset($from[$id]) && preg_match($exp, $from[$id]) && strlen($from[$id]) <= $maxlenght)
       return true;
-
-    return Input::err($id);
+    else
+      return Input::err($id);
   }
 
   public static function date($from, $id) {
@@ -72,8 +72,8 @@ class Input {
 
     if(isset($from[$id]) && preg_match($exp, $from[$id]))
       return true;
-
-    return Input::err($id);
+    else
+      return Input::err($id);
   }
 }
 
