@@ -98,7 +98,7 @@ class Class {
         });
       })
       .catch((_message) => {
-        Message.view("FAIL: " + _message);
+        Message.view(`${lang.failed}: ${_message}`);
       });
   }
 
@@ -209,7 +209,7 @@ class Class {
         Class.form(Class.dummy());
       })
       .catch((_message) => {
-        Message.view("FAIL: " + _message);
+        Message.view(`${lang.failed}: ${_message}`);
       });
   }
 
@@ -226,7 +226,7 @@ class Class {
         UI.listClasses();
       })
       .catch((_message) => {
-        Message.view("FAIL: " + _message);
+        Message.view(`${lang.failed}: ${_message}`);
       });
   }
 }

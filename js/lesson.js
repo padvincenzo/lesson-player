@@ -189,7 +189,7 @@ class Lesson {
         Lesson.form(Lesson.dummy(_class));
       })
       .catch((_message) => {
-        Message.view("FAILED: " + _message);
+        Message.view(`${lang.failed}: ${_message}`);
       });
   }
 
@@ -206,7 +206,7 @@ class Lesson {
         Message.view(lang.lessonEdited);
       })
       .catch((_message) => {
-        Message.view("FAILED edit: " + _message);
+        Message.view(`${lang.failed}: ${_message}`);
       })
       .then(() => {
         this.parentClass.show();
