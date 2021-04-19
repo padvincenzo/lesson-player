@@ -154,9 +154,9 @@ function editLesson() {
 
   if(! Input::number($data, "idlesson") ||
     ! Input::date($data, "dated") ||
-    ! Input::text($data, "title", 50) ||
-    ! Input::text($data, "professor", 50) ||
-    ! Input::text($data, "filename", 100))
+    ! Input::text($data, "title", 150) ||
+    ! Input::text($data, "professor", 150) ||
+    ! Input::text($data, "filename", 200))
     return Response::err_data();
 
   $idlesson = $data["idlesson"];
@@ -184,9 +184,9 @@ function addLesson() {
 
   if(! Input::number($data, "idclass") ||
     ! Input::date($data, "dated") ||
-    ! Input::text($data, "title", 50) ||
-    ! Input::text($data, "professor", 50) ||
-    ! Input::text($data, "filename", 100))
+    ! Input::text($data, "title", 150) ||
+    ! Input::text($data, "professor", 150) ||
+    ! Input::text($data, "filename", 200))
     return Response::err_data();
 
   $idclass = $data["idclass"];

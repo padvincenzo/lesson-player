@@ -54,9 +54,9 @@ function editClass() {
   global $dbh, $lang, $data;
 
   if(!Input::number($data, "idclass") ||
-    ! Input::text($data, "className", 50) ||
-    ! Input::text($data, "professor", 50) ||
-    ! Input::text($data, "directory", 100))
+    ! Input::text($data, "className", 150) ||
+    ! Input::text($data, "professor", 150) ||
+    ! Input::text($data, "directory", 200))
     return Response::err_data();
 
   $idclass = $data["idclass"];
@@ -79,9 +79,9 @@ function editClass() {
 function addClass() {
   global $dbh, $lang, $data;
 
-  if(! Input::text($data, "className", 50) ||
-    ! Input::text($data, "professor", 50) ||
-    ! Input::text($data, "directory", 100))
+  if(! Input::text($data, "className", 150) ||
+    ! Input::text($data, "professor", 150) ||
+    ! Input::text($data, "directory", 200))
     return Response::err_data();
 
   $className = $data["className"];

@@ -58,7 +58,7 @@ class Input {
       return Input::err($id);
   }
 
-  public static function text($from, $id, $maxlenght = 100) {
+  public static function text($from, $id, $maxlenght = 150) {
     $exp = "/^[a-zA-Z0-9\/\-\.\*\(\)\[\]\{\}_ &!@#àèìòùáéíóú]+$/";
 
     if(isset($from[$id]) && preg_match($exp, $from[$id]) && strlen($from[$id]) <= $maxlenght)

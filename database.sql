@@ -22,8 +22,8 @@ drop table if exists silence;
 
 create table class (
   idclass int auto_increment not null primary key,
-  name varchar(50) not null,
-  professor varchar(50) not null,
+  name varchar(150) not null,
+  professor varchar(150) not null,
   directory varchar(200) not null
 );
 
@@ -31,13 +31,13 @@ create table lesson (
   idlesson int auto_increment not null primary key,
   idclass int not null references class(idclass),
   dated date not null,
-  title varchar(40) not null,
-  professor varchar(50) null,
+  title varchar(150) not null,
+  professor varchar(150) null,
   lastPlayed datetime null,
   mark float default 0,
   watched boolean default false,
   playbackRate float default 1,
-  filename varchar(100) not null
+  filename varchar(200) not null
 );
 
 create table silence (
