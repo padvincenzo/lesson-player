@@ -33,13 +33,20 @@ if(!$dbh) {
 }
 
 class Input {
+  public static $errors = array();
+
+  public static function err($id) {
+    Input::errors[] = $id;
+    return false;
+  }
+
   public static function number($from, $id) {
     $exp = "/^[0-9]+$/";
 
     if(isset($from[$id]) && preg_match($exp, $from[$id]))
       return true;
 
-    return false;
+    return Input::err($id);
   }
 
   public static function float($from, $id) {
@@ -48,7 +55,7 @@ class Input {
     if(isset($from[$id]) && preg_match($exp, $from[$id]))
       return true;
 
-    return false;
+    return Input::err($id);
   }
 
   public static function text($from, $id, $maxlenght = 100) {
@@ -57,7 +64,7 @@ class Input {
     if(isset($from[$id]) && preg_match($exp, $from[$id]) && strlen($from[$id]) <= $maxlenght)
       return true;
 
-    return false;
+    return Input::err($id);
   }
 
   public static function date($from, $id) {
@@ -66,7 +73,7 @@ class Input {
     if(isset($from[$id]) && preg_match($exp, $from[$id]))
       return true;
 
-    return false;
+    return Input::err($id);
   }
 }
 
@@ -103,7 +110,7 @@ class Response {
 
   public static function err_data() {
     global $lang;
-    return Response::err($lang["invalidData"]);
+    return Response::err($lang["invalidData"] . ": " . join("; ", Input::errors));
   }
 }
 
