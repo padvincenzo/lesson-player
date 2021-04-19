@@ -62,6 +62,7 @@ $lang = array(
   "progress"            => "Progresso",
   "rate"                => "Velocità",
   "resume"              => "Riprendi",
+  "requestNotValid"     => "Richiesta non valida",
   "show"                => "Mostra",
   "silencesList"        => "Elenco dei silenzi",
   "soundOff"            => "Muto",

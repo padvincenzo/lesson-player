@@ -56,7 +56,7 @@ switch($request) {
     return changeRate();
   }
   default: {
-    Response::err_data();
+    Response::err($lang["requestNotValid"]);
   }
 }
 

@@ -38,7 +38,7 @@ switch($request) {
     return editClass();
   }
   default: {
-    Response::err_data();
+    Response::err($lang["requestNotValid"]);
   }
 }
 
