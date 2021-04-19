@@ -36,7 +36,7 @@ class Input {
   public static $errors = array();
 
   public static function err($id) {
-    Input::errors[] = $id;
+    Input::$errors[] = $id;
     return false;
   }
 
