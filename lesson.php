@@ -61,7 +61,8 @@ switch($request) {
 function getNext() {
   global $dbh, $lang, $data;
 
-  if(! Input::number($data, "idclass"))
+  Input::number($data, "idclass");
+  if(Input::errors())
     return Response::err_data();
 
   $idclass = $data["idclass"];
@@ -78,7 +79,8 @@ function getNext() {
 function getPrevious() {
   global $dbh, $lang, $data;
 
-  if(! Input::number($data, "idclass"))
+  Input::number($data, "idclass");
+  if(Input::errors())
     return Response::err_data();
 
   $idclass = $data["idclass"];
@@ -96,8 +98,9 @@ function getPrevious() {
 function markLesson() {
   global $dbh, $lang, $data;
 
-  if(! Input::number($data, "idlesson") ||
-    ! Input::float($data, "mark"))
+  Input::number($data, "idlesson");
+  Input::float($data, "mark");
+  if(Input::errors())
     return Response::err_data();
 
   $idlesson = $data["idlesson"];
@@ -110,8 +113,9 @@ function markLesson() {
 function changeRate() {
   global $dbh, $lang, $data;
 
-  if(! Input::number($data, "idlesson") ||
-    ! Input::float($data, "rate"))
+  Input::number($data, "idlesson");
+  Input::float($data, "rate");
+  if(Input::errors())
     return Response::err_data();
 
   $idlesson = $data["idlesson"];
@@ -124,7 +128,8 @@ function changeRate() {
 function getSilences() {
   global $dbh, $lang, $data;
 
-  if(! Input::number($data, "idlesson"))
+  Input::number($data, "idlesson");
+  if(Input::errors())
     return Response::err_data();
 
   $idlesson = $data["idlesson"];
@@ -137,7 +142,8 @@ function getSilences() {
 function setAsWatched() {
   global $dbh, $lang, $data;
 
-  if(! Input::number($data, "idlesson"))
+  Input::number($data, "idlesson");
+  if(Input::errors())
     return Response::err_data();
 
   $idlesson = $data["idlesson"];
@@ -149,11 +155,12 @@ function setAsWatched() {
 function editLesson() {
   global $dbh, $lang, $data;
 
-  if(! Input::number($data, "idlesson") ||
-    ! Input::date($data, "dated") ||
-    ! Input::text($data, "title", 150) ||
-    ! Input::text($data, "professor", 150) ||
-    ! Input::text($data, "filename", 200))
+  Input::number($data, "idlesson");
+  Input::date($data, "dated");
+  Input::text($data, "title", 150);
+  Input::text($data, "professor", 150);
+  Input::text($data, "filename", 200);
+  if(Input::errors())
     return Response::err_data();
 
   $idlesson = $data["idlesson"];
@@ -179,11 +186,12 @@ function editLesson() {
 function addLesson() {
   global $dbh, $lang, $data;
 
-  if(! Input::number($data, "idclass") ||
-    ! Input::date($data, "dated") ||
-    ! Input::text($data, "title", 150) ||
-    ! Input::text($data, "professor", 150) ||
-    ! Input::text($data, "filename", 200))
+  Input::number($data, "idclass");
+  Input::date($data, "dated");
+  Input::text($data, "title", 150);
+  Input::text($data, "professor", 150);
+  Input::text($data, "filename", 200);
+  if(Input::errors())
     return Response::err_data();
 
   $idclass = $data["idclass"];
@@ -212,7 +220,8 @@ function addLesson() {
 function listLessons() {
   global $dbh, $lang, $data;
 
-  if(! Input::number($data, "idclass"))
+  Input::number($data, "idclass");
+  if(Input::errors())
     return Response::err_data();
 
   $idclass = $data["idclass"];

@@ -33,11 +33,16 @@ if(!$dbh) {
 }
 
 class Input {
-  public static $errors = array();
+  public static $e = array();
 
   public static function err($id) {
-    Input::$errors[] = $id;
+    global $lang;
+    Input::$e[] = $lang[$id];
     return false;
+  }
+
+  public static function errors() {
+    return !empty(Input::$e);
   }
 
   public static function number($from, $id) {
@@ -110,7 +115,7 @@ class Response {
 
   public static function err_data() {
     global $lang;
-    return Response::err($lang["invalidData"] . ": " . join("; ", Input::$errors));
+    return Response::err($lang["invalidData"] . ": " . join("; ", Input::$e));
   }
 }
 

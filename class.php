@@ -50,10 +50,11 @@ function toDirectory($directory) {
 function editClass() {
   global $dbh, $lang, $data;
 
-  if(!Input::number($data, "idclass") ||
-    ! Input::text($data, "className", 150) ||
-    ! Input::text($data, "professor", 150) ||
-    ! Input::text($data, "directory", 200))
+  Input::number($data, "idclass");
+  Input::text($data, "className", 150);
+  Input::text($data, "professor", 150);
+  Input::text($data, "directory", 200);
+  if(Input::errors())
     return Response::err_data();
 
   $idclass = $data["idclass"];
@@ -76,9 +77,10 @@ function editClass() {
 function addClass() {
   global $dbh, $lang, $data;
 
-  if(! Input::text($data, "className", 150) ||
-    ! Input::text($data, "professor", 150) ||
-    ! Input::text($data, "directory", 200))
+  Input::text($data, "className", 150);
+  Input::text($data, "professor", 150);
+  Input::text($data, "directory", 200);
+  if(Input::errors())
     return Response::err_data();
 
   $className = $data["className"];
