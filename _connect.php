@@ -43,7 +43,7 @@ class Input {
   public static function number($from, $id) {
     $exp = "/^[0-9]+$/";
 
-    if(isset($from[$id]) && preg_match($exp, $from[$id]))
+    if(isset($from[$id]) && (is_int($from[$id]) || preg_match($exp, $from[$id])))
       return true;
     else
       return Input::err($id);

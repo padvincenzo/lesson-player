@@ -37,9 +37,6 @@ switch($request) {
   case "edit": {
     return editClass();
   }
-  default: {
-    Response::err($lang["requestNotValid"]);
-  }
 }
 
 

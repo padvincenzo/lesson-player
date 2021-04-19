@@ -55,9 +55,6 @@ switch($request) {
   case "rate": {
     return changeRate();
   }
-  default: {
-    Response::err($lang["requestNotValid"]);
-  }
 }
 
 
