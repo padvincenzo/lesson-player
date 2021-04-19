@@ -110,7 +110,7 @@ class Response {
 
   public static function err_data() {
     global $lang;
-    return Response::err($lang["invalidData"] . ": " . join("; ", Input::errors));
+    return Response::err($lang["invalidData"] . ": " . join("; ", Input::$errors));
   }
 }
 
