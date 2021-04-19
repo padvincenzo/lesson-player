@@ -170,10 +170,16 @@ class Class {
     });
 
     form.appendButton(lang.confirm, () => {
+      let values = form.values();
+      if(values == null) {
+        Message.view(lang.invalidData);
+        return;
+      }
+
       if(Class.isDummy(_class)) {
-        Class.dbAdd(form.values());
+        Class.dbAdd(values);
       } else {
-        _class.dbEdit(form.values());
+        _class.dbEdit(values);
       }
     });
 

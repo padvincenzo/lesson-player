@@ -150,10 +150,16 @@ class Lesson {
     var code = form.help(`${lang.ffmpegCopyPaste}: $ ffmpeg -hide_banner -nostats -vn -i "${url}" -af silencedetect=n=0.002:d=2.3 -f null -`);
 
     form.appendButton(lang.confirm, () => {
+      let values = form.values();
+      if(values == null) {
+        Message.view(lang.invalidData);
+        return;
+      }
+
       if(Lesson.isDummy(_lesson)) {
-        Lesson.dbAdd(form.values(), _lesson.parentClass);
+        Lesson.dbAdd(values, _lesson.parentClass);
       } else {
-        _lesson.dbEdit(form.values());
+        _lesson.dbEdit(values);
       }
     });
 
@@ -175,6 +181,7 @@ class Lesson {
   static dbAdd(_data, _class) {
     _data.request = "add";
     _data.idclass = _class.idclass;
+    console.log(_data.idclass);
     return request("lesson.php", _data)
       .then((_lesson) => {
         _class.lessons.push(new Lesson(_lesson, _class));

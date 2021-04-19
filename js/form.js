@@ -48,6 +48,7 @@ class Form {
     text.id = id;
     text.value = _value;
     text.placeholder = _placeholder;
+    text.pattern = "[^&'\x22]+";
     this.wrapper.appendChild(text);
     this.form.push({name: _name, dom: text});
     return text;
@@ -103,6 +104,10 @@ class Form {
     for(let i = 0; i < this.form.length; i++) {
       let name = this.form[i].name;
       let obj = this.form[i].dom;
+
+      if(! obj.validity.valid)
+        return null;
+
       values[name] = obj.value;
     };
 
