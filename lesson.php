@@ -242,15 +242,20 @@ function insertSilences() {
   // Remove any previous silences
   $result = mysqli_query($dbh, "delete from silence where idlesson = '$idlesson';");
 
+  // Arbitrary margins
+  $marginLeft = 0.25; // seconds after silence starts
+  $marginRight = 2; // seconds before silence ends
+
   // Parse ffmpeg output
-  $exp = "/silence_(start|end): (-?\d+(.\d+)?)/";
+  $exp = "/silence_(start|end): (-?\d+(.\d+)?(e[+\-]?\d+)?)/";
   $timestamps = array();
 
   if(preg_match_all($exp, $silences, $matches)) {
     for ($i = 0; $i < count($matches[0]) - 1; $i += 2) {
-      $t_start = $matches[2][$i] + 0.25;
-      $t_end = $matches[2][$i + 1] - 2;
-      $timestamps[] = "('$idlesson', '$t_start', '$t_end')";
+      $t_start = $matches[2][$i] + $marginLeft;
+      $t_end = $matches[2][$i + 1] - $marginRight;
+      if($t_end - $t_start > 0)
+        $timestamps[] = "('$idlesson', '$t_start', '$t_end')";
     }
   }
 
