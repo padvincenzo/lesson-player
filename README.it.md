@@ -78,7 +78,7 @@ Per ogni lezione è possibile trovare e velocizzare i silenzi, tramite ``ffmpeg`
 
   * Si possono anche apportare modifiche al filtro, ma per un corretto funzionamento la durata minima dei silenzi (``d``) deve essere > 2.25.
 
-Per velocizzare questa operazione ho creato un piccolo [script in _bash_](https://github.com/padvincenzo/lesson-player/blob/main/silences.sh) che esegue il filtro su tutte le videolezioni presenti nella cartella in cui è eseguito, e salva il risultato in un file di testo dallo stesso nome della videolezione (va copiato ed eseguito dalla directory che contiene le lezioni).
+Per velocizzare questa operazione ho creato un piccolo [script in _bash_](https://github.com/padvincenzo/lesson-player/blob/main/scripts/silences.sh) che esegue il filtro su tutte le videolezioni presenti nella cartella in cui è eseguito, e salva il risultato in un file di testo dallo stesso nome della videolezione (va copiato ed eseguito dalla directory che contiene le lezioni).
 È utilizzabile solo da linux, per altri sistemi operativi è necessario modificarlo in base al linguaggio utilizzato.
 
 ## Contribuire
