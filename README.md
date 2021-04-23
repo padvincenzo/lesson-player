@@ -83,7 +83,7 @@ It is useful for linux users, other operative systems need the script to be rewr
 
 ## Contributions
 Anyone can contribute to this project, in many ways:
-* Translating the project in other languages (just by translating [``_language.php``](https://github.com/padvincenzo/lesson-player/blob/main/_language.php));
+* Translating the project in other languages (by adding new files in the ``languages/`` folder);
 * Finding and/or fixing [bugs](https://github.com/padvincenzo/lesson-player/issues);
 * Suggesting new ideas;
 * Implementing new functionalities.
