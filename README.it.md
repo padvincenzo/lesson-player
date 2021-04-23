@@ -83,7 +83,7 @@ Per velocizzare questa operazione ho creato un piccolo [script in _bash_](https:
 
 ## Contribuire
 Chiunque può contribuire a questo progetto, in diversi modi:
-* Traducendo il progetto in altre lingue (è sufficiente tradurre la pagina [``_language.php``](https://github.com/padvincenzo/lesson-player/blob/main/_language.php));
+* Traducendo il progetto in altre lingue (aggiungendo nuovi file nella cartella ``languages/``);
 * Scovando e segnalando/risolvendo [bug](https://github.com/padvincenzo/lesson-player/issues);
 * Suggerendo nuove idee;
 * Implementando nuove funzionalità.
