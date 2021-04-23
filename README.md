@@ -85,7 +85,7 @@ Anyone can contribute to this project, in many ways:
 * Suggesting new ideas;
 * Implementing new functionalities.
 
-For For any doubt or perplexity we can [discuss here](https://github.com/padvincenzo/lesson-player/discussions).
+For any doubt or perplexity we can [discuss here](https://github.com/padvincenzo/lesson-player/discussions).
 
 ## Credits
 * The website makes use of [``video.js``](https://videojs.com/) and a modified version of [theme _city_](https://github.com/videojs/themes);
