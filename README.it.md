@@ -13,7 +13,7 @@ Guarda le tue videolezioni sulla rete locale, non perdere il segno e accelera du
     * Su Mac: monta il volume Xampp e apri la cartella ``htdocs``
   * Crea una cartella (es: ``lesson-player/``) e copia tutti i file al suo interno;
   * Apri il browser all'indirizzo ``http://localhost/phpmyadmin/`` e crea un nuovo database (es: ``lessons``);
-  * Dalla cartella di xampp apri il file ``_connect.php`` e aggiorna le credenziali del database;
+  * Dalla cartella di xampp apri il file ``_connect.php`` e aggiorna le credenziali del database (e volendo anche la lingua);
   * Dal browser vai all'indirizzo ``http://localhost/<nome_cartella>/install.php`` (es: ``http://localhost/lesson-player/install.php``);
   * (Opzionale) Imposta xampp per l'avvio automatico all'avvio del pc.
 
