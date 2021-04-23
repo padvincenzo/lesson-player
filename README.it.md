@@ -32,9 +32,6 @@ Guarda le tue videolezioni sulla rete locale, non perdere il segno e accelera du
                 Lesson 2021-01-02.mp4
                 ...
             ...
-        _connect.php
-        _language.php
-        ...
 ```
 
   * Nota: le cartelle e i file dentro la cartella ``classes`` possono anche essere collegamenti.
