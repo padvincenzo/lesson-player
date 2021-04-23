@@ -1,6 +1,7 @@
 # Lesson Player [![Donate](https://img.shields.io/badge/donate-paypal-blue.svg)](https://www.paypal.com/paypalme/VincenzoPadula)
 Guarda le tue videolezioni sulla rete locale, non perdere il segno e accelera durante i silenzi.
 
+*Read this in other languages: [English](README.md), [Italian](README.it.md).*
 
 ## Guida all'utilizzo
 
@@ -17,7 +18,7 @@ Guarda le tue videolezioni sulla rete locale, non perdere il segno e accelera du
   * (Opzionale) Imposta xampp per l'avvio automatico all'avvio del pc.
 
 ### Inserimento videolezioni
-  * Nella cartella ``htdocs/lesson-player`` crea una sottocartella (es: ``classes/``) e copia qui tuttle le videolezioni, organizzate in una struttura tipo:
+  * Nella cartella ``.../htdocs/lesson-player`` crea una sottocartella (es: ``classes/``) e copia qui tuttle le videolezioni, organizzate in una struttura tipo:
 
 ```
     lesson-player/
