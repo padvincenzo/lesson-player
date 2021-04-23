@@ -1,0 +1,191 @@
+/*
+Lesson Player
+View your lessons, do not miss the mark.
+
+Copyright (C) 2020  Vincenzo Padula
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
+/*
+<!-- City -->
+<!-- <link href="https://unpkg.com/@videojs/themes@1/dist/city/index.css" rel="stylesheet"> -->
+
+<!-- Fantasy -->
+<!-- <link href="https://unpkg.com/@videojs/themes@1/dist/fantasy/index.css" rel="stylesheet"> -->
+
+<!-- Forest -->
+<!-- <link href="https://unpkg.com/@videojs/themes@1/dist/forest/index.css" rel="stylesheet"> -->
+
+<!-- Sea -->
+<!-- <link href="https://unpkg.com/@videojs/themes@1/dist/sea/index.css" rel="stylesheet"> -->
+*/
+
+.vjs-theme-lesson {
+  --vjs-theme-lesson--primary: #bf3b4d;
+  --vjs-theme-lesson--secondary: #fff
+}
+
+.vjs-theme-lesson .vjs-control-bar {
+  height: 70px;
+  padding-top: 20px;
+  background: none;
+  background-image: linear-gradient(0deg,#000,transparent);
+}
+
+.vjs-theme-lesson .vjs-button > .vjs-icon-placeholder:before {
+  line-height: 50px;
+}
+
+.vjs-theme-lesson .vjs-play-progress:before {
+  display: none;
+}
+
+.vjs-theme-lesson .vjs-progress-control {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  width: 100%;
+  height: 20px;
+}
+
+.vjs-theme-lesson .vjs-progress-control .vjs-progress-holder {
+  position: absolute;
+  top: 10px;
+  right: 8px;
+  left: 8px;
+  height: 8px;
+  /* width: 100%; */
+  margin: 0;
+}
+
+.vjs-theme-lesson .vjs-play-progress {
+  background-color: var(--vjs-theme-lesson--primary);
+}
+
+.vjs-theme-lesson .vjs-playback-rate {
+  order: 1;
+  line-height: 50px;
+  flex: 1;
+}
+
+.vjs-theme-lesson .vjs-playback-rate-value {
+  line-height: 50px;
+  font-size: 1.5em;
+}
+
+.vjs-theme-lesson .vjs-playback-rate .vjs-menu {
+  margin-bottom: 2.5em;
+}
+
+.vjs-theme-lesson .vjs-remaining-time {
+  order: 2;
+  line-height: 50px;
+  flex: 3;
+  text-align: left;
+  font-size: 1.5em;
+}
+
+.vjs-theme-lesson .vjs-play-control {
+  order: 3;
+  flex: 8;
+  font-size: 1.75em;
+}
+
+.vjs-theme-lesson .vjs-fullscreen-control,
+.vjs-theme-lesson .vjs-picture-in-picture-control,
+.vjs-theme-lesson .vjs-volume-panel {
+  order: 4;
+  flex: 1;
+}
+
+.vjs-theme-lesson .vjs-volume-panel:hover .vjs-volume-control.vjs-volume-horizontal {
+  height: 100%;
+}
+
+.vjs-theme-lesson .vjs-mute-control {
+  display: none;
+}
+
+.vjs-theme-lesson .vjs-volume-panel {
+  margin-left: .5em;
+  margin-right: .5em;
+  padding-top: 1.5em;
+}
+
+.vjs-theme-lesson .vjs-volume-bar.vjs-slider-horizontal,
+.vjs-theme-lesson .vjs-volume-panel,
+.vjs-theme-lesson .vjs-volume-panel.vjs-volume-panel-horizontal:hover,
+.vjs-theme-lesson .vjs-volume-panel:active .vjs-volume-control.vjs-volume-horizontal,
+.vjs-theme-lesson .vjs-volume-panel:focus .vjs-volume-control.vjs-volume-horizontal,
+.vjs-theme-lesson .vjs-volume-panel:hover,
+.vjs-theme-lesson .vjs-volume-panel:hover .vjs-volume-control.vjs-volume-horizontal {
+  width: 3em;
+}
+
+.vjs-theme-lesson .vjs-volume-level:before {
+  font-size: 1em;
+}
+
+.vjs-theme-lesson .vjs-volume-panel .vjs-volume-control {
+  opacity: 1;
+  width: 100%;
+  height: 100%;
+}
+
+.vjs-theme-lesson .vjs-volume-bar {
+  background-color: transparent;
+  margin: 0;
+}
+
+.vjs-theme-lesson .vjs-slider-horizontal .vjs-volume-level {
+  height: 100%;
+}
+
+.vjs-theme-lesson .vjs-volume-bar.vjs-slider-horizontal {
+  margin-top: 0;
+  margin-bottom: 0;
+  height: 100%;
+}
+
+.vjs-theme-lesson .vjs-volume-bar:before {
+  content: "";
+  z-index: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-color: transparent transparent hsla(0,0%,100%,.25);
+  border-style: solid;
+  border-width: 0 0 1.75em 3em;
+}
+
+.vjs-theme-lesson .vjs-volume-level {
+  overflow: hidden;
+  background-color: transparent;
+}
+
+.vjs-theme-lesson .vjs-volume-level:before {
+  content: "";
+  z-index: 1;
+  width: 0;
+  height: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-left: 3em solid transparent;
+  border-bottom: 1.75em solid var(--vjs-theme-lesson--secondary);
+  border-right: 0 solid transparent;
+  border-top: 0 solid transparent;
+}
