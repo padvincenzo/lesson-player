@@ -18,7 +18,7 @@ Watch your video lessons on LAN, do not miss the mark and speed up during silenc
   * (Optional) Make xampp run at pc startup by default.
 
 ### Inserting video lessons
-  * In the folder ``.../htdocs/lesson-player`` create a subdirectory (e.g.: ``classes/``) and copy all your video lessons inside, arranged in a structure like:
+  * In the folder ``.../htdocs/lesson-player/`` create a subdirectory (e.g.: ``classes/``) and copy all your video lessons inside, arranged in a structure like:
 
 ```
     lesson-player/
