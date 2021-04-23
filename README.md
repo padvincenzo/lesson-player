@@ -13,7 +13,7 @@ Watch your video lessons on LAN, do not miss the mark and speed up during silenc
     * On Mac: mount Xampp volume and open the folder ``htdocs``
   * Create a new folder (e.g.: ``lesson-player/``) and copy all files inside;
   * Open the browser at ``http://localhost/phpmyadmin/`` and create a new database (e.g.: ``lessons``);
-  * From the xampp folder, open ``_connect.php`` and update the database credentials;
+  * From the xampp folder, open ``_connect.php`` and update the database credentials (and maybe the language);
   * From the browser go to ``http://localhost/<folder_name>/install.php`` (e.g.: ``http://localhost/lesson-player/install.php``);
   * (Optional) Make xampp run at pc startup by default.
 
