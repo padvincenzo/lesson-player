@@ -33,8 +33,8 @@ include("_language.php");
 		<!-- <link href="https://unpkg.com/video.js@7/dist/video-js.min.css" rel="stylesheet"> -->
 		<script src="video.js@7.11.8/video.min.js"></script>
 		<link href="video.js@7.11.8/video-js.min.css" rel="stylesheet">
+		<link href="video.js@7.11.8/theme.css" rel="stylesheet">
 
-		<link href="theme.css" rel="stylesheet">
 		<link href="style.css" rel="stylesheet">
 
 		<script type="text/javascript">
