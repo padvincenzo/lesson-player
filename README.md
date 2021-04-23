@@ -7,7 +7,7 @@ Watch your video lessons on LAN, do not miss the mark and speed up during silenc
 
 ### Installation
   * Download, install and run [xampp](https://www.apachefriends.org/download.html);
-  * Oper xampp folder:
+  * Open xampp folder:
     * On Linux: ``/opt/lampp/htdocs/``
     * On Windows: ``C:\\xampp\htdocs\``
     * On Mac: mount Xampp volume and open the folder ``htdocs``
