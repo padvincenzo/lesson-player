@@ -88,3 +88,10 @@ function randomString(_length = 4) {
 
   return str;
 }
+
+function popup(url) {
+  let w = 400, h = 300;
+  let left = (screen.width) ? (screen.width - w) / 2 : 10;
+  let top = (screen.height) ? (screen.height - h) / 2 : 10;
+  let popupWindow = window.open(url, 'popupWindow', `height=${h},width=${w},left=${left},top=${top},resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=no,directories=no,status=no`);
+}

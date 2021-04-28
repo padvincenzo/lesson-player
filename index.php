@@ -67,7 +67,7 @@ include("_connect.php");
 
 		<footer>
 			<p>Developed by Vincenzo Padula</p>
-			<p><a href="credits.php" target="_blank">Credits</a></p>
+			<p><a href="JavaScript:popup('credits.php');"><?php echo $lang["credits"]; ?></a></p>
 		</footer>
 
 	</body>
