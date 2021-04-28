@@ -221,7 +221,7 @@ class Player {
   }
 
   static removeTabIndexes() {
-    let controls = document.querySelectorAll(".video-js [tabindex='0'], .video-js button");
+    let controls = Player.wrapper.querySelectorAll("[tabindex='0'], button");
     for(let i = 0; i < controls.length; i++) {
       controls[i].tabIndex = -1;
     }
