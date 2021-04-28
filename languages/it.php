@@ -29,6 +29,7 @@ $lang = array(
   "className"           => "Nome del corso",
   "classNotAdded"       => "Corso non aggiunto",
   "classNotEdited"      => "Corso non modificato",
+  "close"               => "Chiudi",
   "confirm"             => "Conferma",
   "credits"             => "Crediti",
   "dataMiss"            => "Dati mancanti",

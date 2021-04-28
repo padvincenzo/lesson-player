@@ -29,6 +29,7 @@ $lang = array(
   "className"           => "Class name",
   "classNotAdded"       => "Class not added",
   "classNotEdited"      => "Class not edited",
+  "close"               => "Close",
   "confirm"             => "Confirm",
   "credits"             => "Credits",
   "dataMiss"            => "Missing data",
