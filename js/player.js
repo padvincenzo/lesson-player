@@ -38,6 +38,7 @@ class Player {
     Player.initOverlay();
     Player.initNotifier();
     Player.initLessonUpdater();
+    Player.removeTabIndexes();
   }
 
   static initShortcuts() {
@@ -123,6 +124,10 @@ class Player {
         }
       }
     });
+
+    for(let i = 0; i < Player.wrapper.childNodes.length; i++) {
+      Player.wrapper.childNodes[i].tabIndex = -1;
+    }
   }
 
   static initOverlay() {
@@ -213,6 +218,14 @@ class Player {
       Player.lesson.dbSetAsWatched();
       Player.lesson.playNext();
     });
+  }
+
+  static removeTabIndexes() {
+    let controls = document.querySelectorAll(".video-js [tabindex='0'], .video-js button");
+    for(let i = 0; i < controls.length; i++) {
+      console.log(controls[i].classList);
+      controls[i].tabIndex = -1;
+    }
   }
 
   static on(_event, _function) {
