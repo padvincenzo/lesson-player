@@ -39,6 +39,7 @@ class Player {
     Player.initNotifier();
     Player.initLessonUpdater();
     Player.removeTabIndexes();
+    Player.initUserActivity();
   }
 
   static initShortcuts() {
@@ -148,27 +149,10 @@ class Player {
       Player.overlay.appendChild(Player.overlayData[id]);
     });
 
-    Player.on("pause", () => {
-      if (!Player.seeking() && Player.paused())
-        Player.overlay.style.display = "";
-    });
-
-    Player.on("playing", () => {
-      Player.overlay.style.display = "none";
-    });
-
     Player.overlay.onclick = () => {
-      Player.overlay.style.display = "none";
+      Player.hideOverlay();
       Player.play();
     };
-
-    Player.on("useractive", () => {
-      // console.log("active");
-    });
-
-    Player.on("userinactive", () => {
-      // console.log("inactive");
-    });
   }
 
   static initNotifier() {
@@ -227,6 +211,36 @@ class Player {
     }
   }
 
+  static initUserActivity() {
+    Player.on("pause", () => {
+      Player.userActive(true);
+    });
+
+    Player.on("playing", () => {
+      Player.userActive(true);
+    });
+
+    Player.on("useractive", () => {
+      Player.hideOverlay();
+    });
+
+    Player.on("userinactive", () => {
+      if(Player.paused()) {
+        Player.showOverlay();
+      } else {
+        // ...
+      }
+    });
+  }
+
+  static showOverlay() {
+    Player.overlay.style.display = "";
+  }
+
+  static hideOverlay() {
+    Player.overlay.style.display = "none";
+  }
+
   static on(_event, _function) {
     return Player.player.on(_event, _function);
   }
@@ -281,6 +295,13 @@ class Player {
       return;
 
     return Player.player.paused();
+  }
+
+  static userActive(_active = null) {
+    if(Player.lesson == null)
+      return;
+
+    return _active == null ? Player.player.userActive() : Player.player.userActive(_active);
   }
 
   static seeking() {
