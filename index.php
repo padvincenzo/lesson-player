@@ -58,7 +58,7 @@ include("_connect.php");
 			<div id="my-p-wrapper">
 				<video id="my-player"
 					class="video-js vjs-theme-lesson"
-					data-setup='{"fluid": true, "controls": true, "autoplay": false, "preload": "auto", "playbackRates": [0.8, 1, 1.25, 1.5, 2, 2.5], "rewind": true}'>
+					data-setup='{"fluid": true, "controls": true, "autoplay": false, "preload": "auto", "playbackRates": [0.8, 1, 1.25, 1.5, 2, 2.5], "rewind": true, "inactivityTimeout": 4000}'>
 				</video>
 			</div>
 		</div>
