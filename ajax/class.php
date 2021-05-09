@@ -17,15 +17,10 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-include("_connect.php");
+include("../_connect.php");
 
-if(!isset($_POST["data"])) {
-  Response::err($lang["dataMiss"]);
-  die();
-}
-
-$data = json_decode($_POST["data"], true);
-$request = isset($data["request"]) ? $data["request"] : "list";
+$data = json_decode(file_get_contents("php://input"));
+$request = isset($data->request) ? $data->request : "list";
 
 switch($request) {
   case "list": {
@@ -57,10 +52,10 @@ function editClass() {
   if(Input::errors())
     return Response::err_data();
 
-  $idclass = $data["idclass"];
-  $className = $data["className"];
-  $professor = $data["professor"];
-  $directory = toDirectory($data["directory"]);
+  $idclass = $data->idclass;
+  $className = $data->className;
+  $professor = $data->professor;
+  $directory = toDirectory($data->directory);
 
   $result = mysqli_query($dbh, "update class set name = '$className', professor = '$professor', directory = '$directory' where idclass = '$idclass';");
   if($result) {
@@ -83,9 +78,9 @@ function addClass() {
   if(Input::errors())
     return Response::err_data();
 
-  $className = $data["className"];
-  $professor = $data["professor"];
-  $directory = toDirectory($data["directory"]);
+  $className = $data->className;
+  $professor = $data->professor;
+  $directory = toDirectory($data->directory);
 
   $result = mysqli_query($dbh, "insert into class (name, professor, directory) values ('$className', '$professor', '$directory');");
   if($result) {

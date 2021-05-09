@@ -17,15 +17,10 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-include("_connect.php");
+include("../_connect.php");
 
-if(!isset($_POST["data"])) {
-  Response::err($lang["dataMiss"]);
-  die();
-}
-
-$data = json_decode($_POST["data"], true);
-$request = isset($data["request"]) ? $data["request"] : "list";
+$data = json_decode(file_get_contents("php://input"));
+$request = isset($data->request) ? $data->request : "list";
 
 switch($request) {
   case "list": {
@@ -65,11 +60,11 @@ function getNext() {
   if(Input::errors())
     return Response::err_data();
 
-  $idclass = $data["idclass"];
+  $idclass = $data->idclass;
 
   $result = mysqli_query($dbh, "select * from lesson where idclass = '$idclass' and watched = false order by dated asc limit 1;");
   if($result) {
-    $lesson = mysqli_fetch_array($result);
+    $lesson = mysqli_fetch_assoc($result);
     return Response::ok($lang["nextLesson"], $lesson);
   }
 
@@ -83,12 +78,12 @@ function getPrevious() {
   if(Input::errors())
     return Response::err_data();
 
-  $idclass = $data["idclass"];
+  $idclass = $data->idclass;
 
   // !!! Watch out !!!
   $result = mysqli_query($dbh, "select * from lesson where idclass = '$idclass' and watched = true order by dated desc limit 1;");
   if($result) {
-    $lesson = mysqli_fetch_array($result);
+    $lesson = mysqli_fetch_assoc($result);
     return Response::ok($lang["previousLesson"], $lesson);
   }
 
@@ -103,8 +98,8 @@ function markLesson() {
   if(Input::errors())
     return Response::err_data();
 
-  $idlesson = $data["idlesson"];
-  $mark = $data["mark"];
+  $idlesson = $data->idlesson;
+  $mark = $data->mark;
 
   $result = mysqli_query($dbh, "update lesson set mark = '$mark', lastPlayed = now() where idlesson = '$idlesson';");
   return $result ? Response::ok() : Response::err();
@@ -118,8 +113,8 @@ function changeRate() {
   if(Input::errors())
     return Response::err_data();
 
-  $idlesson = $data["idlesson"];
-  $rate = $data["rate"];
+  $idlesson = $data->idlesson;
+  $rate = $data->rate;
 
   $result = mysqli_query($dbh, "update lesson set playbackRate = '$rate' where idlesson = '$idlesson';");
   return $result ? Response::ok() : Response::err();
@@ -132,7 +127,7 @@ function getSilences() {
   if(Input::errors())
     return Response::err_data();
 
-  $idlesson = $data["idlesson"];
+  $idlesson = $data->idlesson;
 
   $result = mysqli_query($dbh, "select t_start, t_end from silence where idlesson = '$idlesson' order by t_start asc;");
   $silences = mysqli_fetch_all($result, MYSQLI_ASSOC);
@@ -146,7 +141,7 @@ function setAsWatched() {
   if(Input::errors())
     return Response::err_data();
 
-  $idlesson = $data["idlesson"];
+  $idlesson = $data->idlesson;
 
   $result = mysqli_query($dbh, "update lesson set mark = 0, watched = true, lastPlayed = now() where idlesson = '$idlesson';");
   return $result ? Response::ok() : Response::err();
@@ -163,11 +158,11 @@ function editLesson() {
   if(Input::errors())
     return Response::err_data();
 
-  $idlesson = $data["idlesson"];
-  $dated = $data["dated"];
-  $title = $data["title"];
-  $professor = $data["professor"];
-  $filename = $data["filename"];
+  $idlesson = $data->idlesson;
+  $dated = $data->dated;
+  $title = $data->title;
+  $professor = $data->professor;
+  $filename = $data->filename;
 
   $result = mysqli_query($dbh, "update lesson set dated = '$dated', title = '$title', professor = '$professor', filename = '$filename' where idlesson = '$idlesson';");
   if($result) {
@@ -194,15 +189,15 @@ function addLesson() {
   if(Input::errors())
     return Response::err_data();
 
-  $idclass = $data["idclass"];
-  $dated = $data["dated"];
-  $title = $data["title"];
-  $professor = $data["professor"];
-  $filename = $data["filename"];
+  $idclass = $data->idclass;
+  $dated = $data->dated;
+  $title = $data->title;
+  $professor = $data->professor;
+  $filename = $data->filename;
 
   $result = mysqli_query($dbh, "insert into lesson (idclass, dated, title, professor, filename) values ('$idclass', '$dated', '$title', '$professor', '$filename');");
   if($result) {
-    $data["idlesson"] = $idlesson = mysqli_insert_id($dbh);
+    $data->idlesson = $idlesson = mysqli_insert_id($dbh);
     insertSilences();
     return Response::ok($lang["lessonAdded"], array(
       "idclass" => $idclass,
@@ -224,7 +219,7 @@ function listLessons() {
   if(Input::errors())
     return Response::err_data();
 
-  $idclass = $data["idclass"];
+  $idclass = $data->idclass;
   $result = mysqli_query($dbh, "select * from lesson where idclass = '$idclass' order by dated, idlesson;");
   $lessons = mysqli_fetch_all($result, MYSQLI_ASSOC);
   return Response::ok($lang["lessonList"], $lessons);
@@ -233,11 +228,11 @@ function listLessons() {
 function insertSilences() {
   global $dbh, $lang, $data;
 
-  if(! isset($data["silences"]) || $data["silences"] == "")
+  if(! isset($data->silences) || $data->silences == "")
     return;
 
-  $idlesson = $data["idlesson"];
-  $silences = $data["silences"];
+  $idlesson = $data->idlesson;
+  $silences = $data->silences;
 
   // Remove any previous silences
   $result = mysqli_query($dbh, "delete from silence where idlesson = '$idlesson';");
