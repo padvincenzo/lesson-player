@@ -91,12 +91,14 @@ It is useful for linux users, other operative systems need the script to be rewr
 | ``]`` or ``+`` (or ``=``) | Increase playback rate |
 | ``[`` or ``-``            | Decrease playback rate |
 
-## Contributions
+## Contributing
 Anyone can contribute to this project, in many ways:
 * Translating the project in other languages (by adding new files in the ``languages/`` folder);
 * Finding and/or fixing [bugs](https://github.com/padvincenzo/lesson-player/issues);
 * Suggesting new ideas;
 * Implementing new functionalities.
+
+In other words, fork this project and have fun coding. Then if you think something can be improved in this project, open your pull request.
 
 For any doubt or perplexity we can [discuss here](https://github.com/padvincenzo/lesson-player/discussions).
 
