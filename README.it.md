@@ -98,6 +98,8 @@ Chiunque può contribuire a questo progetto, in diversi modi:
 * Suggerendo nuove idee;
 * Implementando nuove funzionalità.
 
+In altre parole, crea una fork e divertiti a scrivere codice. Quando avrai qualcosa che possa migliorare il progetto, apri la tua pull request.
+
 Per qualunque dubbio o perplessità possiamo discuterne sulla [pagina apposita](https://github.com/padvincenzo/lesson-player/discussions).
 
 ## Crediti
