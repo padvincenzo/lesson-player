@@ -34,6 +34,7 @@ $lang = array(
   "credits"             => "Crediti",
   "dataMiss"            => "Dati mancanti",
   "dated"               => "Data",
+  "dateFormat"          => "{D}/{MM}/{YYYY}",
   "dbConnectionFailed"  => "Connessione al database fallita.",
   "defaultLessonTitle"  => "Lezione del {dated}",
   "edit"                => "Modifica",
