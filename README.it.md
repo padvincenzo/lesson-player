@@ -79,15 +79,17 @@ Per velocizzare questa operazione ho creato un piccolo [script in _bash_](https:
 È utilizzabile solo da linux, per altri sistemi operativi è necessario modificarlo in base al linguaggio utilizzato.
 
 ## Scorciatoie da tastiera
-* ``Spazio``: pausa/play;
-* ``M``: muto/sonoro;
-* ``F``: video a schermo intero;
-* ``Freccia a sinistra`` o ``A``: riavvolgi 5s;
-* ``Freccia a destra`` o ``D``: vai avanti di 5s;
-* ``Freccia in alto`` o ``W``: incrementa il volume;
-* ``Freccia in basso`` o ``S``: decrementa il volume;
-* ``]`` o ``+`` (o ``=``): aumenta la velocità di riproduzione;
-* ``[`` or ``-``: diminuisci la velocità di riproduzione.
+|           **Tasto/i**          |               **Effetto**              |
+|:------------------------------:| -------------------------------------- |
+| ``Spazio``                     | Pausa/play                             |
+| ``M``                          | Muto/sonoro                            |
+| ``F``                          | Video a schermo intero                 |
+| ``Freccia a sinistra`` o ``A`` | Riavvolgi 5s                           |
+| ``Freccia a destra`` o ``D``   | Vai avanti di 5s                       |
+| ``Freccia in alto`` o ``W``    | Alza il volume                         |
+| ``Freccia in basso`` o ``S``   | Abbassa il volume                      |
+| ``]`` o ``+`` (o ``=``)        | Aumenta la velocità di riproduzione    |
+| ``[`` o ``-``                  | Diminuisci la velocità di riproduzione |
 
 ## Contribuire
 Chiunque può contribuire a questo progetto, in diversi modi:
