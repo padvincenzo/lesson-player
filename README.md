@@ -87,6 +87,17 @@ Anyone can contribute to this project, in many ways:
 
 For any doubt or perplexity we can [discuss here](https://github.com/padvincenzo/lesson-player/discussions).
 
+## Shortcuts of the player
+* ``Space``: toggle play/pause;
+* ``M``: toggle mute;
+* ``F``: toggle fullscreen;
+* ``Arrow left`` or ``A``: go back 5s;
+* ``Arrow right`` or ``D``: skip 5s;
+* ``Arrow up`` or ``W``: increase volume;
+* ``Arrow down`` or ``S``: decrease volume;
+* ``]`` or ``+`` (or ``=``): increase playback rate;
+* ``[`` or ``-``: decrease playback rate.
+
 ## Credits
 * The website makes use of [``video.js``](https://videojs.com/) and a modified version of [theme _city_](https://github.com/videojs/themes);
 * Icons are from [www.flaticon.com](https://www.flaticon.com/).
