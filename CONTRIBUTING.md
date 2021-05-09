@@ -5,4 +5,4 @@ Anyone can contribute to this project, in many ways:
 * Suggesting new ideas;
 * Implementing new functionalities.
 
-In other words, fork this project and have fun coding. Then if you think something can be improved in this project, open your pull request.
+In other words, fork this project and have fun coding. When you think something you wrote can improve this project, open your pull request.
