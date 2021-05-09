@@ -1,4 +1,8 @@
-In this folder are placed the languages that can be used in the program.
+In this folder are placed the languages that can be used in the program. To change the current language, edit the file ``_connect.php`` in the main folder:
+
+```php
+include("languages/<language_file>.php");
+```
 
 Of course, you can add or edit whatever you want, according to your preferences.
 And if you think that something can be improved, just do a pull request (motivating your intentions).
