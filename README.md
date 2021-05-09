@@ -78,6 +78,19 @@ For each lesson it's possible to find and speed up silences, using ``ffmpeg``:
 With the aim of saving time, I've written a little [script in _bash_](https://github.com/padvincenzo/lesson-player/blob/main/scripts/silences.sh) that run the filter on every video in the same folder where the script is executed, and save the result in a file with the same name of the video (so the script should be executed in the folder that contains the videos).
 It is useful for linux users, other operative systems need the script to be rewritten in other languages.
 
+## Shortcuts
+|         **Key(s)**        |       **Effect**       |
+| ------------------------- | ---------------------- |
+| ``Space``                 | Toggle play/pause      |
+| ``M``                     | Toggle mute            |
+| ``F``                     | Toggle fullscreen      |
+| ``Arrow left`` or ``A``   | Go back 5s             |
+| ``Arrow right`` or ``D``  | Skip 5s                |
+| ``Arrow up`` or ``W``     | Increase volume        |
+| ``Arrow down`` or ``S``   | Decrease volume        |
+| ``]`` or ``+`` (or ``=``) | Increase playback rate |
+| ``[`` or ``-``            | Decrease playback rate |
+
 ## Contributions
 Anyone can contribute to this project, in many ways:
 * Translating the project in other languages (by adding new files in the ``languages/`` folder);
@@ -86,17 +99,6 @@ Anyone can contribute to this project, in many ways:
 * Implementing new functionalities.
 
 For any doubt or perplexity we can [discuss here](https://github.com/padvincenzo/lesson-player/discussions).
-
-## Shortcuts of the player
-* ``Space``: toggle play/pause;
-* ``M``: toggle mute;
-* ``F``: toggle fullscreen;
-* ``Arrow left`` or ``A``: go back 5s;
-* ``Arrow right`` or ``D``: skip 5s;
-* ``Arrow up`` or ``W``: increase volume;
-* ``Arrow down`` or ``S``: decrease volume;
-* ``]`` or ``+`` (or ``=``): increase playback rate;
-* ``[`` or ``-``: decrease playback rate.
 
 ## Credits
 * The website makes use of [``video.js``](https://videojs.com/) and a modified version of [theme _city_](https://github.com/videojs/themes);
