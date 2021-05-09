@@ -95,3 +95,51 @@ function popup(url) {
   let top = (screen.height) ? (screen.height - h) / 2 : 10;
   let popupWindow = window.open(url, 'popupWindow', `height=${h},width=${w},left=${left},top=${top},resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=no,directories=no,status=no`);
 }
+
+function limit(_x, _min, _max) {
+  if(_x < _min) return _min;
+  if(_x > _max) return _max;
+  return _x;
+}
+
+function secondsToTime(seconds) {
+  let hours = (Math.floor(seconds / 3600)).toString().padStart(2, "0");
+  seconds %= 3600;
+  let minutes = (Math.floor(seconds / 60)).toString().padStart(2, "0");
+  seconds = (seconds % 60).toFixed(2).padStart(5, "0");
+  return hours + ":" + minutes + ":" + seconds;
+}
+
+function formatDate(_date) {
+  if(lang["dateFormat"] == "default")
+    return _date;
+
+  return lang["dateFormat"].replace(/\{[A-Z]+\}/g, (key) => {
+    console.log(key);
+    switch (key) {
+      case "{YYYY}": {
+        return _date.substring(0, 4);
+      }
+      case "{YY}": {
+        return _date.substring(2, 4);
+      }
+      case "{MM}": {
+        return _date.substring(5, 7);
+      }
+      case "{M}": {
+        let m = _date.substring(5, 7);
+        return (+m) <= 9 ? +m : m;
+      }
+      case "{DD}": {
+        return _date.substring(8);
+      }
+      case "{D}": {
+        let d = _date.substring(8);
+        return (+d) <= 9 ? +d : d;
+      }
+      default: {
+        return key;
+      }
+    }
+  });
+}
