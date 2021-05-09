@@ -165,7 +165,7 @@ class Lesson {
 
     dated.addEventListener("focusout", () => {
       if(title.value == "" && dated.value != "") {
-        title.value = lang.defaultLessonTitle.replace("{dated}", dated.value);
+        title.value = lang.defaultLessonTitle.replace("{dated}", formatDate(dated.value));
       }
     });
 

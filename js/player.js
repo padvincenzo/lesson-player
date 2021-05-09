@@ -264,7 +264,7 @@ class Player {
     Player.player.defaultPlaybackRate(Player.lesson.playbackRate);
 
     Player.overlayData.class.innerText = Player.lesson.parentClass.name;
-    Player.overlayData.date.innerText = Player.lesson.dated;
+    Player.overlayData.date.innerText = formatDate(Player.lesson.dated);
     Player.overlayData.professor.innerText = Player.lesson.professor;
     Player.overlayData.title.innerText = Player.lesson.title;
     Player.overlayData.description.innerText = "";
@@ -425,18 +425,4 @@ class Player {
     Player.currentTime(newTime);
     Player.notify(secondsToTime(newTime));
   }
-}
-
-function limit(_x, _min, _max) {
-  if(_x < _min) return _min;
-  if(_x > _max) return _max;
-  return _x;
-}
-
-function secondsToTime(seconds) {
-  let hours = (Math.floor(seconds / 3600)).toString().padStart(2, "0");
-  seconds %= 3600;
-  let minutes = (Math.floor(seconds / 60)).toString().padStart(2, "0");
-  seconds = (seconds % 60).toFixed(2).padStart(5, "0");
-  return hours + ":" + minutes + ":" + seconds;
 }
