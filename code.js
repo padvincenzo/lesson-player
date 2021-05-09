@@ -47,6 +47,7 @@ class Button {
 function request(_to, _data) {
   return new Promise((_resolve, _reject) => {
     var xhr = new XMLHttpRequest();
+    var json = JSON.stringify(_data);
 
     xhr.onreadystatechange = () => {
       if (xhr.readyState == 4 && xhr.status == 200) {
@@ -73,9 +74,9 @@ function request(_to, _data) {
       _reject("xmlHTTP Error: " + xhr.responseText);
     };
 
-    xhr.open("POST", _to, true);
-    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhr.send("data=" + JSON.stringify(_data));
+    xhr.open("POST", `ajax/${_to}`, true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send(json);
   });
 }
 
@@ -107,7 +108,7 @@ function secondsToTime(seconds) {
   seconds %= 3600;
   let minutes = (Math.floor(seconds / 60)).toString().padStart(2, "0");
   seconds = (seconds % 60).toFixed(2).padStart(5, "0");
-  return hours + ":" + minutes + ":" + seconds;
+  return `${hours}:${minutes}:${seconds}`;
 }
 
 function formatDate(_date) {
@@ -115,7 +116,6 @@ function formatDate(_date) {
     return _date;
 
   return lang["dateFormat"].replace(/\{[A-Z]+\}/g, (key) => {
-    console.log(key);
     switch (key) {
       case "{YYYY}": {
         return _date.substring(0, 4);

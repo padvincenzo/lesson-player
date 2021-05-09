@@ -33,6 +33,7 @@ include("_connect.php");
 		<style media="screen">
 			body {
 				padding: 2vh 2vw;
+				overflow: auto;
 			}
 
 			li {

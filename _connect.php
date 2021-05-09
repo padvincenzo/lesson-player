@@ -48,37 +48,40 @@ class Input {
   public static function number($from, $id) {
     $exp = "/^[0-9]+$/";
 
-    if(isset($from[$id]) && (is_int($from[$id]) || preg_match($exp, $from[$id])))
+    if(isset($from->$id) && (is_int($from->$id) || preg_match($exp, $from->$id)))
       return true;
-    else
-      return Input::err($id);
+
+    return Input::err($id);
   }
 
   public static function float($from, $id) {
     $exp = "/^[0-9]+(\.[0-9]+)?$/";
 
-    if(isset($from[$id]) && preg_match($exp, $from[$id]))
+    if(isset($from->$id) && preg_match($exp, $from->$id))
       return true;
-    else
-      return Input::err($id);
+
+    return Input::err($id);
   }
 
-  public static function text($from, $id, $maxlenght = 150) {
-    $exp = "/^[a-zA-Z0-9\/\-\.\*\(\)\[\]\{\}_ !@#àèìòùáéíóú]+$/";
+  public static function text($from, $id, $maxlength = 150) {
+    $exp = "/^[A-Za-z0-9\-\.\(\)_!~*'%]+$/";
 
-    if(isset($from[$id]) && preg_match($exp, $from[$id]) && strlen($from[$id]) <= $maxlenght)
+    if(isset($from->$id) && preg_match($exp, $from->$id) && strlen($from->$id) <= $maxlength)
       return true;
-    else
-      return Input::err($id);
+
+    return Input::err($id);
   }
 
   public static function date($from, $id) {
     $exp = "/^\d{4}\-\d{2}\-\d{2}$/";
 
-    if(isset($from[$id]) && preg_match($exp, $from[$id]))
-      return true;
-    else
-      return Input::err($id);
+    if(isset($from->$id)) {
+      $from->$id = rawurldecode($from->$id);
+      if(preg_match($exp, $from->$id))
+        return true;
+    }
+
+    return Input::err($id);
   }
 }
 
