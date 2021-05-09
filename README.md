@@ -80,7 +80,7 @@ It is useful for linux users, other operative systems need the script to be rewr
 
 ## Shortcuts
 |         **Key(s)**        |       **Effect**       |
-| ------------------------- | ---------------------- |
+|:-------------------------:| ---------------------- |
 | ``Space``                 | Toggle play/pause      |
 | ``M``                     | Toggle mute            |
 | ``F``                     | Toggle fullscreen      |
