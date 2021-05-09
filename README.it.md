@@ -78,6 +78,17 @@ Per ogni lezione è possibile trovare e velocizzare i silenzi, tramite ``ffmpeg`
 Per velocizzare questa operazione ho creato un piccolo [script in _bash_](https://github.com/padvincenzo/lesson-player/blob/main/scripts/silences.sh) che esegue il filtro su tutte le videolezioni presenti nella cartella in cui è eseguito, e salva il risultato in un file di testo dallo stesso nome della videolezione (va copiato ed eseguito dalla directory che contiene le lezioni).
 È utilizzabile solo da linux, per altri sistemi operativi è necessario modificarlo in base al linguaggio utilizzato.
 
+## Scorciatoie da tastiera
+* ``Spazio``: pausa/play;
+* ``M``: muto/sonoro;
+* ``F``: video a schermo intero;
+* ``Freccia a sinistra`` o ``A``: riavvolgi 5s;
+* ``Freccia a destra`` o ``D``: vai avanti di 5s;
+* ``Freccia in alto`` o ``W``: incrementa il volume;
+* ``Freccia in basso`` o ``S``: decrementa il volume;
+* ``]`` o ``+`` (o ``=``): aumenta la velocità di riproduzione;
+* ``[`` or ``-``: diminuisci la velocità di riproduzione.
+
 ## Contribuire
 Chiunque può contribuire a questo progetto, in diversi modi:
 * Traducendo il progetto in altre lingue (aggiungendo nuovi file nella cartella ``languages/``);
