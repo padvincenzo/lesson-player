@@ -23,7 +23,7 @@ include("_connect.php");
 <!DOCTYPE html>
 <html lang="<?php echo $langCode; ?>">
 	<head>
-		<title><?php echo $lang["credits"]; ?> | Lesson Player</title>
+		<title><?php echo $lang->credits; ?> | Lesson Player</title>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -44,13 +44,13 @@ include("_connect.php");
 
 	<body>
 
-		<h2><?php echo $lang["credits"]; ?></h2>
+		<h2><?php echo $lang->credits; ?></h2>
 		<ul>
 			<li>Using <a href="https://videojs.com/" target="_blank">video.js</a> version 7.11.8 and a modified version of <a href="https://github.com/videojs/themes" target="_blank">theme City</a></li>
 			<li>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></li>
 		</ul>
 
-		<button onclick="window.close();"><?php echo $lang["close"]; ?></button>
+		<button onclick="window.close();"><?php echo $lang->close; ?></button>
 
 	</body>
 </html>

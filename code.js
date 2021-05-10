@@ -16,6 +16,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+const DEBUG = false; // If set to TRUE, you will see data sent from/to the server, in the console.
+
 window.addEventListener("load", () => {
   Player.init();
   UI.init();
@@ -49,9 +51,16 @@ function request(_to, _data) {
     var xhr = new XMLHttpRequest();
     var json = JSON.stringify(_data);
 
+    if(DEBUG)
+      console.log(`Sending ${json} to ${_to}`);
+
     xhr.onreadystatechange = () => {
       if (xhr.readyState == 4 && xhr.status == 200) {
         try {
+
+          if(DEBUG)
+            console.log(`Received ${xhr.responseText} from ${_to}`);
+
           var response = JSON.parse(xhr.responseText);
 
           if(response.result) {
@@ -78,6 +87,10 @@ function request(_to, _data) {
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.send(json);
   });
+}
+
+function encodeString(_string) {
+  return encodeURIComponent(_string).replace(/[!'\(\)]/g, escape);
 }
 
 function randomString(_length = 4) {
@@ -112,10 +125,10 @@ function secondsToTime(seconds) {
 }
 
 function formatDate(_date) {
-  if(lang["dateFormat"] == "default")
+  if(lang.dateFormat == "default")
     return _date;
 
-  return lang["dateFormat"].replace(/\{[A-Z]+\}/g, (key) => {
+  return lang.dateFormat.replace(/\{[A-Z]+\}/g, (key) => {
     switch (key) {
       case "{YYYY}": {
         return _date.substring(0, 4);

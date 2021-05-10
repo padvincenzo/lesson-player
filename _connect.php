@@ -19,25 +19,28 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 include("languages/it.php");
 
-// Credenziali database
-$host = 'localhost';
-$user = 'root';
-$database = 'lessons';
-$psw = '';
+// Database credentials
+$host = "localhost";
+$user = "root";
+$password = "";
+$database = "lessons";
 
-$dbh = mysqli_connect($host, $user, $psw, $database);
+// Create connection
+$dbh = new mysqli($host, $user, $password, $database);
 
-if(!$dbh) {
-  Response::err($lang["dbConnectionFailed"]);
+// Check connection
+if ($dbh->connect_error) {
+  Response::err($lang->dbConnectionFailed);
   die();
 }
+
 
 class Input {
   public static $e = array();
 
   public static function err($id) {
     global $lang;
-    Input::$e[] = $lang[$id];
+    Input::$e[] = $lang->$id;
     return false;
   }
 
@@ -64,7 +67,7 @@ class Input {
   }
 
   public static function text($from, $id, $maxlength = 150) {
-    $exp = "/^[A-Za-z0-9\-\.\(\)_!~*'%]+$/";
+    $exp = "/^[A-Za-z0-9\-\.\*_~%]+$/";
 
     if(isset($from->$id) && preg_match($exp, $from->$id) && strlen($from->$id) <= $maxlength)
       return true;
@@ -89,36 +92,35 @@ class Response {
   public $response;
 
   function __construct($result = false, $message = "", $data = "") {
-    $this->response = array(
-      "result" => $result,
-      "message" => $message,
-      "data" => $data
-    );
+    $this->response = (object) [];
+    $this->response->result = $result;
+    $this->response->message = $message;
+    $this->response->data = $data;
   }
 
   function __destruct() {
     global $dbh;
-    mysqli_close($dbh);
+    $dbh->close();
     echo json_encode($this->response);
   }
 
   public static function err($message = null) {
     global $lang;
     if($message == null)
-      $message = $lang["failed"];
+      $message = $lang->failed;
     return new Response(false, $message);
   }
 
   public static function ok($message = null, $data = "") {
     global $lang;
     if($message == null)
-      $message = $lang["success"];
+      $message = $lang->success;
     return new Response(true, $message, $data);
   }
 
   public static function err_data() {
     global $lang;
-    return Response::err($lang["invalidData"] . ": " . join("; ", Input::$e));
+    return Response::err($lang->invalidData . ": " . join("; ", Input::$e));
   }
 }
 

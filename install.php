@@ -20,12 +20,14 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 include("_connect.php");
 
 // Load script
-$db_file = fopen("database.sql", "r") or die($lang["errorOpeningFile"]);
-$script = fread($db_file, filesize("database.sql"));
+$filename = "database.sql";
+$db_file = fopen($filename, "r") or die($lang->errorOpeningFile);
+$script = fread($db_file, filesize($filename));
 fclose($db_file);
 
 // Execute script
-$result = mysqli_multi_query($dbh, $script);
+$result = $dbh->multi_query($script);
+$dbh->close();
 ?>
 
 <!DOCTYPE html>
@@ -43,7 +45,7 @@ $result = mysqli_multi_query($dbh, $script);
 
 	<body>
 
-    <h3><?php echo $result ? $lang["installSuccessful"] : $lang["installFailed"] . "<br>" . mysqli_error($result); ?></h3>
+    <h3><?php echo $result ? $lang->installSuccessful : $lang->installFailed . "<br>" . $dbh->error(); ?></h3>
 
 	</body>
 </html>
