@@ -79,17 +79,17 @@ With the aim of saving time, I've written a little [script in _bash_](https://gi
 It is useful for linux users, other operative systems need the script to be rewritten in other languages.
 
 ## Shortcuts
-|         **Key(s)**        |       **Effect**       |
-|:-------------------------:| ---------------------- |
-| ``Space``                 | Toggle play/pause      |
-| ``M``                     | Toggle mute            |
-| ``F``                     | Toggle fullscreen      |
-| ``Arrow left`` or ``A``   | Go back 5s             |
-| ``Arrow right`` or ``D``  | Skip 5s                |
-| ``Arrow up`` or ``W``     | Increase volume        |
-| ``Arrow down`` or ``S``   | Decrease volume        |
-| ``]`` or ``+`` (or ``=``) | Increase playback rate |
-| ``[`` or ``-``            | Decrease playback rate |
+|         **Key(s)**        |           **Effect**          |
+|:-------------------------:| ----------------------------- |
+| ``Space``                 | Toggle play/pause             |
+| ``M``                     | Toggle mute                   |
+| ``F``                     | Toggle fullscreen             |
+| ``Arrow left`` or ``A``   | Go back 5s (1m with ``Ctrl``) |
+| ``Arrow right`` or ``D``  | Skip 5s (1m with ``Ctrl``)    |
+| ``Arrow up`` or ``W``     | Increase volume               |
+| ``Arrow down`` or ``S``   | Decrease volume               |
+| ``]`` or ``+`` (or ``=``) | Increase playback rate        |
+| ``[`` or ``-``            | Decrease playback rate        |
 
 ## Contributing
 Anyone can contribute to this project, in many ways:
