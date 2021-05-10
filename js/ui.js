@@ -35,6 +35,9 @@ class UI {
     });
 
     UI.retrieveClasses().then(() => {
+      if(UI.classes.length == 0)
+        return;
+
       UI.classes[0].dbGetNext().then(() => {
         if(UI.classes[0].nextLesson != null)
           UI.classes[0].nextLesson.play(false);

@@ -39,7 +39,7 @@ class Form {
     return label;
   }
 
-  appendText(_name = "", _value = "", _placeholder = "") {
+  appendText(_name = "", _value = "", _placeholder = "", _maxlength = 150) {
     let id = this.prefix + _name;
     this.appendLabel(id, _placeholder);
     const text = document.createElement("input");
@@ -48,7 +48,11 @@ class Form {
     text.id = id;
     text.value = _value;
     text.placeholder = _placeholder;
-    text.pattern = "[^&'\x22]+";
+
+    text.checkValidity = () => {
+      return encodeURIComponent(text.value).length <= _maxlength;
+    };
+
     this.wrapper.appendChild(text);
     this.form.push({name: _name, dom: text});
     return text;
@@ -62,6 +66,11 @@ class Form {
     date.name = _name;
     date.id = id;
     date.value = _value;
+
+    date.checkValidity = () => {
+      return true;
+    };
+
     this.wrapper.appendChild(date);
     this.form.push({name: _name, dom: date});
     return date;
@@ -74,6 +83,11 @@ class Form {
     text.name = _name;
     text.id = id;
     text.innerText = _value;
+
+    text.checkValidity = () => {
+      return true;
+    };
+
     this.wrapper.appendChild(text);
     this.form.push({name: _name, dom: text});
     return text;
@@ -100,16 +114,23 @@ class Form {
 
   values() {
     var values = {};
+    var errors = [];
 
     for(let i = 0; i < this.form.length; i++) {
       let name = this.form[i].name;
       let obj = this.form[i].dom;
 
-      if(! obj.validity.valid)
-        return null;
-
-      values[name] = obj.value;
+      if(! obj.validity.valid || ! obj.checkValidity()) {
+        errors.push(name);
+      } else {
+        values[name] = encodeURIComponent(obj.value);
+      }
     };
+
+    if(errors.length > 0) {
+      Message.view(`${lang.invalidData}: ${errors.join("; ")}.`);
+      return null;
+    }
 
     return values;
   }

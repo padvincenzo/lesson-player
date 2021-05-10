@@ -34,9 +34,9 @@ class Class {
 
   constructor(_data) {
     this.idclass = _data.idclass;
-    this.name = _data.name;
-    this.professor = _data.professor;
-    this.directory = _data.directory;
+    this.name = decodeURIComponent(_data.name);
+    this.professor = decodeURIComponent(_data.professor);
+    this.directory = decodeURIComponent(_data.directory);
     this.nLessons = _data.nLessons;
     this.nWatched = _data.nWatched ? _data.nWatched : 0;
     this.lessons = {};
@@ -123,6 +123,10 @@ class Class {
   }
 
   listLessons() {
+    if(this.lessons.length == 0) {
+      return;
+    }
+
     const lessons = document.createElement("div");
     lessons.setAttribute("class", "cards");
 
@@ -172,7 +176,6 @@ class Class {
     form.appendButton(lang.confirm, () => {
       let values = form.values();
       if(values == null) {
-        Message.view(lang.invalidData);
         return;
       }
 

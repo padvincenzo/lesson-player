@@ -37,12 +37,12 @@ class Lesson {
     this.idlesson = _data.idlesson;
     this.idclass = _data.idclass;
     this.dated = _data.dated;
-    this.title = _data.title;
-    this.professor = _data.professor;
+    this.title = decodeURIComponent(_data.title);
+    this.professor = decodeURIComponent(_data.professor);
     this.lastPlayed = _data.lastPlayed;
     this.mark = _data.mark;
     this.watched = _data.watched;
-    this.filename = _data.filename;
+    this.filename = decodeURIComponent(_data.filename);
     this.playbackRate = _data.playbackRate;
     this.parentClass = _class;
 
@@ -152,7 +152,6 @@ class Lesson {
     form.appendButton(lang.confirm, () => {
       let values = form.values();
       if(values == null) {
-        Message.view(lang.invalidData);
         return;
       }
 
@@ -181,7 +180,6 @@ class Lesson {
   static dbAdd(_data, _class) {
     _data.request = "add";
     _data.idclass = _class.idclass;
-    console.log(_data.idclass);
     return request("lesson.php", _data)
       .then((_lesson) => {
         _class.lessons.push(new Lesson(_lesson, _class));
@@ -204,12 +202,10 @@ class Lesson {
         this.filename = _lesson.filename;
 
         Message.view(lang.lessonEdited);
+        this.parentClass.show();
       })
       .catch((_message) => {
         Message.view(`${lang.failed}: ${_message}`);
-      })
-      .then(() => {
-        this.parentClass.show();
       });
   }
 
