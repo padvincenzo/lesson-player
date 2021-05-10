@@ -26,12 +26,15 @@ $password = "";
 $database = "lessons";
 
 // Create connection
-$dbh = new mysqli($host, $user, $password, $database);
+$dbh = new mysqli($host, $user, $password);
 
 // Check connection
 if ($dbh->connect_error) {
-  Response::err($lang->dbConnectionFailed);
-  die();
+  die($lang->dbConnectionFailed . ": " . $dbh->connect_error);
+}
+
+if(! $dbh->select_db($database)) {
+  die($lang->dbNotFound);
 }
 
 
@@ -100,7 +103,8 @@ class Response {
 
   function __destruct() {
     global $dbh;
-    $dbh->close();
+    if($dbh)
+      $dbh->close();
     echo json_encode($this->response);
   }
 
