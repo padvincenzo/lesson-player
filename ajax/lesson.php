@@ -232,7 +232,7 @@ function insertSilences() {
     return;
 
   $idlesson = $data->idlesson;
-  $silences = $data->silences;
+  $silences = rawurldecode($data->silences);
 
   // Remove any previous silences
   $result = $dbh->query("delete from silence where idlesson = '$idlesson';");
