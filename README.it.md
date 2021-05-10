@@ -85,8 +85,8 @@ Per velocizzare questa operazione ho creato un piccolo [script in _bash_](https:
 | ``M``                          | Muto/sonoro                            |
 | ``F``                          | Video a schermo intero                 |
 | ``Freccia a sinistra`` o ``A`` | Riavvolgi 5s                           |
-| ``Freccia a destra`` o ``D``   | Vai avanti di 5s                       |
-| ``Freccia in alto`` o ``W``    | Alza il volume                         |
+| ``Freccia a destra`` o ``D``   | Vai avanti di 5s (1m con ``Ctrl``)     |
+| ``Freccia in alto`` o ``W``    | Alza il volume (1m con ``Ctrl``)       |
 | ``Freccia in basso`` o ``S``   | Abbassa il volume                      |
 | ``]`` o ``+`` (o ``=``)        | Aumenta la velocità di riproduzione    |
 | ``[`` o ``-``                  | Diminuisci la velocità di riproduzione |
