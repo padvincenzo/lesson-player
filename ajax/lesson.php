@@ -62,10 +62,10 @@ function getNext() {
 
   $idclass = $data->idclass;
 
-  $result = mysqli_query($dbh, "select * from lesson where idclass = '$idclass' and watched = false order by dated asc limit 1;");
+  $result = $dbh->query("select * from lesson where idclass = '$idclass' and watched = false order by dated asc limit 1;");
   if($result) {
-    $lesson = mysqli_fetch_assoc($result);
-    return Response::ok($lang["nextLesson"], $lesson);
+    $lesson = $result->fetch_assoc();
+    return Response::ok($lang->nextLesson, $lesson);
   }
 
   return Response::err();
@@ -81,10 +81,10 @@ function getPrevious() {
   $idclass = $data->idclass;
 
   // !!! Watch out !!!
-  $result = mysqli_query($dbh, "select * from lesson where idclass = '$idclass' and watched = true order by dated desc limit 1;");
+  $result = $dbh->query("select * from lesson where idclass = '$idclass' and watched = true order by dated desc limit 1;");
   if($result) {
-    $lesson = mysqli_fetch_assoc($result);
-    return Response::ok($lang["previousLesson"], $lesson);
+    $lesson = $result->fetch_assoc();
+    return Response::ok($lang->previousLesson, $lesson);
   }
 
   return Response::err();
@@ -101,7 +101,7 @@ function markLesson() {
   $idlesson = $data->idlesson;
   $mark = $data->mark;
 
-  $result = mysqli_query($dbh, "update lesson set mark = '$mark', lastPlayed = now() where idlesson = '$idlesson';");
+  $result = $dbh->query("update lesson set mark = '$mark', lastPlayed = now() where idlesson = '$idlesson';");
   return $result ? Response::ok() : Response::err();
 }
 
@@ -116,7 +116,7 @@ function changeRate() {
   $idlesson = $data->idlesson;
   $rate = $data->rate;
 
-  $result = mysqli_query($dbh, "update lesson set playbackRate = '$rate' where idlesson = '$idlesson';");
+  $result = $dbh->query("update lesson set playbackRate = '$rate' where idlesson = '$idlesson';");
   return $result ? Response::ok() : Response::err();
 }
 
@@ -129,9 +129,9 @@ function getSilences() {
 
   $idlesson = $data->idlesson;
 
-  $result = mysqli_query($dbh, "select t_start, t_end from silence where idlesson = '$idlesson' order by t_start asc;");
-  $silences = mysqli_fetch_all($result, MYSQLI_ASSOC);
-  return Response::ok($lang["silencesList"], $silences);
+  $result = $dbh->query("select t_start, t_end from silence where idlesson = '$idlesson' order by t_start asc;");
+  $silences = $result->fetch_all(MYSQLI_ASSOC);
+  return Response::ok($lang->silencesList, $silences);
 }
 
 function setAsWatched() {
@@ -143,7 +143,7 @@ function setAsWatched() {
 
   $idlesson = $data->idlesson;
 
-  $result = mysqli_query($dbh, "update lesson set mark = 0, watched = true, lastPlayed = now() where idlesson = '$idlesson';");
+  $result = $dbh->query("update lesson set mark = 0, watched = true, lastPlayed = now() where idlesson = '$idlesson';");
   return $result ? Response::ok() : Response::err();
 }
 
@@ -164,10 +164,10 @@ function editLesson() {
   $professor = $data->professor;
   $filename = $data->filename;
 
-  $result = mysqli_query($dbh, "update lesson set dated = '$dated', title = '$title', professor = '$professor', filename = '$filename' where idlesson = '$idlesson';");
+  $result = $dbh->query("update lesson set dated = '$dated', title = '$title', professor = '$professor', filename = '$filename' where idlesson = '$idlesson';");
   if($result) {
     insertSilences();
-    return Response::ok($lang["lessonEdited"], array(
+    return Response::ok($lang->lessonEdited, array(
       "dated" => $dated,
       "title" => $title,
       "professor" => $professor,
@@ -175,7 +175,7 @@ function editLesson() {
     ));
   }
 
-  return Response::err($lang["lessonNotEdited"]);
+  return Response::err($lang->lessonNotEdited);
 }
 
 function addLesson() {
@@ -195,11 +195,11 @@ function addLesson() {
   $professor = $data->professor;
   $filename = $data->filename;
 
-  $result = mysqli_query($dbh, "insert into lesson (idclass, dated, title, professor, filename) values ('$idclass', '$dated', '$title', '$professor', '$filename');");
+  $result = $dbh->query("insert into lesson (idclass, dated, title, professor, filename) values ('$idclass', '$dated', '$title', '$professor', '$filename');");
   if($result) {
-    $data->idlesson = $idlesson = mysqli_insert_id($dbh);
+    $data->idlesson = $idlesson = $dbh->insert_id();
     insertSilences();
-    return Response::ok($lang["lessonAdded"], array(
+    return Response::ok($lang->lessonAdded, array(
       "idclass" => $idclass,
       "idlesson" => $idlesson,
       "dated" => $dated,
@@ -209,7 +209,7 @@ function addLesson() {
     ));
   }
 
-  return Response::err($lang["lessonNotAdded"]);
+  return Response::err($lang->lessonNotAdded);
 }
 
 function listLessons() {
@@ -220,9 +220,9 @@ function listLessons() {
     return Response::err_data();
 
   $idclass = $data->idclass;
-  $result = mysqli_query($dbh, "select * from lesson where idclass = '$idclass' order by dated, idlesson;");
-  $lessons = mysqli_fetch_all($result, MYSQLI_ASSOC);
-  return Response::ok($lang["lessonList"], $lessons);
+  $result = $dbh->query("select * from lesson where idclass = '$idclass' order by dated, idlesson;");
+  $lessons = $result->fetch_all(MYSQLI_ASSOC);
+  return Response::ok($lang->lessonList, $lessons);
 }
 
 function insertSilences() {
@@ -235,7 +235,7 @@ function insertSilences() {
   $silences = $data->silences;
 
   // Remove any previous silences
-  $result = mysqli_query($dbh, "delete from silence where idlesson = '$idlesson';");
+  $result = $dbh->query("delete from silence where idlesson = '$idlesson';");
 
   // Arbitrary margins
   $marginLeft = 0.25; // seconds after silence starts
@@ -256,7 +256,7 @@ function insertSilences() {
 
   if(count($timestamps) > 0) {
     // echo $header . join(", ", $timestamps);
-    $result = mysqli_query($dbh, "insert into silence (idlesson, t_start, t_end) values" . join(", ", $timestamps));
+    $result = $dbh->query("insert into silence (idlesson, t_start, t_end) values" . join(", ", $timestamps));
   }
 }
 

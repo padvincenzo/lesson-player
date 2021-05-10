@@ -47,7 +47,7 @@ function editClass() {
 
   Input::number($data, "idclass");
   Input::text($data, "className", 150);
-  Input::text($data, "professor", 150);
+  Input::vtext($data, "professor", 150);
   Input::text($data, "directory", 200);
   if(Input::errors())
     return Response::err_data();
@@ -57,16 +57,16 @@ function editClass() {
   $professor = $data->professor;
   $directory = toDirectory($data->directory);
 
-  $result = mysqli_query($dbh, "update class set name = '$className', professor = '$professor', directory = '$directory' where idclass = '$idclass';");
+  $result = $dbh->query("update class set name = '$className', professor = '$professor', directory = '$directory' where idclass = '$idclass';");
   if($result) {
-    return Response::ok($lang["classEdited"], array(
+    return Response::ok($lang->classEdited, array(
       "name" => $className,
       "professor" => $professor,
       "directory" => $directory
     ));
   }
 
-  return Response::err($lang["classNotEdited"]);
+  return Response::err($lang->classNotEdited);
 }
 
 function addClass() {
@@ -82,10 +82,10 @@ function addClass() {
   $professor = $data->professor;
   $directory = toDirectory($data->directory);
 
-  $result = mysqli_query($dbh, "insert into class (name, professor, directory) values ('$className', '$professor', '$directory');");
+  $result = $dbh->query("insert into class (name, professor, directory) values ('$className', '$professor', '$directory');");
   if($result) {
-    return Response::ok($lang["classAdded"], array(
-      "idclass" => mysqli_insert_id($dbh),
+    return Response::ok($lang->classAdded, array(
+      "idclass" => $dbh->insert_id(),
       "name" => $className,
       "professor" => $professor,
       "directory" => $directory,
@@ -93,18 +93,18 @@ function addClass() {
     ));
   }
 
-  return Response::err($lang["classNotAdded"]);
+  return Response::err($lang->classNotAdded);
 }
 
 function listClasses() {
   global $dbh, $lang;
-  $result = mysqli_query($dbh, "select c.idclass, c.name, c.professor, c.directory, count(l.idclass) as nLessons, sum(l.watched) as nWatched
+  $result = $dbh->query("select c.idclass, c.name, c.professor, c.directory, count(l.idclass) as nLessons, sum(l.watched) as nWatched
     from class c left join lesson l
     on l.idclass = c.idclass
     group by c.idclass
     order by l.lastPlayed desc;");
-  $classes = mysqli_fetch_all($result, MYSQLI_ASSOC);
-  return Response::ok($lang["classList"], $classes);
+  $classes = $result->fetch_all(MYSQLI_ASSOC);
+  return Response::ok($lang->classList, $classes);
 }
 
 ?>
