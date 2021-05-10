@@ -88,13 +88,13 @@ class Player {
         case "ArrowLeft":
         case "KeyA": {
           e.preventDefault();
-          Player.changeTime(-5);
+          Player.changeTime(e.ctrlKey || e.metaKey ? -60 : -5);
           break;
         }
         case "ArrowRight":
         case "KeyD": {
           e.preventDefault();
-          Player.changeTime(+5);
+          Player.changeTime(e.ctrlKey || e.metaKey ? +60 : +5);
           break;
         }
         case "ArrowUp":
