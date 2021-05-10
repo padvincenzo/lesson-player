@@ -37,6 +37,7 @@ $lang->dataMiss           = "Dati mancanti";
 $lang->dated              = "Data";
 $lang->dateFormat         = "{D}/{MM}/{YYYY}";
 $lang->dbConnectionFailed = "Connessione al database fallita.";
+$lang->dbNotFound         = "Il database non è stato trovato.";
 $lang->defaultLessonTitle = "Lezione del {dated}";
 $lang->edit               = "Modifica";
 $lang->errorOpeningFile   = "Errore nell'apertura del file";
