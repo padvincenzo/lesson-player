@@ -50,7 +50,7 @@ class Form {
     text.placeholder = _placeholder;
 
     text.checkValidity = () => {
-      return encodeURIComponent(text.value).length <= _maxlength;
+      return encodeString(text.value).length <= _maxlength;
     };
 
     this.wrapper.appendChild(text);
@@ -123,7 +123,7 @@ class Form {
       if(! obj.validity.valid || ! obj.checkValidity()) {
         errors.push(name);
       } else {
-        values[name] = encodeURIComponent(obj.value);
+        values[name] = encodeString(obj.value);
       }
     };
 
