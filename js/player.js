@@ -138,8 +138,7 @@ class Player {
       class: null,
       date: null,
       professor: null,
-      title: null,
-      description: null
+      title: null
     };
 
     Object.keys(Player.overlayData).forEach((id) => {
@@ -152,6 +151,7 @@ class Player {
     Player.overlay.onclick = () => {
       Player.hideOverlay();
       Player.play();
+      Player.userActive(true);
     };
   }
 
@@ -246,6 +246,7 @@ class Player {
   }
 
   static hide() {
+    Player.pause();
     Player.background.style.display = "none";
   }
 
@@ -267,7 +268,6 @@ class Player {
     Player.overlayData.date.innerText = formatDate(Player.lesson.dated);
     Player.overlayData.professor.innerText = Player.lesson.professor;
     Player.overlayData.title.innerText = Player.lesson.title;
-    Player.overlayData.description.innerText = "";
 
     document.title = `${Player.lesson.parentClass.name}: ${Player.lesson.title}`;
 
@@ -280,6 +280,7 @@ class Player {
       return;
 
     Player.background.focus();
+    Player.hideOverlay();
     Player.player.play();
   }
 
