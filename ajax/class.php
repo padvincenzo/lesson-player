@@ -102,7 +102,7 @@ function listClasses() {
     from class c left join lesson l
     on l.idclass = c.idclass
     group by c.idclass
-    order by l.lastPlayed desc;");
+    order by max(l.lastPlayed) desc;");
   $classes = $result->fetch_all(MYSQLI_ASSOC);
   return Response::ok($lang->classList, $classes);
 }
