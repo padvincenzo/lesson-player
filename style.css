@@ -319,7 +319,8 @@ button {
 }
 
 button.btnSmall {
-  width: 7em;
+  width: auto;
+  min-width: 7em;
   line-height: 1.8em;
   font-size: 1em;
 }
