@@ -32,6 +32,8 @@ class Lesson {
 
   btnPlay = null;
   btnEdit = null;
+  btnSetAsWatched = null;
+  btnSetToBeWatched = null;
 
   constructor(_data, _class) {
     this.idlesson = _data.idlesson;
@@ -48,6 +50,8 @@ class Lesson {
 
     this.btnPlay = Button.small(this.mark == 0 ? lang.play : lang.resume, () => { this.play(); });
     this.btnEdit = Button.small(lang.edit, () => { Lesson.form(this); });
+    this.btnSetAsWatched = Button.small(lang.setAsWatched, () => { this.dbSetAsWatched(); });
+    this.btnSetToBeWatched = Button.small(lang.setToBeWatched, () => { this.dbSetToBeWatched(); });
   }
 
   url() {
@@ -80,6 +84,7 @@ class Lesson {
     buttons.setAttribute("class", "buttons");
     buttons.appendChild(this.btnPlay.btn);
     buttons.appendChild(this.btnEdit.btn);
+    buttons.appendChild(this.watched == true ? this.btnSetToBeWatched.btn : this.btnSetAsWatched.btn);
 
     // card.appendChild(dated);
     card.appendChild(cardTitle);
@@ -197,9 +202,9 @@ class Lesson {
     return request("lesson.php", _data)
       .then((_lesson) => {
         this.dated = _lesson.dated;
-        this.title = _lesson.title;
-        this.professor = _lesson.professor;
-        this.filename = _lesson.filename;
+        this.title = decodeURIComponent(_lesson.title);
+        this.professor = decodeURIComponent(_lesson.professor);
+        this.filename = decodeURIComponent(_lesson.filename);
 
         Message.view(lang.lessonEdited);
         this.parentClass.show();
@@ -219,6 +224,11 @@ class Lesson {
   dbMark(_mark) {
     this.mark = _mark;
     return request("lesson.php", {request: "mark", idlesson: this.idlesson, mark: _mark});
+  }
+
+  dbSetToBeWatched() {
+    this.watched = false;
+    return request("lesson.php", {request: "setToBeWatched", idlesson: this.idlesson});
   }
 
   dbSetAsWatched() {

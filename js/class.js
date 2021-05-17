@@ -221,9 +221,9 @@ class Class {
     _data.idclass = this.idclass;
     return request("class.php", _data)
       .then((_class) => {
-        this.name = _class.name;
-        this.professor = _class.professor;
-        this.directory = _class.directory;
+        this.name = decodeURIComponent(_class.name);
+        this.professor = decodeURIComponent(_class.professor);
+        this.directory = decodeURIComponent(_class.directory);
 
         Message.view(lang.classEdited);
         UI.listClasses();
