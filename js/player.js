@@ -58,6 +58,7 @@ class Player {
       "requestFullscreen",
       "exitFullscreen",
       "playbackRate",
+      "defaultPlaybackRate",
       "volume",
       "currentTime"
     ];
@@ -67,7 +68,6 @@ class Player {
         if(Player.lesson == null)
           return;
 
-        Player.background.focus();
         return Player.player[wrapperFunctions[i]](_value);
       };
     }
@@ -198,7 +198,6 @@ class Player {
         return;
 
       let rate = Player.playbackRate();
-      console.log(`rate: ${rate}`);
       if(rate != Player.fastRate && rate != Player.lesson.playbackRate) {
         Player.lesson.dbRate(rate);
       }
@@ -293,8 +292,6 @@ class Player {
     Player.lesson = _lesson;
 
     Player.src(Player.lesson.url());
-    Player.currentTime(Player.lesson.mark);
-    Player.playbackRate(Player.lesson.playbackRate);
 
     Player.overlayData.class.innerText = Player.lesson.parentClass.name;
     Player.overlayData.date.innerText = formatDate(Player.lesson.dated);
@@ -302,6 +299,9 @@ class Player {
     Player.overlayData.title.innerText = Player.lesson.title;
 
     document.title = `${Player.lesson.parentClass.name}: ${Player.lesson.title}`;
+
+    Player.currentTime(Player.lesson.mark);
+    Player.defaultPlaybackRate(Player.lesson.playbackRate);
 
     if(_autoplay)
       Player.play();
