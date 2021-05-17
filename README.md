@@ -36,7 +36,7 @@ Watch your video lessons on LAN, do not miss the mark and speed up during silenc
 
   * Note: folders and videos inside ``classes`` may also be links.
   * Open the browser at ``http://localhost/lesson-player/``;
-  * Insert all your classes: name, professor, folder name (e.g.: ``classes/Physics I/``);
+  * Insert all your classes: name, professor, folder name (e.g.: ``classes/Physics I/``, notice the ``/`` at the end);
   * Go back to the homepage:
     * Select a class and press ``Show`` (_``Mostra`` in italian_);
     * Insert all lessons of the selected class: date of the lesson, title, file name (e.g.: ``Lesson 01.mp4``);
