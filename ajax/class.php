@@ -47,7 +47,7 @@ function editClass() {
 
   Input::number($data, "idclass");
   Input::text($data, "className", 150);
-  Input::vtext($data, "professor", 150);
+  Input::text($data, "professor", 150);
   Input::text($data, "directory", 200);
   if(Input::errors())
     return Response::err_data();

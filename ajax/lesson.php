@@ -35,6 +35,9 @@ switch($request) {
   case "mark": {
     return markLesson();
   }
+  case "setToBeWatched": {
+    return setToBeWatched();
+  }
   case "setAsWatched": {
     return setAsWatched();
   }
@@ -132,6 +135,19 @@ function getSilences() {
   $result = $dbh->query("select t_start, t_end from silence where idlesson = '$idlesson' order by t_start asc;");
   $silences = $result->fetch_all(MYSQLI_ASSOC);
   return Response::ok($lang->silencesList, $silences);
+}
+
+function setToBeWatched() {
+  global $dbh, $lang, $data;
+
+  Input::number($data, "idlesson");
+  if(Input::errors())
+    return Response::err_data();
+
+  $idlesson = $data->idlesson;
+
+  $result = $dbh->query("update lesson set mark = 0, watched = false where idlesson = '$idlesson';");
+  return $result ? Response::ok() : Response::err();
 }
 
 function setAsWatched() {
