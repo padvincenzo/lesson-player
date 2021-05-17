@@ -34,12 +34,43 @@ class Player {
     Player.background = document.getElementById("my-p-background");
 
     Player.player.el().parentNode.style.position = "relative";
+    Player.initWrapperFunctions();
     Player.initShortcuts();
     Player.initOverlay();
     Player.initNotifier();
     Player.initLessonUpdater();
     Player.removeTabIndexes();
     Player.initUserActivity();
+  }
+
+  static initWrapperFunctions() {
+    let wrapperFunctions = [
+      "src",
+      "play",
+      "pause",
+      "paused",
+      "userActive",
+      "seeking",
+      "currentTime",
+      "duration",
+      "muted",
+      "isFullscreen",
+      "requestFullscreen",
+      "exitFullscreen",
+      "playbackRate",
+      "volume",
+      "currentTime"
+    ];
+
+    for(let i = 0; i < wrapperFunctions.length; i++) {
+      Player[wrapperFunctions[i]] = (_value) => {
+        if(Player.lesson == null)
+          return;
+
+        Player.background.focus();
+        return Player.player[wrapperFunctions[i]](_value);
+      };
+    }
   }
 
   static initShortcuts() {
@@ -167,6 +198,7 @@ class Player {
         return;
 
       let rate = Player.playbackRate();
+      console.log(`rate: ${rate}`);
       if(rate != Player.fastRate && rate != Player.lesson.playbackRate) {
         Player.lesson.dbRate(rate);
       }
@@ -260,9 +292,9 @@ class Player {
 
     Player.lesson = _lesson;
 
-    Player.player.src(Player.lesson.url());
+    Player.src(Player.lesson.url());
     Player.currentTime(Player.lesson.mark);
-    Player.player.defaultPlaybackRate(Player.lesson.playbackRate);
+    Player.playbackRate(Player.lesson.playbackRate);
 
     Player.overlayData.class.innerText = Player.lesson.parentClass.name;
     Player.overlayData.date.innerText = formatDate(Player.lesson.dated);
@@ -273,106 +305,6 @@ class Player {
 
     if(_autoplay)
       Player.play();
-  }
-
-  static play() {
-    if(Player.lesson == null)
-      return;
-
-    Player.background.focus();
-    Player.hideOverlay();
-    Player.player.play();
-  }
-
-  static pause() {
-    if(Player.lesson == null)
-      return;
-
-    return Player.player.pause();
-  }
-
-  static paused() {
-    if(Player.lesson == null)
-      return;
-
-    return Player.player.paused();
-  }
-
-  static userActive(_active = null) {
-    if(Player.lesson == null)
-      return;
-
-    return _active == null ? Player.player.userActive() : Player.player.userActive(_active);
-  }
-
-  static seeking() {
-    if(Player.lesson == null)
-      return;
-
-    return Player.player.seeking();
-  }
-
-  static currentTime(_time = null) {
-    if(Player.lesson == null)
-      return;
-
-    return _time == null ? Player.player.currentTime() : Player.player.currentTime(_time);
-  }
-
-  static duration() {
-    if(Player.lesson == null)
-      return;
-
-    return Player.player.duration();
-  }
-
-  static muted(_muted = null) {
-    if(Player.lesson == null)
-      return;
-
-    return _muted == null ? Player.player.muted() : Player.player.muted(_muted);
-  }
-
-  static isFullscreen() {
-    if(Player.lesson == null)
-      return;
-
-    return Player.player.isFullscreen();
-  }
-
-  static exitFullscreen() {
-    if(Player.lesson == null)
-      return;
-
-    return Player.player.exitFullscreen();
-  }
-
-  static requestFullscreen() {
-    if(Player.lesson == null)
-      return;
-
-    return Player.player.requestFullscreen();
-  }
-
-  static playbackRate(_rate = null) {
-    if(Player.lesson == null)
-      return;
-
-    return _rate == null ? Player.player.playbackRate() : Player.player.playbackRate(_rate);
-  }
-
-  static volume(_volume = null) {
-    if(Player.lesson == null)
-      return;
-
-    return _volume == null ? Player.player.volume() : Player.player.volume(_volume);
-  }
-
-  static currentTime(_time = null) {
-    if(Player.lesson == null)
-      return;
-
-    return _time == null ? Player.player.currentTime() : Player.player.currentTime(_time);
   }
 
   static appendLayer(_id) {
