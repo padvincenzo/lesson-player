@@ -220,6 +220,11 @@ class Lesson {
         this.professor = decodeURIComponent(_lesson.professor);
         this.filename = decodeURIComponent(_lesson.filename);
 
+        if(this.card != null) {
+          this.card.title.innerText = this.title;
+          this.card.professor.innerText = this.professor;
+        }
+
         Message.view(lang.lessonEdited);
         this.parentClass.show();
       })
@@ -242,19 +247,23 @@ class Lesson {
 
   dbSetToBeWatched() {
     this.watched = false;
-    this.card.dom.classList.remove("watched");
-    this.btnSetAsWatched.btn.style.display = "inline-block";
-    this.btnSetToBeWatched.btn.style.display = "none";
-    this.card.progress.innerText = lang.toBeWatched;
+    if(this.card != null) {
+      this.card.dom.classList.remove("watched");
+      this.btnSetAsWatched.btn.style.display = "inline-block";
+      this.btnSetToBeWatched.btn.style.display = "none";
+      this.card.progress.innerText = lang.toBeWatched;
+    }
     return request("lesson.php", {request: "setToBeWatched", idlesson: this.idlesson});
   }
 
   dbSetAsWatched() {
     this.watched = true;
-    this.card.dom.classList.add("watched");
-    this.btnSetAsWatched.btn.style.display = "none";
-    this.btnSetToBeWatched.btn.style.display = "inline-block";
-    this.card.progress.innerText = lang.watched;
+    if(this.card != null) {
+      this.card.dom.classList.add("watched");
+      this.btnSetAsWatched.btn.style.display = "none";
+      this.btnSetToBeWatched.btn.style.display = "inline-block";
+      this.card.progress.innerText = lang.watched;
+    }
     return request("lesson.php", {request: "setAsWatched", idlesson: this.idlesson});
   }
 
