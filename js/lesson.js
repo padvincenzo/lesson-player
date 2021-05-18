@@ -30,6 +30,8 @@ class Lesson {
   silences = null;
   playbackRate = null;
 
+  card = null;
+
   btnPlay = null;
   btnEdit = null;
   btnSetAsWatched = null;
@@ -47,71 +49,73 @@ class Lesson {
     this.filename = decodeURIComponent(_data.filename);
     this.playbackRate = _data.playbackRate;
     this.parentClass = _class;
-
-    this.btnPlay = Button.small(this.mark == 0 ? lang.play : lang.resume, () => { this.play(); });
-    this.btnEdit = Button.small(lang.edit, () => { Lesson.form(this); });
-    this.btnSetAsWatched = Button.small(lang.setAsWatched, () => { this.dbSetAsWatched(); });
-    this.btnSetToBeWatched = Button.small(lang.setToBeWatched, () => { this.dbSetToBeWatched(); });
   }
 
   url() {
     return this.parentClass.directory + this.filename;
   }
 
-  toCard() {
-    var card = document.createElement("div");
-    card.classList.add("card", "lesson");
-
-    // const dated = document.createElement("div");
-    // dated.innerText = this.dated;
-
-    // const cardTitle = document.createElement("div");
-    // cardTitle.setAttribute("class", "title");
-
-    var title = document.createElement("div");
-    title.innerText = this.title;
-    title.classList.add("title");
-    card.appendChild(title);
-
-    var professor = document.createElement("div");
-    professor.innerText = this.professor;
-    professor.classList.add("professor");
-    card.appendChild(professor);
-
-    // cardTitle.appendChild(title);
-    // cardTitle.appendChild(professor);
-
-    if(this.watched == true) {
-      card.classList.add("watched");
+  createCard() {
+    if(this.card != null) {
+      return;
     }
 
-    var progress = document.createElement("div");
-    progress.innerText = this.watched == true ? lang.watched : (this.mark > 0 ? lang.started : lang.toBeWatched);
-    progress.classList.add("progress");
-    card.appendChild(progress);
+    this.btnPlay = Button.small(this.mark == 0 ? lang.play : lang.resume, () => { this.play(); });
+    this.btnEdit = Button.small(lang.edit, () => { Lesson.form(this); });
+    this.btnSetAsWatched = Button.small(lang.setAsWatched, () => { this.dbSetAsWatched(); });
+    this.btnSetToBeWatched = Button.small(lang.setToBeWatched, () => { this.dbSetToBeWatched(); });
 
-    var buttons = document.createElement("div");
-    buttons.setAttribute("class", "buttons");
-    buttons.appendChild(this.btnPlay.btn);
-    buttons.appendChild(this.btnEdit.btn);
-    buttons.appendChild(this.watched == true ? this.btnSetToBeWatched.btn : this.btnSetAsWatched.btn);
-    card.appendChild(buttons);
+    this.card = {};
 
-    // card.appendChild(dated);
-    // card.appendChild(cardTitle);
+    this.card.dom = document.createElement("div");
+    this.card.dom.classList.add("card", "lesson");
 
+    this.card.title = document.createElement("div");
+    this.card.title.innerText = this.title;
+    this.card.title.classList.add("title");
+    this.card.dom.appendChild(this.card.title);
 
-    card.addEventListener("dblclick", () => {
+    this.card.professor = document.createElement("div");
+    this.card.professor.innerText = this.professor;
+    this.card.professor.classList.add("professor");
+    this.card.dom.appendChild(this.card.professor);
+
+    this.card.progress = document.createElement("div");
+    this.card.progress.innerText = this.watched == true ? lang.watched : (this.mark > 0 ? lang.started : lang.toBeWatched);
+    this.card.progress.classList.add("progress");
+    this.card.dom.appendChild(this.card.progress);
+
+    this.card.buttons = document.createElement("div");
+    this.card.buttons.setAttribute("class", "buttons");
+    this.card.buttons.appendChild(this.btnPlay.btn);
+    this.card.buttons.appendChild(this.btnEdit.btn);
+    this.card.buttons.appendChild(this.btnSetToBeWatched.btn);
+    this.card.buttons.appendChild(this.btnSetAsWatched.btn);
+    this.card.dom.appendChild(this.card.buttons);
+
+    if(this.watched == true) {
+      this.card.dom.classList.add("watched");
+      this.btnSetAsWatched.btn.style.display = "none";
+    } else {
+      this.btnSetToBeWatched.btn.style.display = "none";
+    }
+
+    this.card.dom.addEventListener("dblclick", () => {
       this.play();
     });
 
-    card.addEventListener("keyup", (e) => {
+    this.card.dom.addEventListener("keyup", (e) => {
       if(e.code == "Enter") {
         this.play();
       }
     });
+  }
 
-    return card;
+  toCard() {
+    if(this.card == null)
+      this.createCard();
+
+    return this.card.dom;
   }
 
   play(_autoplay = true) {
@@ -238,11 +242,19 @@ class Lesson {
 
   dbSetToBeWatched() {
     this.watched = false;
+    this.card.dom.classList.remove("watched");
+    this.btnSetAsWatched.btn.style.display = "inline-block";
+    this.btnSetToBeWatched.btn.style.display = "none";
+    this.card.progress.innerText = lang.toBeWatched;
     return request("lesson.php", {request: "setToBeWatched", idlesson: this.idlesson});
   }
 
   dbSetAsWatched() {
     this.watched = true;
+    this.card.dom.classList.add("watched");
+    this.btnSetAsWatched.btn.style.display = "none";
+    this.btnSetToBeWatched.btn.style.display = "inline-block";
+    this.card.progress.innerText = lang.watched;
     return request("lesson.php", {request: "setAsWatched", idlesson: this.idlesson});
   }
 
