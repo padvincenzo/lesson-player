@@ -59,37 +59,47 @@ class Lesson {
   }
 
   toCard() {
-    const card = document.createElement("div");
-    card.setAttribute("class", "card lesson");
+    var card = document.createElement("div");
+    card.classList.add("card", "lesson");
 
     // const dated = document.createElement("div");
     // dated.innerText = this.dated;
 
-    const cardTitle = document.createElement("div");
-    cardTitle.setAttribute("class", "title");
+    // const cardTitle = document.createElement("div");
+    // cardTitle.setAttribute("class", "title");
 
-    const title = document.createElement("div");
+    var title = document.createElement("div");
     title.innerText = this.title;
-    const professor = document.createElement("div");
+    title.classList.add("title");
+    card.appendChild(title);
+
+    var professor = document.createElement("div");
     professor.innerText = this.professor;
+    professor.classList.add("professor");
+    card.appendChild(professor);
 
-    cardTitle.appendChild(title);
-    cardTitle.appendChild(professor);
+    // cardTitle.appendChild(title);
+    // cardTitle.appendChild(professor);
 
-    const progress = document.createElement("div");
+    if(this.watched == true) {
+      card.classList.add("watched");
+    }
+
+    var progress = document.createElement("div");
     progress.innerText = this.watched == true ? lang.watched : (this.mark > 0 ? lang.started : lang.toBeWatched);
-    progress.setAttribute("class", "progress");
+    progress.classList.add("progress");
+    card.appendChild(progress);
 
-    const buttons = document.createElement("div");
+    var buttons = document.createElement("div");
     buttons.setAttribute("class", "buttons");
     buttons.appendChild(this.btnPlay.btn);
     buttons.appendChild(this.btnEdit.btn);
     buttons.appendChild(this.watched == true ? this.btnSetToBeWatched.btn : this.btnSetAsWatched.btn);
+    card.appendChild(buttons);
 
     // card.appendChild(dated);
-    card.appendChild(cardTitle);
-    card.appendChild(progress);
-    card.appendChild(buttons);
+    // card.appendChild(cardTitle);
+
 
     card.addEventListener("dblclick", () => {
       this.play();

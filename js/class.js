@@ -48,32 +48,27 @@ class Class {
   }
 
   toCard() {
-    const card = document.createElement("div");
-    card.setAttribute("class", "card class");
+    var card = document.createElement("div");
+    card.classList.add("card", "class");
 
-    const title = document.createElement("div");
-    title.setAttribute("class", "title");
-
-    const name = document.createElement("div");
+    var name = document.createElement("div");
     name.innerText = this.name;
-    const professor = document.createElement("div");
+    card.appendChild(name);
+
+    var professor = document.createElement("div");
     professor.innerText = this.professor;
+    card.appendChild(professor);
 
-    title.appendChild(name);
-    title.appendChild(professor);
-
-    const progress = document.createElement("div");
+    var progress = document.createElement("div");
     progress.innerText = `${this.nWatched} / ${this.nLessons}`;
-    progress.setAttribute("class", "progress");
+    progress.classList.add("progress");
+    card.appendChild(progress);
 
-    const buttons = document.createElement("div");
+    var buttons = document.createElement("div");
     buttons.setAttribute("class", "buttons");
     buttons.appendChild(this.btnResume.btn);
     buttons.appendChild(this.btnShow.btn);
     buttons.appendChild(this.btnEdit.btn);
-
-    card.appendChild(title);
-    card.appendChild(progress);
     card.appendChild(buttons);
 
     card.addEventListener("dblclick", () => {
