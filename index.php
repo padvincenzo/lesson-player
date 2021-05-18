@@ -35,7 +35,11 @@ include("_connect.php");
 		<link href="video.js@7.11.8/video-js.min.css" rel="stylesheet">
 		<link href="video.js@7.11.8/theme.css" rel="stylesheet">
 
-		<link href="style.css" rel="stylesheet">
+		<link href="style/style.css" rel="stylesheet">
+		<link href="style/message.css" rel="stylesheet">
+		<link href="style/player.css" rel="stylesheet">
+		<link href="style/cards.css" rel="stylesheet">
+		<link href="style/form.css" rel="stylesheet">
 
 		<script type="text/javascript">
 			<?php echo "const lang = " . json_encode($lang) . ";"; ?>
