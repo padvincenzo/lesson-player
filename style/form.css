@@ -1,0 +1,67 @@
+/*
+Lesson Player
+View your lessons, do not miss the mark.
+
+Copyright (C) 2021  Vincenzo Padula
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
+form {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  padding: 0 10vw;
+}
+
+label {
+  text-align: left;
+  margin-top: 1em;
+  margin-bottom: -0.5em;
+}
+
+input, textarea {
+  margin: 1em 0;
+  color: var(--color-primary);
+  border-color: var(--color-secondary);
+  border-width: 0 0 0.2em 0;
+  border-style: solid;
+  border-radius: 0 0 0.3em 0.3em;
+  background-color: var(--color-secondary-opaque);
+  box-sizing: border-box;
+  width: 100%;
+}
+
+input {
+  text-align: center;
+  font-size: 1.2em;
+  line-height: 1.6em;
+  font-family: inherit;
+}
+
+textarea {
+  padding: 1em;
+  font-family: monospace;
+  height: 8em;
+  resize: vertical;
+}
+
+::-webkit-input-placeholder { color: var(--color-primary-opaque); }
+::-moz-placeholder { color: var(--color-primary-opaque); }
+:-ms-input-placeholder { color: var(--color-primary-opaque); }
+:-moz-placeholder { color: var(--color-primary-opaque); }
+
+@media only screen and (max-width: 600px) {
+  form {
+    padding: 0 5vw;
+  }
+}
