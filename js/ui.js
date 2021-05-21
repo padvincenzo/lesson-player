@@ -18,81 +18,31 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 class UI {
   wrapper = null;
-  classes = null;
-
   btnHome = null;
-  btnNewClass = null;
 
   static init() {
     UI.wrapper = document.getElementById("container");
 
-    UI.btnNewClass = new Button(lang.newClass, () => {
-      Class.form(Class.dummy());
-    }, "newClass");
-
     UI.btnHome = new Button(lang.homePage, () => {
-      UI.retrieveClasses();
+      UI.listClasses();
     });
 
-    UI.retrieveClasses().then(() => {
-      if(UI.classes.length == 0)
-        return;
-
-      UI.classes[0].dbGetNext().then(() => {
-        if(UI.classes[0].nextLesson != null)
-          UI.classes[0].nextLesson.play(false);
-      });
-    });
+    UI.listClasses().then(() => { Class.loadLast(); });
   }
 
-  static clean() {
+  static display() {
     UI.wrapper.innerHTML = "";
-  }
+    for(let i = 0; i < arguments.length; i++) {
+      UI.wrapper.appendChild(arguments[i]);
+    }
 
-  static append(_htmlElement) {
-    UI.wrapper.appendChild(_htmlElement);
-  }
-
-  static display(_htmlElement) {
-    UI.clean();
-    UI.append(_htmlElement);
     window.scrollTo(0, 0);
   }
 
-  static retrieveClasses() {
-    return request("class.php", {request: "list"})
-      .then((_classes) => {
-        UI.classes = [];
-        _classes.forEach((c, i) => {
-          UI.classes.push(new Class(c));
-        });
-
-        UI.listClasses();
-      })
-      .catch((_message) => {
-        Message.view("FAIL: " + _message);
-      });
-  }
-
   static listClasses() {
-    const classes = document.createElement("div");
-    classes.setAttribute("class", "cards");
-
-    let i = 2;
-    UI.classes.forEach((c) => {
-      let card = c.toCard();
-      card.tabIndex = i;
-      classes.appendChild(card);
-      i++;
+    return Class.retrieve().then(() => {
+      UI.display(Class.cards(), br(), Class.btnNewClass.btn);
+      document.title = `${lang.classList} | Lesson Player`;
     });
-
-    UI.display(classes);
-    UI.br();
-    UI.append(UI.btnNewClass.btn);
-    document.title = `${lang.classList} | Lesson Player`;
-  }
-
-  static br() {
-    UI.append(document.createElement("br"));
   }
 }

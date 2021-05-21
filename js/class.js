@@ -17,131 +17,70 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 class Class {
-  idclass = null;
-  name = null;
-  professor = null;
-  directory = null;
-  lessons = null;
-  nLessons = null;
-  nWatched = null;
+  classes = null;
+  btnNewClass = null;
 
-  btnResume = null;
-  btnEdit = null;
-  btnShow = null;
-  btnAddLesson = null;
+  static retrieve() {
+    if(Class.classes == null) {
+      Class.classes = [];
+    }
 
-  nextLesson = null;
+    if(Class.btnNewClass == null) {
+      Class.btnNewClass = new Button(lang.newClass, () => {
+        Class.form(Class.dummy());
+      }, "newClass");
+    }
 
-  constructor(_data) {
-    this.idclass = _data.idclass;
-    this.name = decodeURIComponent(_data.name);
-    this.professor = decodeURIComponent(_data.professor);
-    this.directory = decodeURIComponent(_data.directory);
-    this.nLessons = _data.nLessons;
-    this.nWatched = _data.nWatched ? _data.nWatched : 0;
-    this.lessons = {};
-
-    this.btnResume = Button.small(lang.resume, () => { this.resume(); });
-    this.btnEdit = Button.small(lang.edit, () => { this.edit(); });
-    this.btnAddLesson = new Button(lang.newLesson, () => { this.newLesson(); });
-    this.btnShow = Button.small(lang.show, () => { this.show(); });
-  }
-
-  toCard() {
-    var card = document.createElement("div");
-    card.classList.add("card", "class");
-
-    var name = document.createElement("div");
-    name.innerText = this.name;
-    card.appendChild(name);
-
-    var professor = document.createElement("div");
-    professor.innerText = this.professor;
-    card.appendChild(professor);
-
-    var progress = document.createElement("div");
-    progress.innerText = `${this.nWatched} / ${this.nLessons}`;
-    progress.classList.add("progress");
-    card.appendChild(progress);
-
-    var buttons = document.createElement("div");
-    buttons.setAttribute("class", "buttons");
-    buttons.appendChild(this.btnResume.btn);
-    buttons.appendChild(this.btnShow.btn);
-    buttons.appendChild(this.btnEdit.btn);
-    card.appendChild(buttons);
-
-    card.addEventListener("dblclick", () => {
-      this.resume();
-    });
-
-    card.addEventListener("keyup", (e) => {
-      if(e.code == "Enter") {
-        this.resume();
-      }
-    });
-
-    return card;
-  }
-
-  retrieveLessons() {
-    return request("lesson.php", {request:"list", idclass:this.idclass})
-      .then((_lessons) => {
-        this.lessons = [];
-        _lessons.forEach((l) => {
-          this.lessons.push(new Lesson(l, this));
+    return request("class.php", {request: "list"})
+      .then((classes) => {
+        classes.forEach((c, i) => {
+          // Check if the class is already in memory
+          var _class = Class.getById(c.idclass);
+          if(_class != null) {
+            _class.update(c);
+          } else {
+            Class.classes.push(new Class(c));
+          }
         });
       })
       .catch((_message) => {
-        Message.view(`${lang.failed}: ${_message}`);
+        Message.view("FAIL: " + _message);
       });
   }
 
-  show() {
-    return this.retrieveLessons().then(() => {
-      UI.display(this.listLessons());
-      UI.br();
-      UI.append(UI.btnHome.btn);
-      UI.append(this.btnAddLesson.btn);
-      document.title = `${this.name} | Lesson Player`;
-    });
-  }
-
-  resume() {
-    return this.dbGetNext().then(() => {
-      if(this.nextLesson == null) {
-        Message.view(lang.classCompleted);
-      } else {
-        this.nextLesson.play();
-      }
-    });
-  }
-
-  listLessons() {
-    if(this.lessons.length == 0) {
+  static loadLast() {
+    if(Class.classes.length == 0)
       return;
+
+    Class.classes[0].dbGetNext().then(() => {
+      if(Class.classes[0].nextLesson != null)
+        Class.classes[0].nextLesson.play(false);
+    });
+  }
+
+  static getById(idclass = null) {
+    if(idclass == null) {
+      return null;
     }
 
-    const lessons = document.createElement("div");
-    lessons.setAttribute("class", "cards");
+    for(let i = 0; i < Class.classes.length; i++) {
+      if(Class.classes[i].idclass == idclass) {
+        return Class.classes[i];
+      }
+    }
 
-    let i = 2;
-    this.lessons.forEach((l) => {
-      let card = l.toCard();
-      card.tabIndex = i;
-      lessons.appendChild(card);
-      i++;
-    });
-
-    return lessons;
+    return null;
   }
 
-  edit() {
-    Class.form(this);
-  }
+  static cards() {
+    var cards = document.createElement("div");
+    cards.classList.add("cards");
 
-  newLesson() {
-    Lesson.form(Lesson.dummy(this));
+    for(let i = 0; i < Class.classes.length; i++) {
+      cards.appendChild(Class.classes[i].toCard(i + 2));
+    }
+
+    return cards;
   }
 
   static dummy() {
@@ -181,8 +120,186 @@ class Class {
       }
     });
 
-    UI.display(form.wrapper);
-    UI.append(UI.btnHome.btn);
+    UI.display(form.wrapper, UI.btnHome.btn);
+  }
+
+  static dbAdd(_data) {
+    _data.request = "add";
+    return request("class.php", _data)
+      .then((_class) => {
+        Class.classes.push(new Class(_class));
+        Message.view(lang.classAdded);
+        Class.form(Class.dummy());
+      })
+      .catch((_message) => {
+        Message.view(`${lang.failed}: ${_message}`);
+      });
+  }
+
+  idclass = null;
+  name = null;
+  professor = null;
+  directory = null;
+  lessons = null;
+  nLessons = null;
+  nWatched = null;
+
+  card = null;
+
+  btnResume = null;
+  btnEdit = null;
+  btnShow = null;
+  btnAddLesson = null;
+
+  nextLesson = null;
+
+  constructor(_data) {
+    this.idclass = _data.idclass;
+    this.update(_data);
+    this.lessons = [];
+  }
+
+  update(_data) {
+    this.name = decodeURIComponent(_data.name);
+    this.professor = decodeURIComponent(_data.professor);
+    this.directory = decodeURIComponent(_data.directory);
+    this.nLessons = _data.nLessons;
+    this.nWatched = _data.nWatched ? _data.nWatched : 0;
+
+    if(this.card != null) {
+      this.card.name.innerText = this.name;
+      this.card.professor.innerText = this.professor;
+      this.card.progress.innerText = `${this.nWatched} / ${this.nLessons}`;
+    }
+  }
+
+  createCard() {
+    if(this.card != null) {
+      return;
+    }
+
+    this.btnResume = Button.small(lang.resume, () => { this.resume(); });
+    this.btnEdit = Button.small(lang.edit, () => { this.edit(); });
+    this.btnAddLesson = new Button(lang.newLesson, () => { this.newLesson(); });
+    this.btnShow = Button.small(lang.show, () => { this.show(); });
+
+    this.card = {};
+
+    this.card.dom = document.createElement("div");
+    this.card.dom.classList.add("card", "class");
+
+    this.card.name = document.createElement("div");
+    this.card.name.innerText = this.name;
+    this.card.dom.appendChild(this.card.name);
+
+    this.card.professor = document.createElement("div");
+    this.card.professor.innerText = this.professor;
+    this.card.dom.appendChild(this.card.professor);
+
+    this.card.progress = document.createElement("div");
+    this.card.progress.innerText = `${this.nWatched} / ${this.nLessons}`;
+    this.card.progress.classList.add("progress");
+    this.card.dom.appendChild(this.card.progress);
+
+    this.card.buttons = document.createElement("div");
+    this.card.buttons.setAttribute("class", "buttons");
+    this.card.buttons.appendChild(this.btnResume.btn);
+    this.card.buttons.appendChild(this.btnShow.btn);
+    this.card.buttons.appendChild(this.btnEdit.btn);
+    this.card.dom.appendChild(this.card.buttons);
+
+    this.card.dom.addEventListener("dblclick", () => {
+      this.resume();
+    });
+
+    this.card.dom.addEventListener("keyup", (e) => {
+      if(e.code == "Enter") {
+        this.resume();
+      }
+    });
+  }
+
+  toCard(tabIndex = 0) {
+    if(this.card == null) {
+      this.createCard();
+    }
+
+    this.card.dom.tabIndex = tabIndex;
+    return this.card.dom;
+  }
+
+  getLessonById(idlesson) {
+    if(this.lessons == null) {
+      return null;
+    }
+
+    for(let i = 0; i < this.lessons.length; i++) {
+      if(this.lessons[i].idlesson == idlesson) {
+        return this.lessons[i];
+      }
+    }
+
+    return null;
+  }
+
+  retrieveLessons() {
+    return request("lesson.php", {request:"list", idclass:this.idclass})
+      .then((lessons) => {
+        lessons.forEach((l) => {
+          // Check if the lesson is already in memory
+          let lesson = this.getLessonById(l.idlesson);
+          if(lesson != null) {
+            lesson.update(l);
+          } else {
+            this.lessons.push(new Lesson(l, this));
+          }
+        });
+      })
+      .catch((_message) => {
+        Message.view(`${lang.failed}: ${_message}`);
+      });
+  }
+
+  show() {
+    return this.retrieveLessons().then(() => {
+      UI.display(this.listLessons(), br(), UI.btnHome.btn, this.btnAddLesson.btn);
+      document.title = `${this.name} | Lesson Player`;
+    });
+  }
+
+  resume() {
+    return this.dbGetNext().then(() => {
+      if(this.nextLesson == null) {
+        Message.view(lang.classCompleted);
+      } else {
+        this.nextLesson.play();
+      }
+    });
+  }
+
+  listLessons() {
+    if(this.lessons.length == 0) {
+      return;
+    }
+
+    var lessons = document.createElement("div");
+    lessons.classList.add("cards");
+
+    this.lessons.sort(Lesson.compareByDate);
+
+    for(let i = 0; i < this.lessons.length; i++) {
+      lessons.appendChild(this.lessons[i].toCard(i + 2));
+    }
+
+    return lessons;
+  }
+
+  edit() {
+    Class.form(this);
+  }
+
+  newLesson() {
+    Lesson.form(Lesson.dummy(this));
   }
 
   dbGetNext() {
@@ -193,21 +310,13 @@ class Class {
           return;
         }
 
-        this.lessons[_lesson.idlesson] = new Lesson(_lesson, this);
-        this.nextLesson = this.lessons[_lesson.idlesson];
-      });
-  }
-
-  static dbAdd(_data) {
-    _data.request = "add";
-    return request("class.php", _data)
-      .then((_class) => {
-        UI.classes.push(new Class(_class));
-        Message.view(lang.classAdded);
-        Class.form(Class.dummy());
-      })
-      .catch((_message) => {
-        Message.view(`${lang.failed}: ${_message}`);
+        this.nextLesson = this.getLessonById(_lesson.idlesson);
+        if(this.nextLesson == null) {
+          let i = this.lessons.push(new Lesson(_lesson, this));
+          this.nextLesson = this.lessons[i - 1];
+        } else {
+          this.nextLesson.update(_lesson);
+        }
       });
   }
 
@@ -216,9 +325,9 @@ class Class {
     _data.idclass = this.idclass;
     return request("class.php", _data)
       .then((_class) => {
-        this.name = decodeURIComponent(_class.name);
-        this.professor = decodeURIComponent(_class.professor);
-        this.directory = decodeURIComponent(_class.directory);
+        _class.nLessons = this.nLessons;
+        _class.nWatched = this.nWatched;
+        this.update(_class);
 
         Message.view(lang.classEdited);
         UI.listClasses();

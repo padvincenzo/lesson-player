@@ -17,6 +17,83 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 class Lesson {
+
+  static dummy(_class) {
+    return {
+      idlesson: null,
+      idclass: _class.idclass,
+      dated: "",
+      title: "",
+      professor: _class.professor,
+      filename: "",
+      parentClass: _class
+    };
+  }
+
+  static isDummy(_lesson) {
+    return _lesson.idlesson == null;
+  }
+
+  static form(_lesson) {
+    var form = new Form();
+    var dated = form.appendDate("dated", _lesson.dated, lang.dated);
+    var title = form.appendText("title", _lesson.title, lang.title);
+    form.appendText("professor", _lesson.professor, lang.professor);
+    var filename = form.appendText("filename", _lesson.filename, lang.filename);
+    form.appendTextarea("silences", "", lang.ffmpegOutput);
+    let url = Lesson.isDummy(_lesson) ? "<FILE>" : _lesson.url();
+    var code = form.help(`${lang.ffmpegCopyPaste}: $ ffmpeg -hide_banner -nostats -vn -i "${url}" -af silencedetect=n=0.002:d=2.3 -f null -`);
+
+    form.appendButton(lang.confirm, () => {
+      let values = form.values();
+      if(values == null) {
+        return;
+      }
+
+      if(Lesson.isDummy(_lesson)) {
+        Lesson.dbAdd(values, _lesson.parentClass);
+      } else {
+        _lesson.dbEdit(values);
+      }
+    });
+
+    dated.addEventListener("focusout", () => {
+      if(title.value == "" && dated.value != "") {
+        title.value = lang.defaultLessonTitle.replace("{dated}", formatDate(dated.value));
+      }
+    });
+
+    filename.addEventListener("focusout", () => {
+      let url = filename.value == "" ? "<FILE>" : _lesson.parentClass.directory + filename.value;
+      code.innerText = `${lang.ffmpegCopyPaste}: $ ffmpeg -hide_banner -nostats -vn -i "${url}" -af silencedetect=n=0.002:d=2.3 -f null -`;
+    });
+
+    UI.display(form.wrapper, UI.btnHome.btn);
+  }
+
+  static dbAdd(_data, _class) {
+    _data.request = "add";
+    _data.idclass = _class.idclass;
+    return request("lesson.php", _data)
+      .then((_lesson) => {
+        _class.lessons.push(new Lesson(_lesson, _class));
+        Message.view(lang.lessonAdded);
+        Lesson.form(Lesson.dummy(_class));
+      })
+      .catch((_message) => {
+        Message.view(`${lang.failed}: ${_message}`);
+      });
+  }
+
+  static compareByDate(l1, l2) {
+    if(l1.dated < l2.dated)
+      return -1;
+    if(l1.dated > l2.dated)
+      return 1;
+
+    return l1.idlesson - l2.idlesson;
+  }
+
   idlesson = null;
   idclass = null;
   dated = null;
@@ -39,16 +116,27 @@ class Lesson {
 
   constructor(_data, _class) {
     this.idlesson = _data.idlesson;
+    this.parentClass = _class;
+
     this.idclass = _data.idclass;
-    this.dated = _data.dated;
-    this.title = decodeURIComponent(_data.title);
-    this.professor = decodeURIComponent(_data.professor);
     this.lastPlayed = _data.lastPlayed;
     this.mark = _data.mark;
     this.watched = _data.watched;
-    this.filename = decodeURIComponent(_data.filename);
     this.playbackRate = _data.playbackRate;
-    this.parentClass = _class;
+
+    this.update(_data);
+  }
+
+  update(_data) {
+    this.dated = _data.dated;
+    this.title = decodeURIComponent(_data.title);
+    this.professor = decodeURIComponent(_data.professor);
+    this.filename = decodeURIComponent(_data.filename);
+
+    if(this.card != null) {
+      this.card.title.innerText = this.title;
+      this.card.professor.innerText = this.professor;
+    }
   }
 
   url() {
@@ -111,9 +199,12 @@ class Lesson {
     });
   }
 
-  toCard() {
-    if(this.card == null)
+  toCard(tabIndex = 0) {
+    if(this.card == null) {
       this.createCard();
+    }
+
+    this.card.dom.tabIndex = tabIndex;
 
     return this.card.dom;
   }
@@ -142,88 +233,12 @@ class Lesson {
     }).length == 1;
   }
 
-  static dummy(_class) {
-    return {
-      idlesson: null,
-      idclass: _class.idclass,
-      dated: "",
-      title: "",
-      professor: _class.professor,
-      filename: "",
-      parentClass: _class
-    };
-  }
-
-  static isDummy(_lesson) {
-    return _lesson.idlesson == null;
-  }
-
-  static form(_lesson) {
-    var form = new Form();
-    var dated = form.appendDate("dated", _lesson.dated, lang.dated);
-    var title = form.appendText("title", _lesson.title, lang.title);
-    form.appendText("professor", _lesson.professor, lang.professor);
-    var filename = form.appendText("filename", _lesson.filename, lang.filename);
-    form.appendTextarea("silences", "", lang.ffmpegOutput);
-    let url = Lesson.isDummy(_lesson) ? "<FILE>" : _lesson.url();
-    var code = form.help(`${lang.ffmpegCopyPaste}: $ ffmpeg -hide_banner -nostats -vn -i "${url}" -af silencedetect=n=0.002:d=2.3 -f null -`);
-
-    form.appendButton(lang.confirm, () => {
-      let values = form.values();
-      if(values == null) {
-        return;
-      }
-
-      if(Lesson.isDummy(_lesson)) {
-        Lesson.dbAdd(values, _lesson.parentClass);
-      } else {
-        _lesson.dbEdit(values);
-      }
-    });
-
-    dated.addEventListener("focusout", () => {
-      if(title.value == "" && dated.value != "") {
-        title.value = lang.defaultLessonTitle.replace("{dated}", formatDate(dated.value));
-      }
-    });
-
-    filename.addEventListener("focusout", () => {
-      let url = filename.value == "" ? "<FILE>" : _lesson.parentClass.directory + filename.value;
-      code.innerText = `${lang.ffmpegCopyPaste}: $ ffmpeg -hide_banner -nostats -vn -i "${url}" -af silencedetect=n=0.002:d=2.3 -f null -`;
-    });
-
-    UI.display(form.wrapper);
-    UI.append(UI.btnHome.btn);
-  }
-
-  static dbAdd(_data, _class) {
-    _data.request = "add";
-    _data.idclass = _class.idclass;
-    return request("lesson.php", _data)
-      .then((_lesson) => {
-        _class.lessons.push(new Lesson(_lesson, _class));
-        Message.view(lang.lessonAdded);
-        Lesson.form(Lesson.dummy(_class));
-      })
-      .catch((_message) => {
-        Message.view(`${lang.failed}: ${_message}`);
-      });
-  }
-
   dbEdit(_data) {
     _data.request = "edit";
     _data.idlesson = this.idlesson;
     return request("lesson.php", _data)
       .then((_lesson) => {
-        this.dated = _lesson.dated;
-        this.title = decodeURIComponent(_lesson.title);
-        this.professor = decodeURIComponent(_lesson.professor);
-        this.filename = decodeURIComponent(_lesson.filename);
-
-        if(this.card != null) {
-          this.card.title.innerText = this.title;
-          this.card.professor.innerText = this.professor;
-        }
+        this.update(_lesson);
 
         Message.view(lang.lessonEdited);
         this.parentClass.show();
@@ -258,6 +273,7 @@ class Lesson {
 
   dbSetAsWatched() {
     this.watched = true;
+    this.mark = 0;
     if(this.card != null) {
       this.card.dom.classList.add("watched");
       this.btnSetAsWatched.btn.style.display = "none";
