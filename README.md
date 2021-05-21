@@ -3,9 +3,19 @@ Watch your video lessons on LAN, do not miss the mark and speed up during silenc
 
 *Read this in other languages: [English](README.md), [Italian](README.it.md).*
 
+  - [Getting started](#getting-started)
+    - [Install](#install)
+    - [Add video lessons](#add-video-lessons)
+    - [Speed up silences](#speed-up-silences)
+  - [Shortcuts](#shortcuts)
+  - [Contributing](#contributing)
+  - [Credits](#credits)
+
+---
+
 ## Getting started
 
-### Installation
+### Install
   * Download, install and run [xampp](https://www.apachefriends.org/download.html);
   * Open xampp folder:
     * On Linux: ``/opt/lampp/htdocs/``
@@ -17,7 +27,7 @@ Watch your video lessons on LAN, do not miss the mark and speed up during silenc
   * From the browser go to ``http://localhost/<folder_name>/install.php`` (e.g.: ``http://localhost/lesson-player/install.php``);
   * (Optional) Make xampp run at pc startup by default.
 
-### Inserting video lessons
+### Add video lessons
   * In the folder ``.../htdocs/lesson-player/`` create a subdirectory (e.g.: ``classes/``) and copy all your video lessons inside, arranged in a structure like:
 
 ```
