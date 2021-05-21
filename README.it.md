@@ -3,7 +3,17 @@ Guarda le tue videolezioni sulla rete locale, non perdere il segno e accelera du
 
 *Leggi in altre lingue: [Inglese](README.md), [Italiano](README.it.md).*
 
-## Guida all'utilizzo
+  - [Guida introduttiva](#guida-introduttiva)
+    - [Installazione](#installazione)
+    - [Aggiungere videolezioni](#aggiungere-videolezioni)
+    - [Velocizzare i silenzi](#velocizzare-i-silenzi)
+  - [Scorciatoie da tastiera](#scorciatoie-da-tastiera)
+  - [Contribuire](#contribuire)
+  - [Crediti](#crediti)
+
+---
+
+## Guida introduttiva
 
 ### Installazione
   * Scarica, installa e avvia [xampp](https://www.apachefriends.org/download.html);
@@ -17,7 +27,7 @@ Guarda le tue videolezioni sulla rete locale, non perdere il segno e accelera du
   * Dal browser vai all'indirizzo ``http://localhost/<nome_cartella>/install.php`` (es: ``http://localhost/lesson-player/install.php``);
   * (Opzionale) Imposta xampp per l'avvio automatico all'avvio del pc.
 
-### Inserimento videolezioni
+### Aggiungere videolezioni
   * Nella cartella ``.../htdocs/lesson-player/`` crea una sottocartella (es: ``classes/``) e copia qui tuttle le videolezioni, organizzate in una struttura tipo:
 
 ```
