@@ -12,7 +12,7 @@ Or upload a new language, that would be great (and appreciated).
 
 
 Just one important notice about the entry ``dateFormat``:
-I developed a tiny function to mimic a dictionary, it accept (~replace) only the following keys:
+I wrote a tiny function to mimic a dictionary, it accept (~replace) only the following keys:
 * ``{YYYY}``: four-digit year;
 * ``{YY}``: two-digit year;
 * ``{MM}``: two-digit month;
