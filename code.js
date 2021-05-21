@@ -156,3 +156,7 @@ function formatDate(_date) {
     }
   });
 }
+
+function br() {
+  return document.createElement("br");
+}
