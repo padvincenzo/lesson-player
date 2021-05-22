@@ -233,8 +233,9 @@ class Player {
     });
 
     Player.on("ended", () => {
-      Player.lesson.dbSetAsWatched();
-      Player.lesson.playNext();
+      Player.lesson.dbSetAsWatched().then(() => {
+        Player.lesson.playNext();
+      });
     });
   }
 
