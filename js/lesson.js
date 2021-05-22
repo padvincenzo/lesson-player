@@ -233,6 +233,23 @@ class Lesson {
     }).length == 1;
   }
 
+  getEndOfSilence(_time) {
+    if(this.silences == null)
+      return null;
+
+    let silence = this.silences.filter((silence) => {
+      if(silence.t_start <= _time && silence.t_end >= _time)
+        return true;
+
+      return false;
+    });
+
+    if(silence.length == 1)
+      return silence[0].t_end;
+
+    return null;
+  }
+
   dbEdit(_data) {
     _data.request = "edit";
     _data.idlesson = this.idlesson;

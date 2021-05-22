@@ -20,14 +20,18 @@ class Player {
   static player = null;
   static wrapper = null;
   static background = null;
+
   static overlay = null;
   static overlayData = null;
+
   static notice = null;
   static noticeTimeout = null;
   static fastSilence = null;
+
   static lesson = null;
 
-  static fastPlaybackRate = 8;
+  /* Editable configuration */
+  static fastPlaybackRate = 8;  // PlaybackRate on silences
   static minPlaybackRate = 0.5;
   static maxPlaybackRate = 3;
 
@@ -201,6 +205,14 @@ class Player {
     Player.notice = Player.appendLayer("notice");
     Player.fastSilence = Player.appendLayer("fastSilence");
     Player.fastSilence.innerText = "»";
+
+    // Skip silence on click
+    Player.fastSilence.addEventListener("click", () => {
+      let t_end = Player.lesson.getEndOfSilence(Player.currentTime());
+      if(t_end != null) {
+        Player.currentTime(t_end);
+      }
+    });
   }
 
   static initLessonUpdater() {
