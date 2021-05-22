@@ -243,6 +243,9 @@ class Player {
     let controls = Player.wrapper.querySelectorAll("[tabindex='0'], button");
     for(let i = 0; i < controls.length; i++) {
       controls[i].tabIndex = -1;
+      controls[i].addEventListener("click", () => {
+        Player.focus();
+      });
     }
   }
 
@@ -278,6 +281,10 @@ class Player {
 
   static on(_event, _function) {
     return Player.player.on(_event, _function);
+  }
+
+  static focus() {
+    Player.background.focus();
   }
 
   static hide() {
