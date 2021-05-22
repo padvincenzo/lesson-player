@@ -29,10 +29,18 @@ class Player {
 
   static fastPlaybackRate = 8;
   static minPlaybackRate = 0.5;
-  static maxPlaybackRate = 2.5;
+  static maxPlaybackRate = 3;
 
   static init() {
-    Player.player = videojs("my-player");
+    Player.player = videojs("my-player", {
+      fluid: true,
+      controls: true,
+      autoplay: false,
+      preload: "auto",
+      playbackRates: range(Player.minPlaybackRate, Player.maxPlaybackRate, 0.25, 2),
+      rewind: true,
+      inactivityTimeout: 4000
+    });
     Player.wrapper = document.getElementById("my-player");
     Player.background = document.getElementById("my-p-background");
 
