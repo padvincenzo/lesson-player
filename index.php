@@ -61,10 +61,7 @@ $dbh->close();
 
 		<div id="my-p-background" tabindex="1">
 			<div id="my-p-wrapper">
-				<video id="my-player"
-					class="video-js vjs-theme-lesson"
-					data-setup='{"fluid": true, "controls": true, "autoplay": false, "preload": "auto", "playbackRates": [0.8, 1, 1.25, 1.5, 2, 2.5], "rewind": true, "inactivityTimeout": 4000}'>
-				</video>
+				<video id="my-player" class="video-js vjs-theme-lesson"></video>
 			</div>
 		</div>
 
