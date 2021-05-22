@@ -26,7 +26,10 @@ class Player {
   static noticeTimeout = null;
   static fastSilence = null;
   static lesson = null;
-  static fastRate = 8;
+
+  static fastPlaybackRate = 8;
+  static minPlaybackRate = 0.5;
+  static maxPlaybackRate = 2.5;
 
   static init() {
     Player.player = videojs("my-player");
@@ -198,7 +201,7 @@ class Player {
         return;
 
       let rate = Player.playbackRate();
-      if(rate != Player.fastRate && rate != Player.lesson.playbackRate) {
+      if(rate != Player.fastPlaybackRate && rate != Player.lesson.playbackRate) {
         Player.lesson.dbRate(rate);
       }
     });
@@ -214,12 +217,12 @@ class Player {
         return;
 
       if(Player.lesson.isInSilence(currentTime)) {
-        if(rate != Player.fastRate) {
-          Player.playbackRate(Player.fastRate);
+        if(rate != Player.fastPlaybackRate) {
+          Player.playbackRate(Player.fastPlaybackRate);
           Player.fastSilence.style.display = "inline-block";
         }
       } else {
-        if(rate == Player.fastRate) {
+        if(rate == Player.fastPlaybackRate) {
           Player.playbackRate(Player.lesson.playbackRate);
           Player.fastSilence.style.display = "none";
         }
@@ -341,8 +344,8 @@ class Player {
     if(Player.lesson == null)
       return;
 
-    let currentPlaybackRate = Player.playbackRate();
-    let newPlaybackRate = limit(currentPlaybackRate + +_amount, 0.5, 2.5).toFixed(1);
+    let currentPlaybackRate = Player.lesson.playbackRate;
+    let newPlaybackRate = limit(currentPlaybackRate + +_amount, Player.minPlaybackRate, Player.maxPlaybackRate).toFixed(1);
 
     Player.playbackRate(newPlaybackRate);
     Player.notify(`${lang.rate} ${newPlaybackRate}x`);
