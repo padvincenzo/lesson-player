@@ -71,13 +71,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   flex: 2;
 }
 
-#notice {
-  position: absolute;
-  top: 0;
-  right: 0;
-  margin: 2em;
-  z-index: 4;
-  background-color: var(--background-opaque);
+#notice,
+#fastSilence {
+  background: var(--background-opaque);
   border-radius: 1em;
   color: var(--color-primary);
   text-align: center;
@@ -87,17 +83,20 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   display: none;
 }
 
+#notice {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 2em;
+  z-index: 4;
+}
+
 #fastSilence {
   position: absolute;
-  top: 0px;
+  top: 0;
   left: 0;
-  margin: -0.2em 25em;
+  margin: 0.1em;
   z-index: 2;
-  background: var(--color-primary-opaque);
-  border-radius: 0.3em;
-  color: darkred;
-  text-align: center;
-  font-size: 2em;
-  padding: 0.1em 0.5em;
-  display: none;
+  padding: 0.3em 1em;
+  cursor: pointer;
 }
