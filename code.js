@@ -160,3 +160,8 @@ function formatDate(_date) {
 function br() {
   return document.createElement("br");
 }
+
+function range(min = 0, max = 10, gap = 1, decimals = 0) {
+  let n = Math.floor((max - min) / gap) + 1;
+  return [...Array(n).keys()].map(x => (x * gap + min).toFixed(decimals));
+}
