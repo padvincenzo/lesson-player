@@ -213,7 +213,7 @@ function addLesson() {
 
   $result = $dbh->query("insert into lesson (idclass, dated, title, professor, filename) values ('$idclass', '$dated', '$title', '$professor', '$filename');");
   if($result) {
-    $data->idlesson = $idlesson = $dbh->insert_id();
+    $data->idlesson = $idlesson = $dbh->insert_id;
     insertSilences();
     return Response::ok($lang->lessonAdded, array(
       "idclass" => $idclass,

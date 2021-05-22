@@ -78,7 +78,7 @@ function addClass() {
   $result = $dbh->query("insert into class (name, professor, directory) values ('$className', '$professor', '$directory');");
   if($result) {
     return Response::ok($lang->classAdded, array(
-      "idclass" => $dbh->insert_id(),
+      "idclass" => $dbh->insert_id,
       "name" => $className,
       "professor" => $professor,
       "directory" => $directory,
