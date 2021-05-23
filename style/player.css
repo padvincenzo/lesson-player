@@ -74,12 +74,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #notice,
 #fastSilence {
   background: var(--background-opaque);
-  border-radius: 1em;
   color: var(--color-primary);
   text-align: center;
-  font-size: 2em;
-  line-height: 2em;
-  padding: 1em;
   display: none;
 }
 
@@ -87,7 +83,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   position: absolute;
   top: 0;
   right: 0;
+  font-size: 2em;
+  line-height: 2em;
   margin: 2em;
+  padding: 1em;
+  border-radius: 1em;
   z-index: 4;
 }
 
@@ -95,8 +95,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   position: absolute;
   top: 0;
   left: 0;
+  font-size: 4em;
+  line-height: 0;
   margin: 0.1em;
-  z-index: 2;
-  padding: 0.3em 1em;
+  padding: 0.7em 0.5em;
+  border-radius: 0.5em;
   cursor: pointer;
+  z-index: 2;
 }
