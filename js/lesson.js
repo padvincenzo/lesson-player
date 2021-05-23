@@ -221,33 +221,24 @@ class Lesson {
     });
   }
 
-  isInSilence(_time) {
-    if(this.silences == null)
-      return false;
-
-    return this.silences.filter((silence) => {
-      if(silence.t_start <= _time && silence.t_end >= _time)
-        return true;
-
-      return false;
-    }).length == 1;
-  }
-
-  getEndOfSilence(_time) {
+  getSilenceFromTimestamp(timestamp) {
     if(this.silences == null)
       return null;
 
-    let silence = this.silences.filter((silence) => {
-      if(silence.t_start <= _time && silence.t_end >= _time)
-        return true;
-
-      return false;
+    let silence = this.silences.filter((s) => {
+      return s.t_start <= timestamp && s.t_end >= timestamp;
     });
 
-    if(silence.length == 1)
-      return silence[0].t_end;
+    return silence.length == 1 ? silence[0] : null;
+  }
 
-    return null;
+  isInSilence(timestamp) {
+    return this.getSilenceFromTimestamp(timestamp) != null;
+  }
+
+  getEndOfSilence(timestamp) {
+    let silence = this.getSilenceFromTimestamp(timestamp);
+    return silence != null ? silence.t_end : null;
   }
 
   dbEdit(_data) {
