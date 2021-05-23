@@ -171,10 +171,6 @@ class Player {
         }
       }
     });
-
-    for(let i = 0; i < Player.wrapper.childNodes.length; i++) {
-      Player.wrapper.childNodes[i].tabIndex = -1;
-    }
   }
 
   static initOverlay() {
