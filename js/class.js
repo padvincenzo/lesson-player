@@ -120,6 +120,10 @@ class Class {
       }
     });
 
+    form.appendButton(lang.cancel, () => {
+      UI.listClasses();
+    });
+
     UI.display(form.wrapper, UI.btnHome.btn);
   }
 

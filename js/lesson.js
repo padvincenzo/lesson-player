@@ -57,6 +57,10 @@ class Lesson {
       }
     });
 
+    form.appendButton(lang.cancel, () => {
+      _lesson.parentClass.show();
+    });
+
     dated.addEventListener("focusout", () => {
       if(title.value == "" && dated.value != "") {
         title.value = lang.defaultLessonTitle.replace("{dated}", formatDate(dated.value));
