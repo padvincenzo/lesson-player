@@ -121,7 +121,7 @@ class Lesson {
     this.idclass = _data.idclass;
     this.lastPlayed = _data.lastPlayed;
     this.mark = _data.mark;
-    this.watched = _data.watched;
+    this.watched = _data.watched == true;
     this.playbackRate = _data.playbackRate;
 
     this.update(_data);
@@ -169,7 +169,7 @@ class Lesson {
     this.card.dom.appendChild(this.card.professor);
 
     this.card.progress = document.createElement("div");
-    this.card.progress.innerText = this.watched == true ? lang.watched : (this.mark > 0 ? lang.started : lang.toBeWatched);
+    this.card.progress.innerText = this.watched ? lang.watched : (this.mark > 0 ? lang.started : lang.toBeWatched);
     this.card.progress.classList.add("progress");
     this.card.dom.appendChild(this.card.progress);
 
@@ -181,7 +181,7 @@ class Lesson {
     this.card.buttons.appendChild(this.btnSetAsWatched.btn);
     this.card.dom.appendChild(this.card.buttons);
 
-    if(this.watched == true) {
+    if(this.watched) {
       this.card.dom.classList.add("watched");
       this.btnSetAsWatched.btn.style.display = "none";
     } else {
@@ -265,6 +265,10 @@ class Lesson {
 
   dbMark(_mark) {
     this.mark = _mark;
+    if(this.card != null && !this.watched) {
+      this.btnPlay.btn.innerText = lang.resume;
+      this.card.progress.innerText = lang.started;
+    }
     return request("lesson.php", {request: "mark", idlesson: this.idlesson, mark: _mark});
   }
 
@@ -275,6 +279,7 @@ class Lesson {
       this.btnSetAsWatched.btn.style.display = "inline-block";
       this.btnSetToBeWatched.btn.style.display = "none";
       this.card.progress.innerText = lang.toBeWatched;
+      this.btnPlay.btn.innerText = lang.resume;
     }
     return request("lesson.php", {request: "setToBeWatched", idlesson: this.idlesson});
   }
@@ -287,6 +292,7 @@ class Lesson {
       this.btnSetAsWatched.btn.style.display = "none";
       this.btnSetToBeWatched.btn.style.display = "inline-block";
       this.card.progress.innerText = lang.watched;
+      this.btnPlay.btn.innerText = lang.play;
     }
     return request("lesson.php", {request: "setAsWatched", idlesson: this.idlesson});
   }
