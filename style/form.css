@@ -18,41 +18,52 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 form {
   text-align: center;
-  display: flex;
-  flex-direction: column;
-  padding: 0 10vw;
+  display: block;
+  width: 100%;
+  padding: 0 10%;
+  box-sizing: border-box;
 }
 
-label {
+form * {
+  width: 100%;
+  box-sizing: border-box;
+  display: inline-block;
+}
+
+form label {
   text-align: left;
   margin-top: 1em;
   margin-bottom: -0.5em;
 }
 
-input, textarea {
+form input,
+form textarea {
   margin: 1em 0;
   color: var(--color-primary);
   border-color: var(--color-secondary);
-  border-width: 0 0 0.2em 0;
+  border-width: 0 0 2px 0;
   border-style: solid;
-  border-radius: 0 0 0.3em 0.3em;
   background-color: var(--color-secondary-opaque);
-  box-sizing: border-box;
   width: 100%;
 }
 
-input {
+form input {
   text-align: center;
   font-size: 1.2em;
   line-height: 1.6em;
   font-family: inherit;
+  padding: 0 1em;
 }
 
-textarea {
+form textarea {
   padding: 1em;
   font-family: monospace;
   height: 8em;
   resize: vertical;
+}
+
+form button {
+  width: 16em;
 }
 
 ::-webkit-input-placeholder { color: var(--color-primary-opaque); }
@@ -62,6 +73,6 @@ textarea {
 
 @media only screen and (max-width: 600px) {
   form {
-    padding: 0 5vw;
+    padding: 0 5%;
   }
 }
