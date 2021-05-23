@@ -111,9 +111,9 @@ function popup(url) {
 }
 
 function limit(_x, _min, _max) {
-  if(_x < _min) return _min;
-  if(_x > _max) return _max;
-  return _x;
+  if(+_x < +_min) return +_min;
+  if(+_x > +_max) return +_max;
+  return +_x;
 }
 
 function secondsToTime(seconds) {
