@@ -119,6 +119,20 @@ Per qualunque dubbio o perplessità possiamo discuterne sulla [pagina apposita](
 #### Perché la durata minima dei silenzi deve essere maggiore di 2.25s
 Alla velocità *8x*, preimpostata per i silenzi, il tempo del video si aggiorna ogni circa *2s*. Per ovviare questo problema, quando carichi i tempi di silenzio che genera ffmpeg, il server rimuove un margine di *2s* dalla fine del silenzio, e ne aggiunge uno di *0.25s* dall'inizio. Impostando una durata ``d`` minore di *2.25s*, il server riconoscerà questi silenzi con una durata ``(d - 2.25) ≤ 0``, pertanto saranno ignorati. È possibile modificare questi margini dal file ``/ajax/lesson.php``, all'interno della funzione ``insertSilences()`` (variabili ``$marginLeft`` e ``$marginRight``), ma ciò potrebbe causare effetti indesiderati.
 
+#### Voglio che vengano riconosciuti e velocizzati anche i silenzi più brevi, come posso fare?
+Sfortunatamente, ciò non è possibile senza una ricodifica del video stesso. Pensando proprio a questo ho sviluppato un altro programma: [silence-speedup](https://github.com/padvincenzo/silence-speedup). Spero possa esserti utile.
+
+#### Voglio cambiare la velocità di riproduzione minima/massima/durante i silenzi, come posso fare?
+Apri il file ``/js/player.js`` e modifica i seguenti valori:
+
+```php
+static fastPlaybackRate = 8;  // Velocità di riproduzione durante i silenzi
+static minPlaybackRate = 0.5; // Velocità di riproduzione minima
+static maxPlaybackRate = 3;   // Velocità di riproduzione massima
+```
+
+Dopo di ché ricarica la pagina.
+
 ## Crediti
 * Il sito fa uso della libreria [``video.js``](https://videojs.com/) e una versione modificata del [tema _city_](https://github.com/videojs/themes);
 * Le icone sono prese da [www.flaticon.com](https://www.flaticon.com/).
