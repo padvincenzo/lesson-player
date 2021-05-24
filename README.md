@@ -120,7 +120,7 @@ ffmpeg -hide_banner -nostats -vn -i "classes/Physics I/Lesson 01.mp4" -af silenc
 With the aim of saving time, I've written a little [script in *bash*](https://github.com/padvincenzo/lesson-player/blob/main/scripts/silences.sh) and another one [in *batch*](https://github.com/padvincenzo/lesson-player/blob/main/scripts/silences.bat). They both run the filter on every video in the same folder where the script is executed, and save the result in a file with the same name of the video (so the script should be executed in the folder that contains the videos).
 
 ## Shortcuts
-With the focus on the player, you can use this shortcuts:
+With the focus on the player, you can use these shortcuts:
 
 |         **Key(s)**        |           **Effect**          |
 |:-------------------------:| ----------------------------- |
