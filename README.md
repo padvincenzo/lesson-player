@@ -25,7 +25,13 @@ Watch your video lessons on LAN, do not miss the mark and speed up during silenc
     * On Windows: ``C:\\xampp\htdocs\``
     * On Mac: mount Xampp volume and open the folder ``htdocs``
   * Create a new folder (e.g.: ``lesson-player/``) and copy all files inside.
+
+![Download_and_extract](img/screenshots/Download_and_extract.png)
+
   * Open the browser at ``http://localhost/phpmyadmin/`` and create a new database (e.g.: ``lessons``).
+
+![Xampp create database](img/screenshots/Xampp_create_database.png)
+
   * From the xampp folder, open ``_connect.php`` and update the database credentials (and maybe the language):
 
 ```php
