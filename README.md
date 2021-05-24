@@ -119,13 +119,18 @@ For any doubt or perplexity we can [discuss here](https://github.com/padvincenzo
 #### Why the minimum silence duration should be greater than 2.25s
 At *8x* speed, preset for silences, the video time updates every about *2s*. To work around this problem, when you load the silence times that ffmpeg generates, the server removes a *2s* margin from the end of the silence, and adds *0.25s* from the beginning. By setting a duration ``d`` less than *2.25s*, the server will recognize these silences with a duration ``(d - 2.25) ≤ 0``, therefore they will be ignored. You can change these margins from ``/ajax/lesson.php``, inside the ``insertSilences()`` function (``$marginLeft`` and ``$marginRight`` variables), but this could cause unwanted effects.
 
+```php
+$marginLeft = 0.25; // Seconds after silence starts
+$marginRight = 2;   // Seconds before silence ends
+```
+
 #### I want even the shortest silences to be recognized and speeded up, what can I do?
 Unfortunately, this is not possible without re-encoding the video itself. Thinking about this, I developed another program: [silence-speedup](https://github.com/padvincenzo/silence-speedup). I hope it will be useful to you.
 
 #### I want to change the minimum/maximum/silence playback rate, how can I do?
 Open the file ``/js/player.js`` and edit the followings:
 
-```php
+```js
 static fastPlaybackRate = 8;  // Playback rate on silences
 static minPlaybackRate = 0.5; // Slower playback rate
 static maxPlaybackRate = 3;   // Faster playback rate
