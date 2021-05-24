@@ -282,10 +282,6 @@ class Class {
   }
 
   listLessons() {
-    if(this.lessons.length == 0) {
-      return;
-    }
-
     var lessons = document.createElement("div");
     lessons.classList.add("cards");
 
