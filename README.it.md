@@ -1,7 +1,7 @@
 # Lesson Player [![Donate](https://img.shields.io/badge/donate-paypal-blue.svg)](https://www.paypal.com/paypalme/VincenzoPadula)
 Guarda le tue videolezioni sulla rete locale, non perdere il segno e accelera durante i silenzi.
 
-*Leggi in altre lingue: [Inglese](README.md), [Italiano](README.it.md).*
+*Leggi in altre lingue: [Inglese](README.md), Italiano.*
 
   - [Guida introduttiva](#guida-introduttiva)
     - [Installazione](#installazione)
