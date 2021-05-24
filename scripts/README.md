@@ -1,6 +1,6 @@
 ## Scripts
 
-[*English below](#english)
+[*English below*](#english)
 
 Questi script possono aiutarti a risparmiare tempo con l'uso di ffmpeg per trovare i silenzi per ogni videolezione.
 
