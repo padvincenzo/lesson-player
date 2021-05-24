@@ -120,8 +120,14 @@ Per qualunque dubbio o perplessità possiamo discuterne sulla [pagina apposita](
 Alla velocità *8x*, preimpostata per i silenzi, il tempo del video si aggiorna ogni circa *2s*. Per ovviare questo problema, quando carichi i tempi di silenzio che genera ffmpeg, il server rimuove un margine di *2s* dalla fine del silenzio, e ne aggiunge uno di *0.25s* dall'inizio. Impostando una durata ``d`` minore di *2.25s*, il server riconoscerà questi silenzi con una durata ``(d - 2.25) ≤ 0``, pertanto saranno ignorati. È possibile modificare questi margini dal file ``/ajax/lesson.php``, all'interno della funzione ``insertSilences()`` (variabili ``$marginLeft`` e ``$marginRight``), ma ciò potrebbe causare effetti indesiderati.
 
 ```php
-$marginLeft = 0.25; // Secondi di margine dopo l'inizio del silenzio
-$marginRight = 2;   // Secondi di margine prima della fine del silenzio
+function insertSilences() {
+  /* ... */
+
+  $marginLeft = 0.25; // Secondi di margine dopo l'inizio del silenzio
+  $marginRight = 2;   // Secondi di margine prima della fine del silenzio
+
+  /* ... */
+}
 ```
 
 #### Voglio che vengano riconosciuti e velocizzati anche i silenzi più brevi, come posso fare?
@@ -131,9 +137,15 @@ Sfortunatamente, ciò non è possibile senza una ricodifica del video stesso. Pe
 Apri il file ``/js/player.js`` e modifica i seguenti valori:
 
 ```js
-static fastPlaybackRate = 8;  /* Velocità di riproduzione durante i silenzi */
-static minPlaybackRate = 0.5; /* Velocità di riproduzione minima */
-static maxPlaybackRate = 3;   /* Velocità di riproduzione massima */
+class Player {
+  /* ... */
+
+  static fastPlaybackRate = 8;  /* Velocità di riproduzione durante i silenzi */
+  static minPlaybackRate = 0.5; /* Velocità di riproduzione minima */
+  static maxPlaybackRate = 3;   /* Velocità di riproduzione massima */
+  
+  /* ... */
+}
 ```
 
 Dopo di ché ricarica la pagina.
