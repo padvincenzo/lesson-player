@@ -91,17 +91,17 @@ Per ogni lezione è possibile trovare e velocizzare i silenzi, tramite ``ffmpeg`
 Per velocizzare questa operazione ho creato un piccolo [script in _bash_](https://github.com/padvincenzo/lesson-player/blob/main/scripts/silences.sh) e uno [in _batch_](https://github.com/padvincenzo/lesson-player/blob/main/scripts/silences.bat). Entrambi eseguono il filtro su tutte le videolezioni presenti nella cartella in cui sono eseguiti, e salvano il risultato in un file di testo dallo stesso nome della videolezione (vanno copiati ed eseguiti dalla directory che contiene le lezioni).
 
 ## Scorciatoie da tastiera
-|           **Tasto/i**          |               **Effetto**              |
-|:------------------------------:| -------------------------------------- |
-| ``Spazio``                     | Pausa/play                             |
-| ``M``                          | Muto/sonoro                            |
-| ``F``                          | Video a schermo intero                 |
-| ``Freccia a sinistra`` o ``A`` | Riavvolgi 5s (1m con ``Ctrl``)         |
-| ``Freccia a destra`` o ``D``   | Vai avanti di 5s (1m con ``Ctrl``)     |
-| ``Freccia in alto`` o ``W``    | Alza il volume                         |
-| ``Freccia in basso`` o ``S``   | Abbassa il volume                      |
-| ``]`` o ``+`` (o ``=``)        | Aumenta la velocità di riproduzione    |
-| ``[`` o ``-``                  | Diminuisci la velocità di riproduzione |
+|        **Tasto/i**      |               **Effetto**              |
+|:-----------------------:| -------------------------------------- |
+| ``Spazio``              | Pausa/play                             |
+| ``M``                   | Muto/sonoro                            |
+| ``F``                   | Video a schermo intero                 |
+| ``Freccia a sinistra``  | Riavvolgi 5s (1m con ``Ctrl``)         |
+| ``Freccia a destra``    | Vai avanti di 5s (1m con ``Ctrl``)     |
+| ``Freccia in alto``     | Alza il volume                         |
+| ``Freccia in basso``    | Abbassa il volume                      |
+| ``]`` o ``+`` (o ``=``) | Aumenta la velocità di riproduzione    |
+| ``[`` o ``-``           | Diminuisci la velocità di riproduzione |
 
 ## Contribuire
 Chiunque può contribuire a questo progetto, in diversi modi:
