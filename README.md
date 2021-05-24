@@ -1,6 +1,8 @@
 # Lesson Player [![Donate](https://img.shields.io/badge/donate-paypal-blue.svg)](https://www.paypal.com/paypalme/VincenzoPadula)
 Watch your video lessons on LAN, do not miss the mark and speed up during silences.
 
+![Presentation](img/screenshots/Presentation.png)
+
 *Read this in other languages: English, [Italian](README.it.md).*
 
   - [Getting started](#getting-started)
@@ -72,9 +74,14 @@ lesson-player/
   * Note: folders and videos inside ``classes`` may also be links.
   * Open the browser at ``http://localhost/lesson-player/``;
   * Insert all your classes: name, professor, folder name (e.g.: ``classes/Physics I/``, notice the ``/`` at the end);
+
+![New_class](img/screenshots/New_class.png)
+
   * Go back to the homepage:
     * Select a class and press ``Show`` (_``Mostra`` in italian_);
     * Insert all lessons of the selected class: date of the lesson, title, file name (e.g.: ``Lesson 01.mp4``);
+
+![New_lesson](img/screenshots/New_lesson.png)
 
 ### Speed up silences
 For each lesson it's possible to find and speed up silences, using ``ffmpeg``:
