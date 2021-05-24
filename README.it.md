@@ -30,7 +30,7 @@ I **feedback** sono molto apprezzati. Per favore, scrivimi una riga a *padvincen
 
 ![Download_and_extract](img/screenshots/Download_and_extract.png)
 
-  * Apri il browser all'indirizzo ``http://localhost/phpmyadmin/`` e crea un nuovo database (es: ``lessons``).
+  * Apri il browser all'indirizzo ``http://localhost/phpmyadmin/`` e crea un nuovo database (es: ``lesson-player``).
 
 ![Xampp create database](img/screenshots/Xampp_create_database.png)
 
@@ -40,10 +40,10 @@ I **feedback** sono molto apprezzati. Per favore, scrivimi una riga a *padvincen
 include("languages/<linguaggio>.php");
 
 // Credenziali del database
-$host = "localhost";   // Indirizzo IP del database. Se usi xampp è: localhost
-$user = "root";        // Il tuo username per accedere al database
-$password = "";        // La tua password per accedere al database
-$database = "lessons"; // Il nome che hai dato al tuo database
+$host = "localhost";         // Indirizzo IP del database. Se usi xampp è: "localhost"
+$user = "root";              // Il tuo username per accedere al database. Se usi xampp è: "root"
+$password = "";              // La tua password per accedere al database. Se usi xampp è: "" (vuoto)
+$database = "lesson-player"; // Il nome che hai dato al tuo database.
 
 /* ... */
 ```
@@ -119,7 +119,9 @@ ffmpeg -hide_banner -nostats -vn -i "classes/Physics I/Lesson 01.mp4" -af silenc
 
 Per velocizzare questa operazione ho creato un piccolo [script in _bash_](https://github.com/padvincenzo/lesson-player/blob/main/scripts/silences.sh) e uno [in _batch_](https://github.com/padvincenzo/lesson-player/blob/main/scripts/silences.bat). Entrambi eseguono il filtro su tutte le videolezioni presenti nella cartella in cui sono eseguiti, e salvano il risultato in un file di testo dallo stesso nome della videolezione (vanno copiati ed eseguiti dalla directory che contiene le lezioni).
 
-## Scorciatoie da tastiera
+## Scorciatoie
+Con il focus sul player, puoi usare queste scorciatoie da tastiera:
+
 |        **Tasto/i**      |               **Effetto**              |
 |:-----------------------:| -------------------------------------- |
 | ``Spazio``              | Pausa/play                             |
@@ -131,6 +133,9 @@ Per velocizzare questa operazione ho creato un piccolo [script in _bash_](https:
 | ``Freccia in basso``    | Abbassa il volume                      |
 | ``]`` o ``+`` (o ``=``) | Aumenta la velocità di riproduzione    |
 | ``[`` o ``-``           | Diminuisci la velocità di riproduzione |
+
+Altri tipi di scorciatoie:
+* I riquadri dei corsi e delle lezioni sono indicizzate e scorribili con il tasto ``Tab``. Premendo ``Invio`` su una di esse, partirà la relativa lezione. Lo stesso effetto si ottiene facendo doppio click.
 
 ## Contribuire
 Chiunque può contribuire a questo progetto, in diversi modi:
