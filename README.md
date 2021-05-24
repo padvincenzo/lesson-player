@@ -30,20 +30,20 @@ Watch your video lessons on LAN, do not miss the mark and speed up during silenc
 
 ![Download_and_extract](img/screenshots/Download_and_extract.png)
 
-  * Open the browser at ``http://localhost/phpmyadmin/`` and create a new database (e.g.: ``lessons``).
+  * Open the browser at ``http://localhost/phpmyadmin/`` and create a new database (e.g.: ``lesson-player``).
 
 ![Xampp create database](img/screenshots/Xampp_create_database.png)
 
   * From the xampp folder, open ``_connect.php`` and update the database credentials (and maybe the language):
 
 ```php
-include("languages/<language_file>.php");
+include("languages/<language>.php");
 
 // Database credentials
-$host = "localhost";   // IP address of the database. With xampp is: localhost
-$user = "root";        // Your database username
-$password = "";        // Your database password
-$database = "lessons"; // The name of your database
+$host = "localhost";         // IP address of the database. With xampp is: "localhost"
+$user = "root";              // Your mysql username. With xampp is: "root"
+$password = "";              // Your mysql password. With xampp is: "" (empty)
+$database = "lesson-player"; // The name of your database
 
 /* ... */
 ```
@@ -120,6 +120,8 @@ ffmpeg -hide_banner -nostats -vn -i "classes/Physics I/Lesson 01.mp4" -af silenc
 With the aim of saving time, I've written a little [script in *bash*](https://github.com/padvincenzo/lesson-player/blob/main/scripts/silences.sh) and another one [in *batch*](https://github.com/padvincenzo/lesson-player/blob/main/scripts/silences.bat). They both run the filter on every video in the same folder where the script is executed, and save the result in a file with the same name of the video (so the script should be executed in the folder that contains the videos).
 
 ## Shortcuts
+With the focus on the player, you can use this shortcuts:
+
 |         **Key(s)**        |           **Effect**          |
 |:-------------------------:| ----------------------------- |
 | ``Space``                 | Toggle play/pause             |
@@ -131,6 +133,9 @@ With the aim of saving time, I've written a little [script in *bash*](https://gi
 | ``Arrow down``            | Decrease volume               |
 | ``]`` or ``+`` (or ``=``) | Increase playback rate        |
 | ``[`` or ``-``            | Decrease playback rate        |
+
+Other types of shortcuts:
+* Boxes of classes and lessons are tabindexed and scrollable with ``Tab`` key. Pressing ``Enter`` on a box, it will start the relative lesson. Same effect by double-clicking a box.
 
 ## Contributing
 Anyone can contribute to this project, in many ways:
