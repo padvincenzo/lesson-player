@@ -9,7 +9,7 @@ Guarda le tue videolezioni sulla rete locale, non perdere il segno e accelera du
     - [Installazione](#installazione)
     - [Aggiungere videolezioni](#aggiungere-videolezioni)
     - [Velocizzare i silenzi](#velocizzare-i-silenzi)
-  - [Scorciatoie da tastiera](#scorciatoie-da-tastiera)
+  - [Scorciatoie](#scorciatoie)
   - [Contribuire](#contribuire)
   - [FAQ](#faq)
   - [Crediti](#crediti)
