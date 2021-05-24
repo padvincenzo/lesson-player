@@ -112,6 +112,8 @@ Anyone can contribute to this project, in many ways:
 
 In other words, fork this project and have fun coding. When you think something you wrote can improve this project, open your pull request.
 
+For any doubt or perplexity we can [discuss here](https://github.com/padvincenzo/lesson-player/discussions).
+
 ## FAQ
 
 #### Why the minimum silence duration should be greater than 2.25s
