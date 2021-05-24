@@ -9,6 +9,7 @@ Watch your video lessons on LAN, do not miss the mark and speed up during silenc
     - [Speed up silences](#speed-up-silences)
   - [Shortcuts](#shortcuts)
   - [Contributing](#contributing)
+  - [FAQ](#faq)
   - [Credits](#credits)
 
 **Feedbacks** are highly appreciated. Please, write me a line at *padvincenzo@gmail.com*
