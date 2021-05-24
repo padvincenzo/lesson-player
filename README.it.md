@@ -19,15 +19,28 @@ I **feedback** sono molto apprezzati. Per favore, scrivimi una riga a *padvincen
 ## Guida introduttiva
 
 ### Installazione
-  * Scarica, installa e avvia [xampp](https://www.apachefriends.org/download.html);
+  * Scarica, installa e avvia [xampp](https://www.apachefriends.org/download.html).
   * Apri la cartella di xampp:
     * Su Linux: ``/opt/lampp/htdocs/``
     * Su Windows: ``C:\\xampp\htdocs\``
     * Su Mac: monta il volume Xampp e apri la cartella ``htdocs``
-  * Crea una cartella (es: ``lesson-player/``) e copia tutti i file al suo interno;
-  * Apri il browser all'indirizzo ``http://localhost/phpmyadmin/`` e crea un nuovo database (es: ``lessons``);
-  * Dalla cartella di xampp apri il file ``_connect.php`` e aggiorna le credenziali del database (e volendo anche la lingua);
-  * Dal browser vai all'indirizzo ``http://localhost/<nome_cartella>/install.php`` (es: ``http://localhost/lesson-player/install.php``);
+  * Crea una cartella (es: ``lesson-player/``) e copia tutti i file al suo interno.
+  * Apri il browser all'indirizzo ``http://localhost/phpmyadmin/`` e crea un nuovo database (es: ``lessons``).
+  * Dalla cartella di xampp apri il file ``_connect.php`` e aggiorna le credenziali del database (e volendo anche la lingua):
+
+```php
+include("languages/<linguaggio>.php");
+
+// Credenziali del database
+$host = "localhost";   // Indirizzo IP del database. Se usi xampp è: localhost
+$user = "root";        // Il tuo username per accedere al database
+$password = "";        // La tua password per accedere al database
+$database = "lessons"; // Il nome che hai dato al tuo database
+
+/* ... */
+```
+
+  * **Solo per nuovi utenti**: dal browser vai all'indirizzo ``http://localhost/<nome_cartella>/install.php`` (es: ``http://localhost/lesson-player/install.php``). Questo script cancellerà tutti i dati presenti nel database, se esistono.
   * (Opzionale) Imposta xampp per l'avvio automatico all'avvio del pc.
 
 ### Aggiungere videolezioni
