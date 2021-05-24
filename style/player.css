@@ -31,7 +31,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 }
 
 #my-p-wrapper {
-  width: clamp(60%, 50vh, 100%);
+  width: clamp(60%, 70vh, 100%);
   display: inline-block;
 }
 
