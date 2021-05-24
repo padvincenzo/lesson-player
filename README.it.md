@@ -9,7 +9,10 @@ Guarda le tue videolezioni sulla rete locale, non perdere il segno e accelera du
     - [Velocizzare i silenzi](#velocizzare-i-silenzi)
   - [Scorciatoie da tastiera](#scorciatoie-da-tastiera)
   - [Contribuire](#contribuire)
+  - [FAQ](#faq)
   - [Crediti](#crediti)
+
+I **feedback** sono molto apprezzati. Per favore, scrivimi una riga a *padvincenzo@gmail.com*
 
 ---
 
@@ -83,7 +86,7 @@ Per ogni lezione è possibile trovare e velocizzare i silenzi, tramite ``ffmpeg`
     ...
 ```
 
-  * Si possono anche apportare modifiche al filtro, ma per un corretto funzionamento la durata minima dei silenzi (``d``) deve essere > 2.25.
+  * Si possono anche apportare modifiche al filtro, ma per un corretto funzionamento la durata minima dei silenzi (``d``) deve essere > 2.25. [Perché?](#perche-la-durata-minima-dei-silenzi-deve-essere-maggiore-di-225s)
 
 Per velocizzare questa operazione ho creato un piccolo [script in _bash_](https://github.com/padvincenzo/lesson-player/blob/main/scripts/silences.sh) e uno [in _batch_](https://github.com/padvincenzo/lesson-player/blob/main/scripts/silences.bat). Entrambi eseguono il filtro su tutte le videolezioni presenti nella cartella in cui sono eseguiti, e salvano il risultato in un file di testo dallo stesso nome della videolezione (vanno copiati ed eseguiti dalla directory che contiene le lezioni).
 
@@ -110,6 +113,11 @@ Chiunque può contribuire a questo progetto, in diversi modi:
 In altre parole, crea una fork e divertiti a scrivere codice. Quando avrai qualcosa che possa migliorare il progetto, apri la tua pull request.
 
 Per qualunque dubbio o perplessità possiamo discuterne sulla [pagina apposita](https://github.com/padvincenzo/lesson-player/discussions).
+
+## FAQ
+
+#### Perché la durata minima dei silenzi deve essere maggiore di 2.25s
+Alla velocità *8x*, preimpostata per i silenzi, il tempo del video si aggiorna ogni circa *2s*. Per ovviare questo problema, quando carichi i tempi di silenzio che genera ffmpeg, il server rimuove un margine di *2s* dalla fine del silenzio, e ne aggiunge uno di *0.25s* dall'inizio. Impostando una durata ``d`` minore di *2.25s*, il server riconoscerà questi silenzi con una durata ``(d - 2.25) ≤ 0``, pertanto saranno ignorati. È possibile modificare questi margini dal file ``/ajax/lesson.php``, all'interno della funzione ``insertSilences()`` (variabili ``$marginLeft`` e ``$marginRight``), ma ciò potrebbe causare effetti indesiderati.
 
 ## Crediti
 * Il sito fa uso della libreria [``video.js``](https://videojs.com/) e una versione modificata del [tema _city_](https://github.com/videojs/themes);
