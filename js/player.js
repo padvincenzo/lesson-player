@@ -131,26 +131,22 @@ class Player {
           e.preventDefault();
           break;
         }
-        case "ArrowLeft":
-        case "KeyA": {
+        case "ArrowLeft": {
           e.preventDefault();
           Player.changeTime(e.ctrlKey || e.metaKey ? -60 : -5);
           break;
         }
-        case "ArrowRight":
-        case "KeyD": {
+        case "ArrowRight": {
           e.preventDefault();
           Player.changeTime(e.ctrlKey || e.metaKey ? +60 : +5);
           break;
         }
-        case "ArrowUp":
-        case "KeyW": {
+        case "ArrowUp": {
           e.preventDefault();
           Player.changeVolume(+0.05);
           break;
         }
-        case "ArrowDown":
-        case "KeyS": {
+        case "ArrowDown": {
           e.preventDefault();
           Player.changeVolume(-0.05);
           break;
