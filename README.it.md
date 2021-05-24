@@ -140,9 +140,9 @@ Apri il file ``/js/player.js`` e modifica i seguenti valori:
 class Player {
   /* ... */
 
-  static fastPlaybackRate = 8;  /* Velocità di riproduzione durante i silenzi */
-  static minPlaybackRate = 0.5; /* Velocità di riproduzione minima */
-  static maxPlaybackRate = 3;   /* Velocità di riproduzione massima */
+  static fastPlaybackRate = 8;  // Velocità di riproduzione durante i silenzi
+  static minPlaybackRate = 0.5; // Velocità di riproduzione minima
+  static maxPlaybackRate = 3;   // Velocità di riproduzione massima
   
   /* ... */
 }
