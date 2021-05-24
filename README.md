@@ -1,7 +1,7 @@
 # Lesson Player [![Donate](https://img.shields.io/badge/donate-paypal-blue.svg)](https://www.paypal.com/paypalme/VincenzoPadula)
 Watch your video lessons on LAN, do not miss the mark and speed up during silences.
 
-*Read this in other languages: *English*, [Italian](README.it.md).*
+*Read this in other languages: English, [Italian](README.it.md).*
 
   - [Getting started](#getting-started)
     - [Install](#install)
