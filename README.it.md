@@ -129,7 +129,7 @@ Per qualunque dubbio o perplessità possiamo discuterne sulla [pagina apposita](
 
 ## FAQ
 
-#### Perché la durata minima dei silenzi deve essere maggiore di 2.25s
+#### Perché la durata minima dei silenzi deve essere maggiore di 2.25s?
 Alla velocità *8x*, preimpostata per i silenzi, il tempo del video si aggiorna ogni circa *2s*. Per ovviare questo problema, quando carichi i tempi di silenzio che genera ffmpeg, il server rimuove un margine di *2s* dalla fine del silenzio, e ne aggiunge uno di *0.25s* dall'inizio. Impostando una durata ``d`` minore di *2.25s*, il server riconoscerà questi silenzi con una durata ``(d - 2.25) ≤ 0``, pertanto saranno ignorati. È possibile modificare questi margini dal file ``/ajax/lesson.php``, all'interno della funzione ``insertSilences()`` (variabili ``$marginLeft`` e ``$marginRight``), ma ciò potrebbe causare effetti indesiderati.
 
 ```php
