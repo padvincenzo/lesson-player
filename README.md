@@ -19,15 +19,28 @@ Watch your video lessons on LAN, do not miss the mark and speed up during silenc
 ## Getting started
 
 ### Install
-  * Download, install and run [xampp](https://www.apachefriends.org/download.html);
+  * Download, install and run [xampp](https://www.apachefriends.org/download.html).
   * Open xampp folder:
     * On Linux: ``/opt/lampp/htdocs/``
     * On Windows: ``C:\\xampp\htdocs\``
     * On Mac: mount Xampp volume and open the folder ``htdocs``
-  * Create a new folder (e.g.: ``lesson-player/``) and copy all files inside;
-  * Open the browser at ``http://localhost/phpmyadmin/`` and create a new database (e.g.: ``lessons``);
-  * From the xampp folder, open ``_connect.php`` and update the database credentials (and maybe the language);
-  * From the browser go to ``http://localhost/<folder_name>/install.php`` (e.g.: ``http://localhost/lesson-player/install.php``);
+  * Create a new folder (e.g.: ``lesson-player/``) and copy all files inside.
+  * Open the browser at ``http://localhost/phpmyadmin/`` and create a new database (e.g.: ``lessons``).
+  * From the xampp folder, open ``_connect.php`` and update the database credentials (and maybe the language):
+
+```php
+include("languages/<language_file>.php");
+
+// Database credentials
+$host = "localhost";   // IP address of the database. With xampp is: localhost
+$user = "root";        // Your database username
+$password = "";        // Your database password
+$database = "lessons"; // The name of your database
+
+/* ... */
+```
+
+  * **Only for new users**: from the browser go to ``http://localhost/<folder_name>/install.php`` (e.g.: ``http://localhost/lesson-player/install.php``). This script will drop all data in the database, if exist.
   * (Optional) Make xampp run at pc startup by default.
 
 ### Add video lessons
