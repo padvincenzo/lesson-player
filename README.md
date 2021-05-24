@@ -96,10 +96,10 @@ With the aim of saving time, I've written a little [script in *bash*](https://gi
 | ``Space``                 | Toggle play/pause             |
 | ``M``                     | Toggle mute                   |
 | ``F``                     | Toggle fullscreen             |
-| ``Arrow left`` or ``A``   | Go back 5s (1m with ``Ctrl``) |
-| ``Arrow right`` or ``D``  | Skip 5s (1m with ``Ctrl``)    |
-| ``Arrow up`` or ``W``     | Increase volume               |
-| ``Arrow down`` or ``S``   | Decrease volume               |
+| ``Arrow left``            | Go back 5s (1m with ``Ctrl``) |
+| ``Arrow right``           | Skip 5s (1m with ``Ctrl``)    |
+| ``Arrow up``              | Increase volume               |
+| ``Arrow down``            | Decrease volume               |
 | ``]`` or ``+`` (or ``=``) | Increase playback rate        |
 | ``[`` or ``-``            | Decrease playback rate        |
 
