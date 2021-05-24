@@ -47,17 +47,17 @@ $database = "lessons"; // The name of your database
   * In the folder ``.../htdocs/lesson-player/`` create a subdirectory (e.g.: ``classes/``) and copy all your video lessons inside, arranged in a structure like:
 
 ```
-    lesson-player/
-        classes/
-            Physics I/
-                Lesson 01.mp4
-                Lesson 02.mp4
-                ...
-            Chemistry/
-                Lesson 2021-01-01.mp4
-                Lesson 2021-01-02.mp4
-                ...
+lesson-player/
+    classes/
+        Physics I/
+            Lesson 01.mp4
+            Lesson 02.mp4
             ...
+        Chemistry/
+            Lesson 2021-01-01.mp4
+            Lesson 2021-01-02.mp4
+            ...
+        ...
 ```
 
   * Note: folders and videos inside ``classes`` may also be links.
@@ -74,29 +74,29 @@ For each lesson it's possible to find and speed up silences, using ``ffmpeg``:
   * Move to the folder ``.../lesson-player/`` (e.g. using ``cd <xampp_folder>/htdocs/lesson-player/``);
   * Run ffmpeg with ``silencedetect`` filter, as shown in the form of creation/edit of a lesson. E.g.:
 
-```
-    ffmpeg -hide_banner -nostats -vn -i "classes/Physics I/Lesson 01.mp4" -af silencedetect=n=0.002:d=2.3 -f null -
+```sh
+ffmpeg -hide_banner -nostats -vn -i "classes/Physics I/Lesson 01.mp4" -af silencedetect=n=0.002:d=2.3 -f null -
 ```
 
   * Copy & paste the output in the form of creation/edit of the lesson. Example of a ffmpeg output:
 
 ```
-    ...
-    [silencedetect @ 0x56093ac71400] silence_start: 8.58428
-    [silencedetect @ 0x56093ac71400] silence_end: 17.2754 | silence_duration: 8.69112
-    [silencedetect @ 0x56093ac71400] silence_start: 2765.06
-    [silencedetect @ 0x56093ac71400] silence_end: 2768.73 | silence_duration: 3.66969
-    [silencedetect @ 0x56093ac71400] silence_start: 3653.35
-    [silencedetect @ 0x56093ac71400] silence_end: 3657.01 | silence_duration: 3.66175
-    [silencedetect @ 0x56093ac71400] silence_start: 4347.37
-    [silencedetect @ 0x56093ac71400] silence_end: 4349.95 | silence_duration: 2.58562
-    [silencedetect @ 0x56093ac71400] silence_start: 4424.87
-    [silencedetect @ 0x56093ac71400] silence_end: 4429.57 | silence_duration: 4.69538
-    [silencedetect @ 0x56093ac71400] silence_start: 4475.08
-    [silencedetect @ 0x56093ac71400] silence_end: 4478.69 | silence_duration: 3.61456
-    [silencedetect @ 0x56093ac71400] silence_start: 4961.04
-    [silencedetect @ 0x56093ac71400] silence_end: 4965.18 | silence_duration: 4.14791
-    ...
+...
+[silencedetect @ 0x56093ac71400] silence_start: 8.58428
+[silencedetect @ 0x56093ac71400] silence_end: 17.2754 | silence_duration: 8.69112
+[silencedetect @ 0x56093ac71400] silence_start: 2765.06
+[silencedetect @ 0x56093ac71400] silence_end: 2768.73 | silence_duration: 3.66969
+[silencedetect @ 0x56093ac71400] silence_start: 3653.35
+[silencedetect @ 0x56093ac71400] silence_end: 3657.01 | silence_duration: 3.66175
+[silencedetect @ 0x56093ac71400] silence_start: 4347.37
+[silencedetect @ 0x56093ac71400] silence_end: 4349.95 | silence_duration: 2.58562
+[silencedetect @ 0x56093ac71400] silence_start: 4424.87
+[silencedetect @ 0x56093ac71400] silence_end: 4429.57 | silence_duration: 4.69538
+[silencedetect @ 0x56093ac71400] silence_start: 4475.08
+[silencedetect @ 0x56093ac71400] silence_end: 4478.69 | silence_duration: 3.61456
+[silencedetect @ 0x56093ac71400] silence_start: 4961.04
+[silencedetect @ 0x56093ac71400] silence_end: 4965.18 | silence_duration: 4.14791
+...
 ```
 
   * You can also edit the filter, but in order to ensure the success of the program, the minimum duration of silences (``d``) must be > 2.25. [Why?](#why-the-minimum-silence-duration-should-be-greater-than-225s)
