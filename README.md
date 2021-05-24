@@ -11,6 +11,8 @@ Watch your video lessons on LAN, do not miss the mark and speed up during silenc
   - [Contributing](#contributing)
   - [Credits](#credits)
 
+**Feedbacks** are highly appreciated. Please, write me a line at *padvincenzo@gmail.com*
+
 ---
 
 ## Getting started
@@ -83,7 +85,7 @@ For each lesson it's possible to find and speed up silences, using ``ffmpeg``:
     ...
 ```
 
-  * You can also edit the filter, but in order to ensure the success of the program, the minimum duration of silences (``d``) must be > 2.25.
+  * You can also edit the filter, but in order to ensure the success of the program, the minimum duration of silences (``d``) must be > 2.25. [Why?](#why-the-minimum-silence-duration-should-be-greater-than-2.25s)
 
 With the aim of saving time, I've written a little [script in *bash*](https://github.com/padvincenzo/lesson-player/blob/main/scripts/silences.sh) and another one [in *batch*](https://github.com/padvincenzo/lesson-player/blob/main/scripts/silences.bat). They both run the filter on every video in the same folder where the script is executed, and save the result in a file with the same name of the video (so the script should be executed in the folder that contains the videos).
 
@@ -109,7 +111,10 @@ Anyone can contribute to this project, in many ways:
 
 In other words, fork this project and have fun coding. When you think something you wrote can improve this project, open your pull request.
 
-For any doubt or perplexity we can [discuss here](https://github.com/padvincenzo/lesson-player/discussions).
+## FAQ
+
+#### Why the minimum silence duration should be greater than 2.25s
+At *8x* speed, preset for silences, the video time updates every about *2s*. To work around this problem, when you load the silence times that ffmpeg generates, the server removes a *2s* margin from the end of the silence, and adds *0.25s* from the beginning. By setting a duration ``d`` less than *2.25s*, the server will recognize these silences with a duration ``(d - 2.25) ≤ 0``, therefore they will be ignored. You can change these margins from ``/ajax/lesson.php``, inside the ``insertSilences()`` function (``$marginLeft`` and ``$marginRight`` variables), but this could cause unwanted effects.
 
 ## Credits
 * The website makes use of [``video.js``](https://videojs.com/) and a modified version of [theme _city_](https://github.com/videojs/themes);
