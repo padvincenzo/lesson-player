@@ -47,6 +47,9 @@ $database = "lessons"; // The name of your database
 ```
 
   * **Only for new users**: from the browser go to ``http://localhost/<folder_name>/install.php`` (e.g.: ``http://localhost/lesson-player/install.php``). This script will drop all data in the database, if exist.
+
+![Install](img/screenshots/Install.png)
+
   * (Optional) Make xampp run at pc startup by default.
 
 ### Add video lessons
