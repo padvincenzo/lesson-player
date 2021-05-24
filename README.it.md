@@ -131,9 +131,9 @@ Sfortunatamente, ciò non è possibile senza una ricodifica del video stesso. Pe
 Apri il file ``/js/player.js`` e modifica i seguenti valori:
 
 ```js
-static fastPlaybackRate = 8;  // Velocità di riproduzione durante i silenzi
-static minPlaybackRate = 0.5; // Velocità di riproduzione minima
-static maxPlaybackRate = 3;   // Velocità di riproduzione massima
+static fastPlaybackRate = 8;  /* Velocità di riproduzione durante i silenzi */
+static minPlaybackRate = 0.5; /* Velocità di riproduzione minima */
+static maxPlaybackRate = 3;   /* Velocità di riproduzione massima */
 ```
 
 Dopo di ché ricarica la pagina.
