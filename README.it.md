@@ -1,6 +1,8 @@
 # Lesson Player [![Donate](https://img.shields.io/badge/donate-paypal-blue.svg)](https://www.paypal.com/paypalme/VincenzoPadula)
 Guarda le tue videolezioni sulla rete locale, non perdere il segno e accelera durante i silenzi.
 
+![Presentation](img/screenshots/Presentation.png)
+
 *Leggi in altre lingue: [Inglese](README.md), Italiano.*
 
   - [Guida introduttiva](#guida-introduttiva)
@@ -72,9 +74,14 @@ lesson-player/
   * Nota: le cartelle e i file dentro la cartella ``classes`` possono anche essere collegamenti.
   * Apri il browser all'indirizzo ``http://localhost/lesson-player/``;
   * Inserisci tutti i corsi: nome, professore, percorso della cartella (es: ``classes/Physics I/``, notare lo ``/`` alla fine);
+
+![New_class](img/screenshots/New_class.png)
+
   * Tornando alla pagina principale:
     * Seleziona un corso e premi il pulsante ``Mostra``;
     * Inserisci tutte le videolezioni appartenenti a quel corso: data, titolo, nome del file (es: ``Lesson 01.mp4``);
+
+![New_lesson](img/screenshots/New_lesson.png)
 
 ### Velocizzare i silenzi
 Per ogni lezione è possibile trovare e velocizzare i silenzi, tramite ``ffmpeg``:
