@@ -46,7 +46,7 @@ br {
   text-align: center;
 }
 
-button {
+button:not([tabIndex = "-1"]) {
   cursor: pointer;
   width: 16em;
   line-height: 2em;
@@ -60,13 +60,13 @@ button {
   transition: background-color 0.1s;
 }
 
-button:hover,
-button:active,
-button:focus {
+button:not([tabIndex = "-1"]):hover,
+button:not([tabIndex = "-1"]):active,
+button:not([tabIndex = "-1"]):focus {
   background: var(--background);
 }
 
-button.btnSmall {
+button:not([tabIndex = "-1"]).btnSmall {
   width: auto;
   min-width: 7em;
   line-height: 1.8em;
