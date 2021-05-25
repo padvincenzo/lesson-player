@@ -16,6 +16,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+
+/* Default dark theme */
 :root {
   --background: #222;
   --background-opaque: #000C;
@@ -55,7 +57,13 @@ button {
   border-color: var(--color-primary-opaque);
   margin: 1em;
   font-size: 1.2em;
-  text-shadow: 1px 1px 2px #111;
+  transition: background-color 0.1s;
+}
+
+button:hover,
+button:active,
+button:focus {
+  background: var(--background);
 }
 
 button.btnSmall {
