@@ -89,9 +89,14 @@ class Player {
   }
 
   static initShortcuts() {
-    Player.background.addEventListener("keyup", (e) => {
+    document.body.addEventListener("keyup", (e) => {
+      if(e.target.tagName == "INPUT" || e.target.tagName == "TEXTAREA") {
+        return;
+      }
+
       switch (e.code) {
         case "Space": {
+          /* Pause/play the video */
           e.preventDefault();
           if(Player.paused()) {
             Player.play();
@@ -103,6 +108,7 @@ class Player {
           break;
         }
         case "KeyM": {
+          /* Mute/unmute the video */
           e.preventDefault();
           if(Player.muted()) {
             Player.muted(false);
@@ -114,18 +120,29 @@ class Player {
           break;
         }
         case "KeyF": {
+          /* Toggle fullscreen */
           e.preventDefault();
           if(Player.isFullscreen()) {
             Player.exitFullscreen();
           } else {
             Player.requestFullscreen();
           }
-          break;;
+          break;
+        }
+        case "KeyS": {
+          /* Skip silence */
+          e.preventDefault();
+          Player.skipSilence();
+          break;
         }
       }
     });
 
-    Player.background.addEventListener("keydown", (e) => {
+    document.body.addEventListener("keydown", (e) => {
+      if(e.target.tagName == "INPUT" || e.target.tagName == "TEXTAREA") {
+        return;
+      }
+
       switch (e.code) {
         case "Space": {
           e.preventDefault();
@@ -200,10 +217,7 @@ class Player {
 
     // Skip silence on click
     Player.fastSilence.addEventListener("click", () => {
-      let t_end = Player.lesson.getEndOfSilence(Player.currentTime());
-      if(t_end != null) {
-        Player.currentTime(t_end);
-      }
+      Player.skipSilence();
     });
   }
 
@@ -347,6 +361,16 @@ class Player {
       Player.notice.style.display = "none";
       Player.notice.innerText = "";
     }, 1500);
+  }
+
+  static skipSilence() {
+    if(Player.lesson == null)
+      return;
+
+    let t_end = Player.lesson.getEndOfSilence(Player.currentTime());
+    if(t_end != null) {
+      Player.currentTime(t_end);
+    }
   }
 
   static changeVolume(_amount) {
