@@ -42,6 +42,9 @@ $dbh->close();
 		<link href="style/cards.css" rel="stylesheet">
 		<link href="style/form.css" rel="stylesheet">
 
+		<!-- Change the theme of the site. If not provided, default is dark.css -->
+		<!-- <link href="themes/dark.css" rel="stylesheet"> -->
+
 		<script type="text/javascript">
 			<?php echo "const lang = " . json_encode($lang) . ";"; ?>
 		</script>
@@ -54,7 +57,9 @@ $dbh->close();
 		<script src="js/class.js" type="text/javascript"></script>
 		<script src="js/player.js" type="text/javascript"></script>
 
-		<link rel="icon" href="img/icon.svg">
+		<link rel="icon" href="img/icon.svg" type="image/svg+xml" />
+		<link rel="shortcut icon" href="img/icon.ico" type="image/x-icon" />
+		<link rel="apple-touch-icon" href="img/icon.svg" type="image/svg+xml" />
 	</head>
 
 	<body>
