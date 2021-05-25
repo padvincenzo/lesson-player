@@ -1,0 +1,12 @@
+/* Light theme */
+
+:root {
+  --background: #DDD;
+  --background-opaque: #DDDC;
+  --background-focused: #999;
+  --color-primary: #000;
+  --color-primary-opaque: #000A;
+  --color-secondary: #444;
+  --color-secondary-opaque: #4442;
+  --shadow: #111;
+}
