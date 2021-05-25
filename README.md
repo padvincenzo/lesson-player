@@ -133,6 +133,7 @@ With the focus on the player, you can use these shortcuts:
 | ``Arrow down``            | Decrease volume               |
 | ``]`` or ``+`` (or ``=``) | Increase playback rate        |
 | ``[`` or ``-``            | Decrease playback rate        |
+| ``S``                     | Skip current silence          |
 
 Other types of shortcuts:
 * Boxes of classes and lessons are tabindexed and scrollable with ``Tab`` key. Pressing ``Enter`` on a box, it will start the relative lesson. Same effect by double-clicking a box.
