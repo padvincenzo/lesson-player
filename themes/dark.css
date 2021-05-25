@@ -1,0 +1,12 @@
+/* Dark theme (default) */
+
+:root {
+  --background: #222;
+  --background-opaque: #000C;
+  --background-focused: #111;
+  --color-primary: #FFF;
+  --color-primary-opaque: #FFFA;
+  --color-secondary: #DDD;
+  --color-secondary-opaque: #DDD2;
+  --shadow: #111;
+}
