@@ -39,6 +39,7 @@ $lang->dateFormat         = "default";
 $lang->dbConnectionFailed = "Database connection failed.";
 $lang->dbNotFound         = "Database name not found.";
 $lang->defaultLessonTitle = "Lesson of {dated}";
+$lang->directory          = "Directory";
 $lang->edit               = "Edit";
 $lang->errorOpeningFile   = "Error opening file";
 $lang->failed             = "Failed";
