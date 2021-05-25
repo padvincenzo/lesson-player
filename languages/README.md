@@ -23,7 +23,7 @@ Ho scritto una piccola funzione che imita un dizionario, essa accetta (~sostitui
 * ``{DD}``: giorno a due cifre;
 * ``{D}``: giorno a una cifra, se < 10.
 
-If is set to ``default``, the format is ``{YYYY}-{MM}-{DD}``.
+Se impostato a ``default``, il formato sarà ``{YYYY}-{MM}-{DD}``.
 
 
 ---
