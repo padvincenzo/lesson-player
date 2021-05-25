@@ -96,8 +96,12 @@ function listClasses() {
     on l.idclass = c.idclass
     group by c.idclass
     order by max(l.lastPlayed) desc;");
-  $classes = $result->fetch_all(MYSQLI_ASSOC);
-  return Response::ok($lang->classList, $classes);
+  if($result) {
+    $classes = $result->fetch_all(MYSQLI_ASSOC);
+    return Response::ok($lang->classList, $classes);
+  }
+
+  return Response::err($lang->notYetInstalled);
 }
 
 ?>
