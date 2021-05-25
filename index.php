@@ -74,7 +74,11 @@ $dbh->close();
 
 		<footer>
 			<p>Developed by Vincenzo Padula</p>
-			<p><a href="JavaScript:popup('credits.php');"><?php echo $lang->credits; ?></a></p>
+			<p>
+				<a href="JavaScript:popup('credits.php');"><?php echo $lang->credits; ?></a>
+				&middot;
+				<a href="https://github.com/padvincenzo/lesson-player/discussions/2" target="_blank">Feedback</a>
+			</p>
 		</footer>
 
 	</body>
