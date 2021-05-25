@@ -59,6 +59,7 @@ $lang->lessonNotEdited    = "Lesson not edited";
 $lang->nextLesson         = "Next lesson";
 $lang->newClass           = "Add class";
 $lang->newLesson          = "Add lesson";
+$lang->notYetInstalled    = "Database has not been installed yet.";
 $lang->ok                 = "Ok";
 $lang->paused             = "Paused";
 $lang->play               = "Play";

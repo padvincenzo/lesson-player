@@ -59,6 +59,7 @@ $lang->lessonNotEdited    = "Lezione non modificata";
 $lang->nextLesson         = "Lezione successiva";
 $lang->newClass           = "Nuovo corso";
 $lang->newLesson          = "Nuova lezione";
+$lang->notYetInstalled    = "Il database non è ancora stato installato.";
 $lang->ok                 = "Ok";
 $lang->paused             = "In pausa";
 $lang->play               = "Riproduci";
