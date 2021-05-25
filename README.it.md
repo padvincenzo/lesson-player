@@ -120,7 +120,7 @@ ffmpeg -hide_banner -nostats -vn -i "classes/Physics I/Lesson 01.mp4" -af silenc
 Per velocizzare questa operazione ho creato un piccolo [script in _bash_](https://github.com/padvincenzo/lesson-player/blob/main/scripts/silences.sh) e uno [in _batch_](https://github.com/padvincenzo/lesson-player/blob/main/scripts/silences.bat). Entrambi eseguono il filtro su tutte le videolezioni presenti nella cartella in cui sono eseguiti, e salvano il risultato in un file di testo dallo stesso nome della videolezione (vanno copiati ed eseguiti dalla directory che contiene le lezioni).
 
 ## Scorciatoie
-Con il focus sul player, puoi usare queste scorciatoie da tastiera:
+Scorciatoie da tastiera:
 
 |        **Tasto/i**      |               **Effetto**              |
 |:-----------------------:| -------------------------------------- |
