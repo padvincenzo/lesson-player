@@ -143,12 +143,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
     height: auto;
   }
 
-  .card:hover::after,
-  .card:active::after,
-  .card:focus::after {
-    height: 6em;
-  }
-
   .card div:nth-child(1),
   .card div:nth-child(2) {
     white-space: nowrap;
