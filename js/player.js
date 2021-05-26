@@ -223,8 +223,9 @@ class Player {
 
   static initLessonUpdater() {
     Player.on("ratechange", () => {
-      if(Player.lesson == null)
+      if(Player.lesson == null) {
         return;
+      }
 
       let rate = Player.playbackRate();
       if(rate != Player.fastPlaybackRate && rate != Player.lesson.playbackRate) {
@@ -233,32 +234,26 @@ class Player {
     });
 
     Player.on("timeupdate", () => {
-      if(Player.lesson == null)
+      if(Player.lesson == null) {
         return;
-
-      let currentTime = Player.currentTime();
-      let rate = Player.playbackRate();
-
-      if(currentTime == null || rate == null)
-        return;
-
-      if(Player.lesson.isInSilence(currentTime)) {
-        if(rate != Player.fastPlaybackRate) {
-          Player.playbackRate(Player.fastPlaybackRate);
-          Player.fastSilence.style.display = "inline-block";
-        }
-      } else {
-        if(rate == Player.fastPlaybackRate) {
-          Player.playbackRate(Player.lesson.playbackRate);
-          Player.fastSilence.style.display = "none";
-        }
       }
 
-      if(Player.lesson != null)
-        Player.lesson.dbMark(currentTime);
+      let currentTime = Player.currentTime();
+
+      if(Player.lesson.isInSilence(currentTime)) {
+        Player.goFast();
+      } else {
+        Player.goRegular();
+      }
+
+      Player.lesson.dbMark(currentTime);
     });
 
     Player.on("ended", () => {
+      if(Player.lesson == null) {
+        return;
+      }
+
       Player.lesson.dbSetAsWatched().then(() => {
         Player.lesson.playNext();
       });
@@ -269,6 +264,7 @@ class Player {
     let controls = Player.wrapper.querySelectorAll("[tabindex='0'], button");
     for(let i = 0; i < controls.length; i++) {
       controls[i].tabIndex = -1;
+
       controls[i].addEventListener("click", () => {
         Player.focus();
       });
@@ -323,11 +319,11 @@ class Player {
   }
 
   static load(_lesson, _autoplay = true) {
-    if(_lesson == null)
+    if(_lesson == null) {
       return;
+    }
 
     Player.lesson = _lesson;
-
     Player.src(Player.lesson.url());
 
     Player.overlayData.class.innerText = Player.lesson.parentClass.name;
@@ -340,8 +336,9 @@ class Player {
     Player.currentTime(Player.lesson.mark);
     Player.defaultPlaybackRate(Player.lesson.playbackRate);
 
-    if(_autoplay)
+    if(_autoplay) {
       Player.play();
+    }
   }
 
   static appendLayer(_id) {
@@ -355,8 +352,10 @@ class Player {
     if(Player.noticeTimeout != null) {
       clearTimeout(Player.noticeTimeout)
     }
+
     Player.notice.innerHTML = _notice;
     Player.notice.style.display = "inline-block";
+
     Player.noticeTimeout = setTimeout(() => {
       Player.notice.style.display = "none";
       Player.notice.innerText = "";
@@ -364,43 +363,63 @@ class Player {
   }
 
   static skipSilence() {
-    if(Player.lesson == null)
+    if(Player.lesson == null) {
       return;
+    }
 
     let t_end = Player.lesson.getEndOfSilence(Player.currentTime());
     if(t_end != null) {
       Player.currentTime(t_end);
+      Player.notify(secondsToTime(t_end));
     }
   }
 
-  static changeVolume(_amount) {
-    if(Player.lesson == null)
+  static goFast() {
+    if(Player.lesson == null) {
       return;
+    }
 
-    let currentVolume = Player.volume();
-    let newVolume = limit(+currentVolume + +_amount, 0, 1);
+    Player.playbackRate(Player.fastPlaybackRate);
+    Player.fastSilence.style.display = "inline-block";
+  }
+
+  static goRegular() {
+    if(Player.lesson == null) {
+      return;
+    }
+
+    Player.playbackRate(Player.lesson.playbackRate);
+    Player.fastSilence.style.display = "none";
+  }
+
+  static changeVolume(_amount) {
+    if(Player.lesson == null) {
+      return;
+    }
+
+    let newVolume = limit(+Player.volume() + +_amount, 0, 1);
 
     Player.volume(newVolume);
     Player.notify(`${lang.volume} ${(newVolume * 100).toFixed(0)}%`);
   }
 
   static changePlaybackRate(_amount) {
-    if(Player.lesson == null)
+    if(Player.lesson == null) {
       return;
+    }
 
-    let currentPlaybackRate = Player.lesson.playbackRate;
-    let newPlaybackRate = limit(currentPlaybackRate + +_amount, Player.minPlaybackRate, Player.maxPlaybackRate).toFixed(1);
+    let newPlaybackRate = limit(+Player.lesson.playbackRate + +_amount, Player.minPlaybackRate, Player.maxPlaybackRate).toFixed(1);
 
     Player.playbackRate(newPlaybackRate);
     Player.notify(`${lang.rate} ${newPlaybackRate}x`);
   }
 
   static changeTime(_amount) {
-    if(Player.lesson == null)
+    if(Player.lesson == null) {
       return;
+    }
 
-    let currentTime = Player.currentTime();
-    let newTime = limit(currentTime + +_amount, 0, Player.duration());
+    let newTime = limit(+Player.currentTime() + +_amount, 0, Player.duration());
 
     Player.currentTime(newTime);
     Player.notify(secondsToTime(newTime));
