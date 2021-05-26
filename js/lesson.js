@@ -229,11 +229,11 @@ class Lesson {
     if(this.silences == null)
       return null;
 
-    let silence = this.silences.filter((s) => {
+    let silence = this.silences.find((s) => {
       return s.t_start <= timestamp && s.t_end >= timestamp;
     });
 
-    return silence.length == 1 ? silence[0] : null;
+    return silence != undefined ? silence : null;
   }
 
   isInSilence(timestamp) {
