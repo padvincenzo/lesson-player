@@ -225,24 +225,22 @@ class Lesson {
     });
   }
 
-  getSilenceFromTimestamp(timestamp) {
+  getSilenceByTime(time) {
     if(this.silences == null)
       return null;
 
-    let silence = this.silences.find((s) => {
-      return s.t_start <= timestamp && s.t_end >= timestamp;
+    return this.silences.find((s) => {
+      return +s.t_start <= +time && +s.t_end >= +time;
     });
-
-    return silence != undefined ? silence : null;
   }
 
-  isInSilence(timestamp) {
-    return this.getSilenceFromTimestamp(timestamp) != null;
+  isInSilence(time) {
+    return this.getSilenceByTime(time) != undefined;
   }
 
-  getEndOfSilence(timestamp) {
-    let silence = this.getSilenceFromTimestamp(timestamp);
-    return silence != null ? silence.t_end : null;
+  getEndOfSilence(time) {
+    let silence = this.getSilenceByTime(time);
+    return silence ? silence.t_end : null;
   }
 
   dbEdit(_data) {
