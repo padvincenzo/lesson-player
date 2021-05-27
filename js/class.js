@@ -36,7 +36,7 @@ class Class {
         classes.forEach((c, i) => {
           // Check if the class is already in memory
           var _class = Class.getById(c.idclass);
-          if(_class != null) {
+          if(_class) {
             _class.update(c);
           } else {
             Class.classes.push(new Class(c));
@@ -63,13 +63,9 @@ class Class {
       return null;
     }
 
-    for(let i = 0; i < Class.classes.length; i++) {
-      if(Class.classes[i].idclass == idclass) {
-        return Class.classes[i];
-      }
-    }
-
-    return null;
+    return Class.classes.find((c) => {
+      return c.idclass == idclass;
+    });
   }
 
   static cards() {
@@ -237,13 +233,9 @@ class Class {
       return null;
     }
 
-    for(let i = 0; i < this.lessons.length; i++) {
-      if(this.lessons[i].idlesson == idlesson) {
-        return this.lessons[i];
-      }
-    }
-
-    return null;
+    return this.lessons.find((l) => {
+      return l.idlesson == idlesson;
+    });
   }
 
   retrieveLessons() {
@@ -252,7 +244,7 @@ class Class {
         lessons.forEach((l) => {
           // Check if the lesson is already in memory
           let lesson = this.getLessonById(l.idlesson);
-          if(lesson != null) {
+          if(lesson) {
             lesson.update(l);
           } else {
             this.lessons.push(new Lesson(l, this));
@@ -311,11 +303,11 @@ class Class {
         }
 
         this.nextLesson = this.getLessonById(_lesson.idlesson);
-        if(this.nextLesson == null) {
+        if(this.nextLesson) {
+          this.nextLesson.update(_lesson);
+        } else {
           let i = this.lessons.push(new Lesson(_lesson, this));
           this.nextLesson = this.lessons[i - 1];
-        } else {
-          this.nextLesson.update(_lesson);
         }
       });
   }
