@@ -1,4 +1,4 @@
-# Lesson Player [![Donate](https://img.shields.io/badge/donate-paypal-blue.svg)](https://www.paypal.com/paypalme/VincenzoPadula)
+# Lesson Player
 Guarda le tue videolezioni sulla rete locale, non perdere il segno e accelera durante i silenzi.
 
 ![Presentation](img/screenshots/Presentation.png)
@@ -190,3 +190,6 @@ Dopo di ché ricarica la pagina.
 ## Crediti
 * Il sito fa uso della libreria [``video.js``](https://videojs.com/) e una versione modificata del [tema _city_](https://github.com/videojs/themes);
 * Le icone sono prese da [www.flaticon.com](https://www.flaticon.com/).
+
+
+[![Donate](https://img.shields.io/badge/donate-paypal-blue.svg)](https://www.paypal.com/paypalme/VincenzoPadula)
