@@ -1,4 +1,4 @@
-# Lesson Player [![Donate](https://img.shields.io/badge/donate-paypal-blue.svg)](https://www.paypal.com/paypalme/VincenzoPadula)
+# Lesson Player
 Watch your video lessons on LAN, do not miss the mark and speed up during silences.
 
 ![Presentation](img/screenshots/Presentation.png)
@@ -190,3 +190,7 @@ Then reload the page.
 ## Credits
 * The website makes use of [``video.js``](https://videojs.com/) and a modified version of [theme _city_](https://github.com/videojs/themes);
 * Icons are from [www.flaticon.com](https://www.flaticon.com/).
+
+
+[![Donate](https://img.shields.io/badge/donate-paypal-blue.svg)](https://www.paypal.com/paypalme/VincenzoPadula)
+
