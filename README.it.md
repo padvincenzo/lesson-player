@@ -140,10 +140,12 @@ Altri tipi di scorciatoie:
 
 ## Contribuire
 Chiunque può contribuire a questo progetto, in diversi modi:
-* Traducendo il progetto in altre lingue (aggiungendo nuovi file nella cartella ``languages/``);
-* Scovando e segnalando/risolvendo [bug](https://github.com/padvincenzo/lesson-player/issues);
+* Traducendo il progetto in [altre lingue](https://github.com/padvincenzo/lesson-player/tree/main/languages);
+* Condividendo [nuovi temi](https://github.com/padvincenzo/lesson-player/tree/main/themes);
+* Scovando e segnalando/risolvendo bug;
 * Suggerendo nuove idee;
-* Implementando nuove funzionalità.
+* Implementando nuove funzionalità;
+* ***Inviando feedback***.
 
 In altre parole, crea una fork e divertiti a scrivere codice. Quando avrai qualcosa che possa migliorare il progetto, apri la tua pull request.
 
