@@ -117,7 +117,7 @@ ffmpeg -hide_banner -nostats -vn -i "classes/Physics I/Lesson 01.mp4" -af silenc
 
   * You can also edit the filter, but in order to ensure the success of the program, the minimum duration of silences (``d``) must be > 2.25. [Why?](#why-should-the-minimum-silence-duration-be-greater-than-225s)
 
-With the aim of saving time, I've written a little [script in *bash*](https://github.com/padvincenzo/lesson-player/blob/main/scripts/silences.sh) and another one [in *batch*](https://github.com/padvincenzo/lesson-player/blob/main/scripts/silences.bat). They both run the filter on every video in the same folder where the script is executed, and save the result in a file with the same name of the video (so the script should be executed in the folder that contains the videos).
+With the aim of saving time, I've written a little [script in *bash*](https://github.com/padvincenzo/lesson-player/blob/main/scripts/silences.sh) (for Linux) and another one [in *batch*](https://github.com/padvincenzo/lesson-player/blob/main/scripts/silences.bat) (for Windows). They both run the filter on every video in the same folder where the script is executed, and save the result in a file with the same name of the video (so the script should be executed in the folder that contains the videos).
 
 ## Shortcuts
 Hotkeys:
