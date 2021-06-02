@@ -1,8 +1,8 @@
 # Lesson Player
 It's a website (but not online) for watching video lessons on the local network: by installing it on your pc, you can watch your lessons from all devices connected.
 
-It's main features are:
-1) Keep track of which lessons you have watched (within a course)
+Main features are:
+1) Keep track of which lessons you have watched (within a course);
 2) Speed up (at 8x) the video during silences (when the teacher does not speak).
 
 *Read this in other languages: English, [Italian](README.it.md).*
@@ -25,20 +25,20 @@ It's main features are:
 ## Getting started
 
 ### Install
-  * Download, install and run [xampp](https://www.apachefriends.org/download.html).
-  * Open xampp folder:
+1) Download, install and run [xampp](https://www.apachefriends.org/download.html).
+2) Open xampp folder:
     * On Linux: ``/opt/lampp/htdocs/``
     * On Windows: ``C:\\xampp\htdocs\``
     * On Mac: mount Xampp volume and open the folder ``htdocs``
-  * Create a new folder (e.g.: ``lesson-player/``) and copy all files inside.
+3) Create a new folder (e.g.: ``lesson-player/``) and copy all files inside.
 
 ![Download_and_extract](img/screenshots/Download_and_extract.png)
 
-  * Open the browser at ``http://localhost/phpmyadmin/`` and create a new database (e.g.: ``lesson-player``).
+4) Open the browser at ``http://localhost/phpmyadmin/`` and create a new database (e.g.: ``lesson-player``).
 
 ![Xampp create database](img/screenshots/Xampp_create_database.png)
 
-  * From the xampp folder, open ``_connect.php`` and update the database credentials (and maybe the language):
+5) From the xampp folder, open ``_connect.php`` and update the database credentials (and maybe the language):
 
 ```php
 include("languages/<language>.php");
@@ -52,14 +52,14 @@ $database = "lesson-player"; // The name of your database
 /* ... */
 ```
 
-  * **Only for new users**: from the browser go to ``http://localhost/<folder_name>/install.php`` (e.g.: ``http://localhost/lesson-player/install.php``). This script will drop all data in the database, if exist.
+6) **Only for new users**: from the browser go to ``http://localhost/<folder_name>/install.php`` (e.g.: ``http://localhost/lesson-player/install.php``). This script will drop all data in the database, if exist.
 
 ![Install](img/screenshots/Install.png)
 
-  * (Optional) Make xampp run at pc startup by default.
+7) *(Optional)* Make xampp run at pc startup by default.
 
 ### Add video lessons
-  * In the folder ``.../htdocs/lesson-player/`` create a subdirectory (e.g.: ``classes/``) and copy all your video lessons inside, arranged in a structure like:
+1) In the folder ``.../htdocs/lesson-player/`` create a subdirectory (e.g.: ``classes/``) and copy all your video lessons inside, arranged in a structure like:
 
 ```
 lesson-player/
@@ -76,29 +76,29 @@ lesson-player/
 ```
 
   * Note: folders and videos inside ``classes`` may also be links.
-  * Open the browser at ``http://localhost/lesson-player/``;
-  * Insert all your classes: name, professor, folder name (e.g.: ``classes/Physics I/``, notice the ``/`` at the end);
+2) Open the browser at ``http://localhost/lesson-player/``;
+3) Insert all your classes: name, professor, folder name (e.g.: ``classes/Physics I/``, notice the ``/`` at the end);
 
 ![New_class](img/screenshots/New_class.png)
 
-  * Go back to the homepage:
-    * Select a class and press ``Show`` (_``Mostra`` in italian_);
-    * Insert all lessons of the selected class: date of the lesson, title, file name (e.g.: ``Lesson 01.mp4``);
+4) Go back to the homepage;
+5) Select a class and press ``Show`` (_``Mostra`` in italian_);
+6) Insert all lessons of the selected class: date of the lesson, title, file name (e.g.: ``Lesson 01.mp4``).
 
 ![New_lesson](img/screenshots/New_lesson.png)
 
 ### Speed up silences
 For each lesson it's possible to find and speed up silences, using ``ffmpeg``:
-  * Download and install [ffmpeg](https://ffmpeg.org/);
-  * Open the terminal (or prompt);
-  * Move to the folder ``.../lesson-player/`` (e.g. using ``cd <xampp_folder>/htdocs/lesson-player/``);
-  * Run ffmpeg with ``silencedetect`` filter, as shown in the form of creation/edit of a lesson. E.g.:
+1) Download and install [ffmpeg](https://ffmpeg.org/);
+2) Open the terminal (or prompt);
+3) Move to the folder ``.../lesson-player/`` (e.g. using ``cd <xampp_folder>/htdocs/lesson-player/``);
+4) Run ffmpeg with ``silencedetect`` filter, as shown in the form of creation/edit of a lesson. E.g.:
 
 ```sh
 ffmpeg -hide_banner -nostats -vn -i "classes/Physics I/Lesson 01.mp4" -af silencedetect=n=0.002:d=2.3 -f null -
 ```
 
-  * Copy & paste the output in the form of creation/edit of the lesson. Example of a ffmpeg output:
+5) Copy & paste the output in the form of creation/edit of the lesson. Example of a ffmpeg output:
 
 ```
 ...
@@ -121,7 +121,7 @@ ffmpeg -hide_banner -nostats -vn -i "classes/Physics I/Lesson 01.mp4" -af silenc
 
   * You can also edit the filter, but in order to ensure the success of the program, the minimum duration of silences (``d``) must be > 2.25. [Why?](#why-should-the-minimum-silence-duration-be-greater-than-225s)
 
-With the aim of saving time, I've written a little [script in *bash*](https://github.com/padvincenzo/lesson-player/blob/main/scripts/silences.sh) (for Linux) and another one [in *batch*](https://github.com/padvincenzo/lesson-player/blob/main/scripts/silences.bat) (for Windows). They both run the filter on every video in the same folder where the script is executed, and save the result in a file with the same name of the video (so the script should be executed in the folder that contains the videos).
+With the aim of saving time, I've written two little scripts, [one for Linux](https://github.com/padvincenzo/lesson-player/blob/main/scripts/silences.sh) and [one for Windows](https://github.com/padvincenzo/lesson-player/blob/main/scripts/silences.bat). They both run the filter on every video in the same folder where the script is executed, and save the result in a file with the same name of the video (so the script should be executed in the folder that contains the videos).
 
 ## Shortcuts
 Hotkeys:
