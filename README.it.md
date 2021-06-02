@@ -2,7 +2,7 @@
 È un sito web (ma non è online) per guardare le video lezioni sulla rete locale: installandolo sul pc è possibile vedere le lezioni da tutti i dispositivi connessi.
 
 Le sue principali caratteristiche sono:
-1) Tiene traccia di dove sei arrivato (all'interno di un corso)
+1) Tiene traccia di dove sei arrivato (all'interno di un corso);
 2) Velocizza (a 8x) il video durante i silenzi (quando il professore non parla).
 
 *Leggi in altre lingue: [Inglese](README.md), Italiano.*
@@ -81,9 +81,9 @@ lesson-player/
 
 ![New_class](img/screenshots/New_class.png)
 
-4) Torna alla pagina principale:
+4) Torna alla pagina principale;
 5) Seleziona un corso e premi il pulsante ``Mostra``;
-6) Inserisci tutte le videolezioni appartenenti a quel corso: data, titolo, nome del file (es: ``Lesson 01.mp4``);
+6) Inserisci tutte le videolezioni appartenenti a quel corso: data, titolo, nome del file (es: ``Lesson 01.mp4``).
 
 ![New_lesson](img/screenshots/New_lesson.png)
 
