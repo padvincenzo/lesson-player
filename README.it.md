@@ -1,9 +1,13 @@
 # Lesson Player
-Guarda le tue videolezioni sulla rete locale, non perdere il segno e accelera durante i silenzi.
+È un sito web (ma non è online) per guardare le video lezioni sulla rete locale: installandolo sul pc è possibile vedere le lezioni da tutti i dispositivi connessi.
 
-![Presentation](img/screenshots/Presentation.png)
+Le sue principali caratteristiche sono:
+1) Tiene traccia di dove sei arrivato (all'interno di un corso)
+2) Velocizza (a 8x) il video durante i silenzi (quando il professore non parla).
 
 *Leggi in altre lingue: [Inglese](README.md), Italiano.*
+
+![Presentation](img/screenshots/Presentation.png)
 
   - [Guida introduttiva](#guida-introduttiva)
     - [Installazione](#installazione)
