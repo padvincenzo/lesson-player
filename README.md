@@ -1,9 +1,13 @@
 # Lesson Player
-Watch your video lessons on LAN, do not miss the mark and speed up during silences.
+It's a website (but not online) for watching video lessons on the local network: by installing it on your pc, you can watch your lessons from all devices connected.
 
-![Presentation](img/screenshots/Presentation.png)
+It's main features are:
+1) Keep track of which lessons you have watched (within a course)
+2) Speed up (at 8x) the video during silences (when the teacher does not speak).
 
 *Read this in other languages: English, [Italian](README.it.md).*
+
+![Presentation](img/screenshots/Presentation.png)
 
   - [Getting started](#getting-started)
     - [Install](#install)
