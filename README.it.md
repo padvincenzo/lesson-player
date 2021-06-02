@@ -25,20 +25,20 @@ I **feedback** sono molto apprezzati. Per favore, scrivimi una riga a *padvincen
 ## Guida introduttiva
 
 ### Installazione
-  * Scarica, installa e avvia [xampp](https://www.apachefriends.org/download.html).
-  * Apri la cartella di xampp:
+1) Scarica, installa e avvia [xampp](https://www.apachefriends.org/download.html).
+2) Apri la cartella di xampp:
     * Su Linux: ``/opt/lampp/htdocs/``
     * Su Windows: ``C:\\xampp\htdocs\``
     * Su Mac: monta il volume Xampp e apri la cartella ``htdocs``
-  * Crea una cartella (es: ``lesson-player/``) e copia tutti i file al suo interno.
+3) Crea una cartella (es: ``lesson-player/``) e copia tutti i file al suo interno.
 
 ![Download_and_extract](img/screenshots/Download_and_extract.png)
 
-  * Apri il browser all'indirizzo ``http://localhost/phpmyadmin/`` e crea un nuovo database (es: ``lesson-player``).
+4) Apri il browser all'indirizzo ``http://localhost/phpmyadmin/`` e crea un nuovo database (es: ``lesson-player``).
 
 ![Xampp create database](img/screenshots/Xampp_create_database.png)
 
-  * Dalla cartella di xampp apri il file ``_connect.php`` e aggiorna le credenziali del database (e volendo anche la lingua):
+5) Dalla cartella di xampp apri il file ``_connect.php`` e aggiorna le credenziali del database (e volendo anche la lingua):
 
 ```php
 include("languages/<linguaggio>.php");
@@ -52,14 +52,14 @@ $database = "lesson-player"; // Il nome che hai dato al tuo database.
 /* ... */
 ```
 
-  * **Solo per nuovi utenti**: dal browser vai all'indirizzo ``http://localhost/<nome_cartella>/install.php`` (es: ``http://localhost/lesson-player/install.php``). Questo script cancellerà tutti i dati presenti nel database, se esistono.
+6) **Solo per nuovi utenti**: dal browser vai all'indirizzo ``http://localhost/<nome_cartella>/install.php`` (es: ``http://localhost/lesson-player/install.php``). Questo script cancellerà tutti i dati presenti nel database, se esistono.
 
 ![Install](img/screenshots/Install.png)
 
-  * (Opzionale) Imposta xampp per l'avvio automatico all'avvio del pc.
+7) *(Opzionale)* Imposta xampp per l'avvio automatico all'avvio del pc.
 
 ### Aggiungere videolezioni
-  * Nella cartella ``.../htdocs/lesson-player/`` crea una sottocartella (es: ``classes/``) e copia qui tuttle le videolezioni, organizzate in una struttura tipo:
+1) Nella cartella ``.../htdocs/lesson-player/`` crea una sottocartella (es: ``classes/``) e copia qui tuttle le videolezioni, organizzate in una struttura tipo:
 
 ```
 lesson-player/
@@ -76,29 +76,29 @@ lesson-player/
 ```
 
   * Nota: le cartelle e i file dentro la cartella ``classes`` possono anche essere collegamenti.
-  * Apri il browser all'indirizzo ``http://localhost/lesson-player/``;
-  * Inserisci tutti i corsi: nome, professore, percorso della cartella (es: ``classes/Physics I/``, notare lo ``/`` alla fine);
+2) Apri il browser all'indirizzo ``http://localhost/lesson-player/``;
+3) Inserisci tutti i corsi: nome, professore, percorso della cartella (es: ``classes/Physics I/``, notare lo ``/`` alla fine);
 
 ![New_class](img/screenshots/New_class.png)
 
-  * Tornando alla pagina principale:
-    * Seleziona un corso e premi il pulsante ``Mostra``;
-    * Inserisci tutte le videolezioni appartenenti a quel corso: data, titolo, nome del file (es: ``Lesson 01.mp4``);
+4) Torna alla pagina principale:
+5) Seleziona un corso e premi il pulsante ``Mostra``;
+6) Inserisci tutte le videolezioni appartenenti a quel corso: data, titolo, nome del file (es: ``Lesson 01.mp4``);
 
 ![New_lesson](img/screenshots/New_lesson.png)
 
 ### Velocizzare i silenzi
 Per ogni lezione è possibile trovare e velocizzare i silenzi, tramite ``ffmpeg``:
-  * Scarica e installa [ffmpeg](https://ffmpeg.org/);
-  * Apri il terminale (o il prompt dei comandi);
-  * Spostati nella cartella ``../lesson-player/`` tramite il comando ``cd <cartella_xampp>/htdocs/lesson-player/``;
-  * Esegui ffmpeg con il filtro ``silencedetect``, come indicato nel form di creazione/modifica della videolezione. Es:
+1) Scarica e installa [ffmpeg](https://ffmpeg.org/);
+2) Apri il terminale (o il prompt dei comandi);
+3) Spostati nella cartella ``../lesson-player/`` tramite il comando ``cd <cartella_xampp>/htdocs/lesson-player/``;
+4) Esegui ffmpeg con il filtro ``silencedetect``, come indicato nel form di creazione/modifica della videolezione. Es:
 
 ```sh
 ffmpeg -hide_banner -nostats -vn -i "classes/Physics I/Lesson 01.mp4" -af silencedetect=n=0.002:d=2.3 -f null -
 ```
 
-  * Copia e incolla l'output nel form di modifica/aggiunta della videolezione. Esempio di output che ffmpeg genera:
+5) Copia e incolla l'output nel form di modifica/aggiunta della videolezione. Esempio di output che ffmpeg genera:
 
 ```
 ...
@@ -121,7 +121,7 @@ ffmpeg -hide_banner -nostats -vn -i "classes/Physics I/Lesson 01.mp4" -af silenc
 
   * Si possono anche apportare modifiche al filtro, ma per un corretto funzionamento la durata minima dei silenzi (``d``) deve essere > 2.25. [Perché?](#perché-la-durata-minima-dei-silenzi-deve-essere-maggiore-di-225s)
 
-Per velocizzare questa operazione ho creato un piccolo [script in _bash_](https://github.com/padvincenzo/lesson-player/blob/main/scripts/silences.sh) e uno [in _batch_](https://github.com/padvincenzo/lesson-player/blob/main/scripts/silences.bat). Entrambi eseguono il filtro su tutte le videolezioni presenti nella cartella in cui sono eseguiti, e salvano il risultato in un file di testo dallo stesso nome della videolezione (vanno copiati ed eseguiti dalla directory che contiene le lezioni).
+Per velocizzare questa operazione ho creato due piccoli script, [uno per Linux](https://github.com/padvincenzo/lesson-player/blob/main/scripts/silences.sh) e [uno per Windows](https://github.com/padvincenzo/lesson-player/blob/main/scripts/silences.bat). Entrambi eseguono il filtro su tutte le videolezioni presenti nella cartella da cui sono eseguiti, e salvano il risultato in un file di testo dallo stesso nome della videolezione (vanno perció copiati ed eseguiti dalla directory che contiene le lezioni).
 
 ## Scorciatoie
 Scorciatoie da tastiera:
