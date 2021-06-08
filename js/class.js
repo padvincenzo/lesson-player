@@ -160,9 +160,9 @@ class Class {
   }
 
   update(_data) {
-    this.name = decodeURIComponent(_data.name);
-    this.professor = decodeURIComponent(_data.professor);
-    this.directory = decodeURIComponent(_data.directory);
+    this.name = decodeString(_data.name);
+    this.professor = decodeString(_data.professor);
+    this.directory = decodeString(_data.directory);
     this.nLessons = _data.nLessons;
     this.nWatched = _data.nWatched ? _data.nWatched : 0;
 

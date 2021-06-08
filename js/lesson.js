@@ -133,9 +133,9 @@ class Lesson {
 
   update(_data) {
     this.dated = _data.dated;
-    this.title = decodeURIComponent(_data.title);
-    this.professor = decodeURIComponent(_data.professor);
-    this.filename = decodeURIComponent(_data.filename);
+    this.title = decodeString(_data.title);
+    this.professor = decodeString(_data.professor);
+    this.filename = decodeString(_data.filename);
 
     if(this.card != null) {
       this.card.title.innerText = this.title;
