@@ -90,7 +90,29 @@ function request(_to, _data) {
 }
 
 function encodeString(_string) {
-  return encodeURIComponent(_string).replace(/[!'\(\)]/g, escape);
+  let output = "";
+  try {
+    output = encodeURIComponent(_string).replace(/[!'\(\)]/g, escape);
+  }
+  catch(err) {
+    console.log(`Failed to encode: "${_string}"`);
+  }
+  finally {
+    return output;
+  }
+}
+
+function decodeString(_string) {
+  let output = "";
+  try {
+    output = decodeURIComponent(_string);
+  }
+  catch(err) {
+    console.log(`Failed to decode: "${_string}"`);
+  }
+  finally {
+    return output;
+  }
 }
 
 function randomString(_length = 4) {
