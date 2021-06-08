@@ -25,24 +25,24 @@ class Message {
 
   static init() {
     Message.background = document.createElement("div");
-    Message.background.setAttribute("id", "msg_background");
+    Message.background.id = "msg_background";
     Message.background.style.display = "none";
 
     Message.wrapper = document.createElement("div");
-    Message.wrapper.setAttribute("id", "msg_wrapper");
+    Message.wrapper.id = "msg_wrapper";
 
     Message.content = document.createElement("div");
-    Message.content.setAttribute("id", "msg_content");
+    Message.content.id = "msg_content";
 
     Message.btn_cancel = document.createElement("button");
-    Message.btn_cancel.setAttribute("id", "msg_cancel");
+    Message.btn_cancel.id = "msg_cancel";
     Message.btn_cancel.innerText = lang.cancel;
-    Message.btn_cancel.setAttribute("onclick", "Message.dismiss();");
+    Message.btn_cancel.onclick = Message.dismiss;
 
     Message.btn_dismiss = document.createElement("button");
-    Message.btn_dismiss.setAttribute("id", "msg_dismiss");
+    Message.btn_dismiss.id = "msg_dismiss";
     Message.btn_dismiss.innerText = lang.ok;
-    Message.btn_dismiss.setAttribute("onclick", "Message.dismiss();");
+    Message.btn_dismiss.onclick = Message.dismiss;
 
     Message.background.appendChild(Message.wrapper);
     Message.wrapper.appendChild(Message.content);
