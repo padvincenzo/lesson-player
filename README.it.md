@@ -59,7 +59,7 @@ $database = "lesson-player"; // Il nome che hai dato al tuo database.
 7) *(Opzionale)* Imposta xampp per l'avvio automatico all'avvio del pc.
 
 ### Aggiungere videolezioni
-1) Nella cartella ``.../htdocs/lesson-player/`` crea una sottocartella (es: ``classes/``) e copia qui tuttle le videolezioni, organizzate in una struttura tipo:
+1) Nella cartella ``.../htdocs/lesson-player/`` crea una sottocartella (es: ``classes/``) e copia qui tutte le videolezioni, organizzate in una struttura tipo:
 
 ```
 lesson-player/
