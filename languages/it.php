@@ -40,6 +40,7 @@ $lang->dbConnectionFailed = "Connessione al database fallita.";
 $lang->dbNotFound         = "Il database non è stato trovato.";
 $lang->defaultLessonTitle = "Lezione del {dated}";
 $lang->directory          = "Cartella";
+$lang->documentation      = "Documentazione";
 $lang->edit               = "Modifica";
 $lang->errorOpeningFile   = "Errore nell'apertura del file";
 $lang->failed             = "Operazione fallita";
