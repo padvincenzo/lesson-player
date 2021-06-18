@@ -90,3 +90,14 @@ a, a:link, a:visited {
 a:active, a:hover {
   color: #888;
 }
+
+.searchBox {
+  width: 95%;
+  box-sizing: border-box;
+  background-color: var(--background);
+  color: var(--color-secondary);
+  line-height: 1em;
+  padding: 10px;
+  margin: 10px 0;
+  border: 2px solid var(--background-focused);
+}

@@ -17,7 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 .cards {
-  text-align: left;
+  text-align: center;
   position: relative;
 }
 
@@ -51,6 +51,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   border: 1px solid transparent;
   box-sizing: border-box;
   float: left;
+  text-align: left;
 }
 
 .card:hover,
