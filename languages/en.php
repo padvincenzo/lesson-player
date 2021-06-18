@@ -70,6 +70,7 @@ $lang->professor          = "Professor";
 $lang->progress           = "Progress";
 $lang->rate               = "Rate";
 $lang->resume             = "Resume";
+$lang->search             = "Search...";
 $lang->setAsWatched       = "Set as watched";
 $lang->setToBeWatched     = "Set to be watched";
 $lang->show               = "Show";
