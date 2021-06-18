@@ -43,7 +43,7 @@ $dbh->close();
 		<link href="style/form.css" rel="stylesheet">
 
 		<!-- Change the theme of the site. If not provided, default is dark.css -->
-		<!-- <link href="themes/dark.css" rel="stylesheet"> -->
+		<!-- <link href="themes/light.css" rel="stylesheet"> -->
 
 		<script type="text/javascript">
 			<?php echo "const lang = " . json_encode($lang) . ";"; ?>
@@ -73,11 +73,13 @@ $dbh->close();
 		<div id="container"></div>
 
 		<footer>
-			<p>Developed by Vincenzo Padula</p>
+			<p>Developed by <a href="https://vincenzopadula.altervista.org" target="_blank">Vincenzo Padula</a></p>
 			<p>
 				<a href="JavaScript:popup('credits.php');"><?php echo $lang->credits; ?></a>
 				&middot;
-				<a href="https://github.com/padvincenzo/lesson-player/discussions/2" target="_blank">Feedback</a>
+				<a href="https://vincenzopadula.altervista.org/lesson-player/" target="_blank">Feedback</a>
+				&middot;
+				<a href="https://vincenzopadula.altervista.org/docs/lesson-player/" target="_blank"><?php echo $lang->documentation; ?></a>
 			</p>
 		</footer>
 
