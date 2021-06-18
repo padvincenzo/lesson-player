@@ -145,25 +145,30 @@ class Player {
 
       switch (e.code) {
         case "Space": {
+          /* Do nothing */
           e.preventDefault();
           break;
         }
         case "ArrowLeft": {
+          /* Go back 5s (or 1m with Ctrl) */
           e.preventDefault();
           Player.changeTime(e.ctrlKey || e.metaKey ? -60 : -5);
           break;
         }
         case "ArrowRight": {
+          /* Skip 5s (or 1m with Ctrl) */
           e.preventDefault();
           Player.changeTime(e.ctrlKey || e.metaKey ? +60 : +5);
           break;
         }
         case "ArrowUp": {
+          /* Increase volume by 5% */
           e.preventDefault();
           Player.changeVolume(+0.05);
           break;
         }
         case "ArrowDown": {
+          /* Decrease volume by 5% */
           e.preventDefault();
           Player.changeVolume(-0.05);
           break;
@@ -171,6 +176,7 @@ class Player {
         case "BracketLeft":
         case "NumpadSubtract":
         case "Minus": {
+          /* Decrease playback rate by 0.1 */
           e.preventDefault();
           Player.changePlaybackRate(-0.1);
           break;
@@ -178,6 +184,7 @@ class Player {
         case "BracketRight":
         case "NumpadAdd":
         case "Equal": {
+          /* Increase playback rate by 0.1 */
           e.preventDefault();
           Player.changePlaybackRate(+0.1);
           break;
@@ -410,7 +417,7 @@ class Player {
 
     let newPlaybackRate = limit(+Player.lesson.playbackRate + +_amount, Player.minPlaybackRate, Player.maxPlaybackRate).toFixed(1);
 
-    Player.playbackRate(newPlaybackRate);
+    Player.playbackRate(+newPlaybackRate);
     Player.notify(`${lang.rate} ${newPlaybackRate}x`);
   }
 

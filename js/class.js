@@ -145,6 +145,7 @@ class Class {
   nWatched = null;
 
   card = null;
+  searchBox = null;
 
   btnResume = null;
   btnEdit = null;
@@ -217,6 +218,15 @@ class Class {
         this.resume();
       }
     });
+
+    this.searchBox = document.createElement("input");
+    this.searchBox.type = "text";
+    this.searchBox.classList.add("searchBox");
+    this.searchBox.placeholder = lang.search;
+
+    this.searchBox.addEventListener("keyup", () => {
+      this.searchLessons(this.searchBox.value);
+    });
   }
 
   toCard(tabIndex = 0) {
@@ -256,6 +266,18 @@ class Class {
       });
   }
 
+  searchLessons(needle = "") {
+    needle = needle.toLowerCase();
+    this.lessons.forEach((lesson, index) => {
+      if(needle == "" || lesson.contains(needle)) {
+        lesson.card.show();
+      } else {
+        lesson.card.hide();
+      }
+    });
+
+  }
+
   show() {
     return this.retrieveLessons().then(() => {
       UI.display(this.listLessons(), br(), UI.btnHome.btn, this.btnAddLesson.btn);
@@ -276,6 +298,9 @@ class Class {
   listLessons() {
     var lessons = document.createElement("div");
     lessons.classList.add("cards");
+
+    lessons.appendChild(this.searchBox);
+    lessons.appendChild(br());
 
     this.lessons.sort(Lesson.compareByDate);
 

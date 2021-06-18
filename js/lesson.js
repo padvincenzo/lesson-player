@@ -147,6 +147,10 @@ class Lesson {
     return this.parentClass.directory + this.filename;
   }
 
+  contains(str) {
+    return (this.dated.search(str) != -1 || this.title.toLowerCase().search(str) != -1 || this.professor.toLowerCase().search(str) != -1 || this.filename.toLowerCase().search(str) != -1);
+  }
+
   createCard() {
     if(this.card != null) {
       return;
@@ -201,6 +205,16 @@ class Lesson {
         this.play();
       }
     });
+
+    // Hide the card
+    this.card.hide = () => {
+      this.card.dom.style.display = "none";
+    }
+
+    // Show the card
+    this.card.show = () => {
+      this.card.dom.style.display = "";
+    }
   }
 
   toCard(tabIndex = 0) {
