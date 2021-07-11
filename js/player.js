@@ -132,7 +132,11 @@ class Player {
         case "KeyS": {
           /* Skip silence */
           e.preventDefault();
-          Player.skipSilence();
+          if(e.shiftKey) {
+            Player.screenshot();
+          } else {
+            Player.skipSilence();
+          }
           break;
         }
       }
@@ -430,5 +434,24 @@ class Player {
 
     Player.currentTime(newTime);
     Player.notify(secondsToTime(newTime));
+  }
+
+  static screenshot() {
+    if(Player.lesson == null) {
+      return;
+    }
+
+    var canvas = document.createElement('canvas');
+    canvas.width = Player.player.videoWidth();
+    canvas.height = Player.player.videoHeight();
+
+    // Screenshot to canvas
+    canvas.getContext('2d').drawImage(Player.player.el().childNodes[0], 0, 0, canvas.width, canvas.height);
+
+    // Canvas to base64 encoded data
+    var dataURI = canvas.toDataURL('image/jpeg');
+
+    // Open image to new window
+    popup(dataURI, canvas.width, canvas.height);
   }
 }
