@@ -138,6 +138,7 @@ Scorciatoie da tastiera:
 | ``]`` o ``+`` (o ``=``) | Aumenta la velocità di riproduzione    |
 | ``[`` o ``-``           | Diminuisci la velocità di riproduzione |
 | ``S``                   | Salta il silenzio in corso             |
+| ``Shift+S``             | Screenshot                             |
 
 Altri tipi di scorciatoie:
 * I riquadri dei corsi e delle lezioni sono indicizzate e scorribili con il tasto ``Tab``. Premendo ``Invio`` su una di esse, partirà la relativa lezione. Lo stesso effetto si ottiene facendo doppio click.
