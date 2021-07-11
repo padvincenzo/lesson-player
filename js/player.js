@@ -32,8 +32,10 @@ class Player {
 
   /* Editable configuration */
   static fastPlaybackRate = 8;  // PlaybackRate on silences
-  static minPlaybackRate = 0.5;
-  static maxPlaybackRate = 3;
+  static minPlaybackRate = 0.5; // Lowest playbackRate
+  static maxPlaybackRate = 3;   // Highest playbackRate
+
+  static overlayEnabled = true;
 
   static init() {
     Player.player = videojs("my-player", {
@@ -130,13 +132,20 @@ class Player {
           break;
         }
         case "KeyS": {
-          /* Skip silence */
           e.preventDefault();
           if(e.shiftKey) {
+            /* Take a screenshot */
             Player.screenshot();
           } else {
+            /* Skip silence */
             Player.skipSilence();
           }
+          break;
+        }
+        case "KeyO": {
+          e.preventDefault();
+          /* Toggle overlay On/Off */
+          Player.toggleOverlayEnabled();
           break;
         }
       }
@@ -305,7 +314,9 @@ class Player {
   }
 
   static showOverlay() {
-    Player.overlay.style.display = "";
+    if(Player.overlayEnabled) {
+      Player.overlay.style.display = "";
+    }
   }
 
   static hideOverlay() {
@@ -453,5 +464,10 @@ class Player {
 
     // Open image to new window
     popup(dataURI, canvas.width, canvas.height);
+  }
+
+  static toggleOverlayEnabled() {
+    Player.overlayEnabled = !Player.overlayEnabled;
+    Player.notify(Player.overlayEnabled ? lang.overlayEnabled : lang.overlayDisabled);
   }
 }
