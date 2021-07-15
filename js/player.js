@@ -452,18 +452,45 @@ class Player {
       return;
     }
 
+    // Pause the video
+    var wasPlaying = !Player.paused();
+    if(wasPlaying) {
+      Player.pause();
+    }
+
+    // Save the timestamp
+    var timestamp = Player.currentTime()
+
+    // Screenshot to canvas
     var canvas = document.createElement('canvas');
     canvas.width = Player.player.videoWidth();
     canvas.height = Player.player.videoHeight();
-
-    // Screenshot to canvas
     canvas.getContext('2d').drawImage(Player.player.el().childNodes[0], 0, 0, canvas.width, canvas.height);
 
     // Canvas to base64 encoded data
     var dataURI = canvas.toDataURL('image/jpeg');
 
-    // Open image to new window
-    popup(dataURI, canvas.width, canvas.height);
+    if(Player.isFullscreen()) {
+      Player.exitFullscreen();
+    }
+
+    Message.view(`<img src="${dataURI}" />`, true, "Download").then(() => {
+      var a = document.createElement("a");
+      a.href = dataURI;
+      a.download = `${Player.lesson.title} (${Player.lesson.parentClass.name}) [${secondsToTime(timestamp)}].jpg`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }).catch((err = "") => {
+      if(err != "") {
+        console.log(err);
+      }
+    }).finally(() => {
+      // Resume the video
+      if(wasPlaying) {
+        Player.play();
+      }
+    });
   }
 
   static toggleOverlayEnabled() {
