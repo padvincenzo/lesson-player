@@ -485,8 +485,8 @@ class Player {
       if(err != "") {
         console.log(err);
       }
-    }).finally(() => {
-      // Resume the video
+
+      // Automatically resume the video if the screenshot has been discarded
       if(wasPlaying) {
         Player.play();
       }
