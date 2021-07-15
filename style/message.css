@@ -53,6 +53,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   padding: 2vh 0;
 }
 
+#msg_content * {
+  max-width: 90%;
+}
+
 @media only screen and (max-width: 600px) {
   #msg_wrapper {
     width: 80vw;
