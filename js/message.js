@@ -18,10 +18,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 class Message {
   static content = null;
-  static btn_cancel = null;
-  static btn_dismiss = null;
+  static btnReject = null;
+  static btnResolve = null;
   static wrapper = null;
   static background = null;
+
+  static currentResolve = null;
+  static currentReject = null;
 
   static init() {
     Message.background = document.createElement("div");
@@ -34,38 +37,70 @@ class Message {
     Message.content = document.createElement("div");
     Message.content.id = "msg_content";
 
-    Message.btn_cancel = document.createElement("button");
-    Message.btn_cancel.id = "msg_cancel";
-    Message.btn_cancel.innerText = lang.cancel;
-    Message.btn_cancel.onclick = Message.dismiss;
+    Message.btnReject = document.createElement("button");
+    Message.btnReject.innerText = lang.cancel;
 
-    Message.btn_dismiss = document.createElement("button");
-    Message.btn_dismiss.id = "msg_dismiss";
-    Message.btn_dismiss.innerText = lang.ok;
-    Message.btn_dismiss.onclick = Message.dismiss;
+    Message.btnResolve = document.createElement("button");
 
     Message.background.appendChild(Message.wrapper);
     Message.wrapper.appendChild(Message.content);
-    Message.wrapper.appendChild(Message.btn_cancel);
-    Message.wrapper.appendChild(Message.btn_dismiss);
+    Message.wrapper.appendChild(Message.btnReject);
+    Message.wrapper.appendChild(Message.btnResolve);
     document.body.appendChild(Message.background);
   }
 
-  static view(msg, cancelable = false) {
-    Message.content.innerHTML = msg;
-    Message.btn_cancel.style.display = cancelable ? "inline-block" : "none";
-    Message.btn_dismiss.onclick = Message.dismiss;
+  static view(html = null, cancelable = false, buttonText = "") {
+    if(html == null) {
+      return Promise.reject("Nothing to view.");
+    }
 
-    Message.wrapper.style.display = "inline-block";
-    Message.background.style.display = "block";
+    if(Message.isBusy()) {
+      return Promise.reject("Busy.");
+    }
 
-    Message.btn_dismiss.focus();
+    return new Promise((_resolve, _reject) => {
+      // Set new reject and resolve
+      Message.currentResolve = () => {
+        Message.dismiss();
+        _resolve();
+      };
+      Message.currentReject = () => {
+        Message.dismiss();
+        _reject();
+      };
+
+      Message.content.innerHTML = html;
+      Message.btnResolve.innerText = buttonText == "" ? lang.ok : buttonText;
+
+      if(cancelable) {
+        Message.btnReject.style.display = "inline-block";
+        Message.btnReject.addEventListener("click", Message.currentReject);
+        Message.btnResolve.addEventListener("click", Message.currentResolve);
+      } else {
+        Message.btnReject.style.display = "none";
+        Message.btnResolve.addEventListener("click", Message.currentResolve);
+      }
+
+      Message.wrapper.style.display = "inline-block";
+      Message.background.style.display = "block";
+
+      Message.btnResolve.focus();
+    });
+  }
+
+  static isBusy() {
+    return Message.background.style.display == "block";
   }
 
   static dismiss() {
     Message.background.style.display = "none";
-    Message.btn_cancel.onclick = null;
-    Message.btn_dismiss.onclick = null;
+    Message.content.innerHTML = "";
+
+    // Remove old reject and resolve
+    Message.btnReject.removeEventListener("click", Message.currentReject);
+    Message.currentReject = null;
+    Message.btnResolve.removeEventListener("click", Message.currentResolve);
+    Message.currentResolve = null;
   }
 }
 
