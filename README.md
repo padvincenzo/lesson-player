@@ -7,6 +7,19 @@ Main features are:
 
 *Read this in other languages: English, [Italian](README.it.md).*
 
+---
+
+## Update to version v0.4.0
+
+Run this script from phpmyadmin
+
+```sql
+ALTER TABLE class ADD removed BOOLEAN NOT NULL DEFAULT false;
+ALTER TABLE lesson ADD removed BOOLEAN NOT NULL DEFAULT false;
+```
+
+---
+
 ![Presentation](img/screenshots/Presentation.png)
 
   - [Getting started](#getting-started)
