@@ -7,6 +7,19 @@ Le sue principali caratteristiche sono:
 
 *Leggi in altre lingue: [Inglese](README.md), Italiano.*
 
+---
+
+## Aggiorna alla versione v0.4.0
+
+Esegui questo script da phpmyadmin
+
+```sql
+ALTER TABLE class ADD removed BOOLEAN NOT NULL DEFAULT false;
+ALTER TABLE lesson ADD removed BOOLEAN NOT NULL DEFAULT false;
+```
+
+---
+
 ![Presentation](img/screenshots/Presentation.png)
 
   - [Guida introduttiva](#guida-introduttiva)
