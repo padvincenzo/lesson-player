@@ -24,7 +24,8 @@ create table class (
   idclass int auto_increment not null primary key,
   name varchar(150) not null,
   professor varchar(150) not null,
-  directory varchar(200) not null
+  directory varchar(200) not null,
+  removed boolean not null default false
 );
 
 create table lesson (
@@ -37,7 +38,8 @@ create table lesson (
   mark float default 0,
   watched boolean default false,
   playbackRate float default 1,
-  filename varchar(200) not null
+  filename varchar(200) not null,
+  removed boolean not null default false
 );
 
 create table silence (
