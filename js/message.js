@@ -84,7 +84,11 @@ class Message {
       Message.wrapper.style.display = "inline-block";
       Message.background.style.display = "block";
 
-      Message.btnResolve.focus();
+      if(cancelable) {
+        Message.btnReject.focus();
+      } else {
+        Message.btnResolve.focus();
+      }
     });
   }
 

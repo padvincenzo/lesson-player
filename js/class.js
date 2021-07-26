@@ -72,6 +72,8 @@ class Class {
     var cards = document.createElement("div");
     cards.classList.add("cards");
 
+    Class.classes = Class.classes.filter((c) => !c.removed);
+
     for(let i = 0; i < Class.classes.length; i++) {
       cards.appendChild(Class.classes[i].toCard(i + 2));
     }
@@ -116,6 +118,12 @@ class Class {
       }
     });
 
+    if(! Class.isDummy(_class)) {
+      form.appendButton(lang.delete, () => {
+        _class.askToDelete();
+      });
+    }
+
     form.appendButton(lang.cancel, () => {
       UI.listClasses();
     });
@@ -145,6 +153,7 @@ class Class {
   nWatched = null;
 
   card = null;
+  removed = false;
   searchBox = null;
 
   btnResume = null;
@@ -174,6 +183,18 @@ class Class {
     }
   }
 
+  get dictionary() {
+    return {
+      "{className}": () => this.name,
+      "{classProfessor}": () => this.professor,
+      "{classDirectory}": () => this.directory
+    };
+  }
+
+  dictionaryReplace(string, r = null) {
+    return dictionaryReplace(this.dictionary, string, r);
+  }
+
   createCard() {
     if(this.card != null) {
       return;
@@ -183,6 +204,7 @@ class Class {
     this.btnEdit = Button.small(lang.edit, () => { this.edit(); });
     this.btnAddLesson = new Button(lang.newLesson, () => { this.newLesson(); });
     this.btnShow = Button.small(lang.show, () => { this.show(); });
+    this.btnRemove = Button.small(lang.remove, () => { this.askToRemove(); });
 
     this.card = {};
 
@@ -207,6 +229,7 @@ class Class {
     this.card.buttons.appendChild(this.btnResume.btn);
     this.card.buttons.appendChild(this.btnShow.btn);
     this.card.buttons.appendChild(this.btnEdit.btn);
+    this.card.buttons.appendChild(this.btnRemove.btn);
     this.card.dom.appendChild(this.card.buttons);
 
     this.card.dom.addEventListener("dblclick", () => {
@@ -214,8 +237,15 @@ class Class {
     });
 
     this.card.dom.addEventListener("keyup", (e) => {
-      if(e.code == "Enter") {
-        this.resume();
+      switch(e.code) {
+        case "Enter": {
+          this.resume();
+          break;
+        }
+        case "Delete": {
+          this.askToRemove();
+          break;
+        }
       }
     });
 
@@ -302,7 +332,8 @@ class Class {
     lessons.appendChild(this.searchBox);
     lessons.appendChild(br());
 
-    this.lessons.sort(Lesson.compareByDate);
+    this.lessons = this.lessons.filter((lesson) => !lesson.removed);
+    this.lessons.sort(Lesson.compareByDated);
 
     for(let i = 0; i < this.lessons.length; i++) {
       lessons.appendChild(this.lessons[i].toCard(i + 2));
@@ -317,6 +348,48 @@ class Class {
 
   newLesson() {
     Lesson.form(Lesson.dummy(this));
+  }
+
+  askToRemove() {
+    Message.view(this.dictionaryReplace(lang.removeThisClass), true, lang.remove).then(() => {
+      this.dbRemove();
+    }).catch(() => {
+      console.log(lang.classNotRemoved);
+    });
+  }
+
+  dbRemove() {
+    let data = {request: "remove", idclass: this.idclass};
+    return request("class.php", data)
+      .then((_response) => {
+        this.removed = true;
+        UI.listClasses();
+        console.log(this.dictionaryReplace(lang.classRemoved));
+      })
+      .catch((_message) => {
+        Message.view(`${lang.failed}: ${_message}`);
+      });
+  }
+
+  askToDelete() {
+    Message.view(this.dictionaryReplace(lang.deleteThisClass), true, lang.delete).then(() => {
+      this.dbDelete();
+    }).catch(() => {
+      console.log(lang.classNotDeleted);
+    });
+  }
+
+  dbDelete() {
+    let data = {request: "delete", idclass: this.idclass};
+    return request("class.php", data)
+      .then((_response) => {
+        this.removed = true; // To be changed later
+        UI.listClasses();
+        console.log(this.dictionaryReplace(lang.classDeleted));
+      })
+      .catch((_message) => {
+        Message.view(`${lang.failed}: ${_message}`);
+      });
   }
 
   dbGetNext() {

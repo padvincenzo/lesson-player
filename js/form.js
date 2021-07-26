@@ -128,7 +128,7 @@ class Form {
     };
 
     if(errors.length > 0) {
-      Message.view(`${lang.invalidData}: ${errors.join("; ")}.`);
+      Message.view(`${lang.errInvalidData}: ${errors.join("; ")}.`);
       return null;
     }
 

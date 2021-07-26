@@ -19,15 +19,18 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 class Lesson {
 
   static dummy(_class) {
-    return {
+    return new Lesson ({
       idlesson: null,
       idclass: _class.idclass,
+      lastPlayed: "",
+      mark: "",
+      watched: false,
+      playbackRate: 1,
       dated: "",
       title: "",
       professor: _class.professor,
-      filename: "",
-      parentClass: _class
-    };
+      filename: ""
+    }, _class);
   }
 
   static isDummy(_lesson) {
@@ -52,6 +55,7 @@ class Lesson {
 
       if(Lesson.isDummy(_lesson)) {
         Lesson.dbAdd(values, _lesson.parentClass);
+        _lesson = undefined;
       } else {
         _lesson.dbEdit(values);
       }
@@ -59,14 +63,20 @@ class Lesson {
 
     form.appendButton(lang.cancel, () => {
       _lesson.parentClass.show();
-    });
 
-    dated.addEventListener("focusout", () => {
-      if(title.value == "" && dated.value != "") {
-        title.value = lang.defaultLessonTitle.replace("{dated}", formatDate(dated.value));
+      if(Lesson.isDummy(_lesson)) {
+        _lesson = undefined;
       }
     });
 
+    // Set the default value for the lesson title
+    dated.addEventListener("focusout", () => {
+      if(title.value == "" && dated.value != "") {
+        title.value = _lesson.dictionaryReplace(lang.defaultLessonTitle, dated.value);
+      }
+    });
+
+    // Change the value of <FILE> in the ffmpeg hint
     filename.addEventListener("focusout", () => {
       let url = filename.value == "" ? "<FILE>" : _lesson.parentClass.directory + filename.value;
       code.innerText = `${lang.ffmpegCopyPaste}: $ ffmpeg -hide_banner -nostats -vn -i "${url}" -af silencedetect=n=0.002:d=2.3 -f null -`;
@@ -89,7 +99,7 @@ class Lesson {
       });
   }
 
-  static compareByDate(l1, l2) {
+  static compareByDated(l1, l2) {
     if(l1.dated < l2.dated)
       return -1;
     if(l1.dated > l2.dated)
@@ -112,6 +122,7 @@ class Lesson {
   playbackRate = null;
 
   card = null;
+  removed = false;
 
   btnPlay = null;
   btnEdit = null;
@@ -121,7 +132,6 @@ class Lesson {
   constructor(_data, _class) {
     this.idlesson = _data.idlesson;
     this.parentClass = _class;
-
     this.idclass = _data.idclass;
     this.lastPlayed = _data.lastPlayed;
     this.mark = _data.mark;
@@ -143,6 +153,18 @@ class Lesson {
     }
   }
 
+  dictionary(r) {
+    return {
+      "{lessonTitle}": (r) => this.title,
+      "{lessonProfessor}": (r) => this.professor,
+      "{lessonDated}": (r) => formatDate(r == null ? this.dated : r)
+    };
+  }
+
+  dictionaryReplace(string, r = null) {
+    return dictionaryReplace(this.dictionary(r), string, r);
+  }
+
   url() {
     return this.parentClass.directory + this.filename;
   }
@@ -160,6 +182,7 @@ class Lesson {
     this.btnEdit = Button.small(lang.edit, () => { Lesson.form(this); });
     this.btnSetAsWatched = Button.small(lang.setAsWatched, () => { this.dbSetAsWatched(); });
     this.btnSetToBeWatched = Button.small(lang.setToBeWatched, () => { this.dbSetToBeWatched(); });
+    this.btnRemove = Button.small(lang.remove, () => { this.askToRemove(); });
 
     this.card = {};
 
@@ -187,6 +210,7 @@ class Lesson {
     this.card.buttons.appendChild(this.btnEdit.btn);
     this.card.buttons.appendChild(this.btnSetToBeWatched.btn);
     this.card.buttons.appendChild(this.btnSetAsWatched.btn);
+    this.card.buttons.appendChild(this.btnRemove.btn);
     this.card.dom.appendChild(this.card.buttons);
 
     if(this.watched) {
@@ -201,8 +225,15 @@ class Lesson {
     });
 
     this.card.dom.addEventListener("keyup", (e) => {
-      if(e.code == "Enter") {
-        this.play();
+      switch(e.code) {
+        case "Enter": {
+          this.play();
+          break;
+        }
+        case "Delete": {
+          this.askToRemove();
+          break;
+        }
       }
     });
 
@@ -316,5 +347,47 @@ class Lesson {
   dbRate(_rate) {
     this.playbackRate = _rate;
     return request("lesson.php", {request: "rate", idlesson: this.idlesson, rate: this.playbackRate});
+  }
+
+  askToRemove() {
+    Message.view(this.dictionaryReplace(lang.removeThisLesson), true, lang.remove).then(() => {
+      this.dbRemove();
+    }).catch(() => {
+      console.log(lang.lessonNotRemoved);
+    });
+  }
+
+  dbRemove() {
+    let data = {request: "remove", idlesson: this.idlesson};
+    return request("lesson.php", data)
+      .then((_response) => {
+        this.removed = true;
+        this.parentClass.show();
+        console.log(this.dictionaryReplace(lang.lessonRemoved));
+      })
+      .catch((_message) => {
+        Message.view(`${lang.failed}: ${_message}`);
+      });
+  }
+
+  askToDelete() {
+    Message.view(this.dictionaryReplace(lang.deleteThisLesson), true, lang.delete).then(() => {
+      this.dbDelete();
+    }).catch(() => {
+      console.log(lang.lessonNotDeleted);
+    });
+  }
+
+  dbDelete() {
+    let data = {request: "delete", idlesson: this.idlesson};
+    return request("lesson.php", data)
+      .then((_response) => {
+        this.removed = true; // To be changed later
+        this.parentClass.show();
+        console.log(this.dictionaryReplace(lang.lessonDeleted));
+      })
+      .catch((_message) => {
+        Message.view(`${lang.failed}: ${_message}`);
+      });
   }
 }
