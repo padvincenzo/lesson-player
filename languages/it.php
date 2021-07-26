@@ -18,73 +18,110 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 $langCode = "it";
-
 $lang = (object) [];
+
+// Properties
+$lang->dateFormat         = "{D}/{MM}/{YYYY}";
+
+// Actions
 $lang->cancel             = "Annulla";
-$lang->class              = "Corso";
-$lang->classAdded         = "Corso aggiunto";
-$lang->classCompleted     = "Questo corso sembra essere completato";
-$lang->classDirectory     = "Cartella delle videolezioni";
-$lang->classEdited        = "Corso modificato";
-$lang->classList          = "Lista dei corsi";
-$lang->className          = "Nome del corso";
-$lang->classNotAdded      = "Corso non aggiunto";
-$lang->classNotEdited     = "Corso non modificato";
 $lang->close              = "Chiudi";
 $lang->confirm            = "Conferma";
+$lang->delete             = "Elimina";
+$lang->edit               = "Modifica";
+$lang->ok                 = "Ok";
+$lang->remove             = "Rimuovi";
+$lang->show               = "Mostra";
+
+// Words
+$lang->class              = "Corso";
 $lang->credits            = "Crediti";
-$lang->dataMiss           = "Dati mancanti";
 $lang->dated              = "Data";
-$lang->dateFormat         = "{D}/{MM}/{YYYY}";
-$lang->dbConnectionFailed = "Connessione al database fallita.";
-$lang->dbNotFound         = "Il database non è stato trovato.";
-$lang->defaultLessonTitle = "Lezione del {dated}";
 $lang->directory          = "Cartella";
 $lang->documentation      = "Documentazione";
-$lang->edit               = "Modifica";
-$lang->errorOpeningFile   = "Errore nell'apertura del file";
-$lang->failed             = "Operazione fallita";
-$lang->ffmpegCopyPaste    = "Copia e incolla l'output di";
-$lang->ffmpegOutput       = "Output di ffmpeg";
 $lang->filename           = "Nome del file";
 $lang->homePage           = "Pagina iniziale";
+$lang->professor          = "Professore";
+$lang->progress           = "Progresso";
+$lang->search             = "Cerca...";
+$lang->title              = "Titolo";
+
+// ---------- Class ----------
 $lang->idclass            = "ID del corso";
-$lang->idlesson           = "ID della lezione";
-$lang->installSuccessful  = "Installazione riuscita.";
-$lang->installFailed      = "Installazione fallita.";
-$lang->invalidData        = "Dati non validi";
-$lang->lessonAdded        = "Lezione aggiunta";
-$lang->lessonEdited       = "Lezione modificata";
-$lang->lessonList         = "Lista delle lezioni";
-$lang->lessonNotAdded     = "Lezione non aggiunta";
-$lang->lessonNotEdited    = "Lezione non modificata";
-$lang->nextLesson         = "Lezione successiva";
+$lang->classDirectory     = "Cartella delle videolezioni";
+$lang->classList          = "Lista dei corsi";
+$lang->className          = "Nome del corso";
 $lang->newClass           = "Nuovo corso";
+$lang->removeThisClass    = "Spostare nel cestino la classe '{className}'?";
+$lang->deleteThisClass    = "Eliminare definitivamente la classe '{className}'?";
+
+// Class statements
+$lang->classAdded         = "Corso aggiunto";
+$lang->classNotAdded      = "Corso non aggiunto";
+$lang->classEdited        = "Corso modificato";
+$lang->classNotEdited     = "Corso non modificato";
+$lang->classDeleted       = "Corso '{className}' eliminato";
+$lang->classNotDeleted    = "Corso non eliminato";
+$lang->classRemoved       = "Corso '{className}' rimosso";
+$lang->classNotRemoved    = "Corso non rimosso";
+$lang->classCompleted     = "Questo corso sembra essere completato";
+
+
+// ---------- Lesson ----------
+$lang->idlesson           = "ID della lezione";
+$lang->defaultLessonTitle = "Lezione del {lessonDated}";
+$lang->lessonList         = "Lista delle lezioni";
+$lang->previousLesson     = "Lezione precedente";
+$lang->nextLesson         = "Lezione successiva";
 $lang->newLesson          = "Nuova lezione";
-$lang->notYetInstalled    = "Il database non è ancora stato installato.";
-$lang->ok                 = "Ok";
+$lang->silencesList       = "Elenco dei silenzi";
+$lang->removeThisLesson   = "Spostare nel cestino la lezione '{lessonTitle}'?";
+$lang->deleteThisLesson   = "Eliminare definitivamente la lezione '{lessonTitle}'?";
+
+// Lesson statements
+$lang->lessonAdded        = "Lezione aggiunta";
+$lang->lessonNotAdded     = "Lezione non aggiunta";
+$lang->lessonEdited       = "Lezione '{lessonTitle}' modificata";
+$lang->lessonNotEdited    = "Lezione non modificata";
+$lang->lessonDeleted      = "Lezione '{lessonTitle}' eliminata";
+$lang->lessonNotDeleted   = "Lezione non eliminata";
+$lang->lessonRemoved      = "Lezione '{lessonTitle}' rimossa";
+$lang->lessonNotRemoved   = "Lezione non rimossa";
+
+// Lesson status
+$lang->started            = "Iniziata";
+$lang->toBeWatched        = "Da guardare";
+$lang->watched            = "Guardata";
+$lang->setAsWatched       = "Segna già vista";
+$lang->setToBeWatched     = "Segna da vedere";
+
+// Player
 $lang->overlayEnabled     = "Overlay abilitato";
 $lang->overlayDisabled    = "Overlay disabilitato";
 $lang->paused             = "In pausa";
 $lang->play               = "Riproduci";
 $lang->playing            = "In riproduzione";
-$lang->previousLesson     = "Lezione precedente";
-$lang->professor          = "Professore";
-$lang->progress           = "Progresso";
 $lang->rate               = "Velocità";
 $lang->resume             = "Riprendi";
-$lang->search             = "Cerca...";
-$lang->setAsWatched       = "Segna già vista";
-$lang->setToBeWatched     = "Segna da vedere";
-$lang->show               = "Mostra";
-$lang->silencesList       = "Elenco dei silenzi";
 $lang->soundOff           = "Muto";
 $lang->soundOn            = "Sonoro";
-$lang->success            = "Successo";
-$lang->started            = "Iniziata";
-$lang->title              = "Titolo";
-$lang->toBeWatched        = "Da guardare";
 $lang->volume             = "Volume";
-$lang->watched            = "Guardata";
+
+// Database
+$lang->dbConnectionFailed = "Connessione al database fallita.";
+$lang->dbNotFound         = "Il database non è stato trovato.";
+$lang->installSuccessful  = "Installazione riuscita.";
+$lang->installFailed      = "Installazione fallita.";
+$lang->notYetInstalled    = "Il database non è ancora stato installato.";
+
+// FFmpeg
+$lang->ffmpegCopyPaste    = "Copia e incolla l'output di";
+$lang->ffmpegOutput       = "Output di ffmpeg";
+
+// Errors
+$lang->success            = "Successo";
+$lang->failed             = "Operazione fallita";
+$lang->errFileOpen        = "Errore nell'apertura del file";
+$lang->errInvalidData     = "Dati non validi";
 
 ?>

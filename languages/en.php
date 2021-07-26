@@ -18,73 +18,110 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 $langCode = "en";
-
 $lang = (object) [];
+
+// Properties
+$lang->dateFormat         = "default";
+
+// Actions
 $lang->cancel             = "Cancel";
-$lang->class              = "Class";
-$lang->classAdded         = "Class added";
-$lang->classCompleted     = "This class seems completed";
-$lang->classDirectory     = "Class directory";
-$lang->classEdited        = "Class edited";
-$lang->classList          = "Class list";
-$lang->className          = "Class name";
-$lang->classNotAdded      = "Class not added";
-$lang->classNotEdited     = "Class not edited";
 $lang->close              = "Close";
 $lang->confirm            = "Confirm";
+$lang->delete             = "Delete";
+$lang->edit               = "Edit";
+$lang->ok                 = "Ok";
+$lang->remove             = "Remove";
+$lang->show               = "Show";
+
+// Words
+$lang->class              = "Class";
 $lang->credits            = "Credits";
-$lang->dataMiss           = "Missing data";
 $lang->dated              = "Dated";
-$lang->dateFormat         = "default";
-$lang->dbConnectionFailed = "Database connection failed.";
-$lang->dbNotFound         = "Database name not found.";
-$lang->defaultLessonTitle = "Lesson of {dated}";
 $lang->directory          = "Directory";
 $lang->documentation      = "Documentation";
-$lang->edit               = "Edit";
-$lang->errorOpeningFile   = "Error opening file";
-$lang->failed             = "Failed";
-$lang->ffmpegCopyPaste    = "Copy and paste output of";
-$lang->ffmpegOutput       = "Output of ffmpeg";
 $lang->filename           = "File name";
 $lang->homePage           = "Home page";
+$lang->professor          = "Professor";
+$lang->progress           = "Progress";
+$lang->search             = "Search...";
+$lang->title              = "Title";
+
+// ---------- Class ----------
 $lang->idclass            = "Class ID";
-$lang->idlesson           = "Lesson ID";
-$lang->installSuccessful  = "Install successful.";
-$lang->installFailed      = "Install failed.";
-$lang->invalidData        = "Data not valid";
-$lang->lessonAdded        = "Lesson added";
-$lang->lessonEdited       = "Lesson edited";
-$lang->lessonList         = "Lesson list";
-$lang->lessonNotAdded     = "Lesson not added";
-$lang->lessonNotEdited    = "Lesson not edited";
-$lang->nextLesson         = "Next lesson";
+$lang->classDirectory     = "Class directory";
+$lang->classList          = "Class list";
+$lang->className          = "Class name";
 $lang->newClass           = "Add class";
+$lang->removeThisClass    = "Move the class '{className}' to the trash?";
+$lang->deleteThisClass    = "Permanently delete '{className}'?";
+
+// Class statements
+$lang->classAdded         = "Class added";
+$lang->classNotAdded      = "Class not added";
+$lang->classEdited        = "Class edited";
+$lang->classNotEdited     = "Class not edited";
+$lang->classDeleted       = "Class deleted";
+$lang->classNotDeleted    = "Class not deleted";
+$lang->classRemoved       = "Class removed";
+$lang->classNotRemoved    = "Class not removed";
+$lang->classCompleted     = "You have completed this class";
+
+
+// ---------- Lesson ----------
+$lang->idlesson           = "Lesson ID";
+$lang->defaultLessonTitle = "Lesson of {lessonDated}";
+$lang->lessonList         = "Lesson list";
+$lang->previousLesson     = "Previous lesson";
+$lang->nextLesson         = "Next lesson";
 $lang->newLesson          = "Add lesson";
-$lang->notYetInstalled    = "Database has not been installed yet.";
-$lang->ok                 = "Ok";
+$lang->silencesList       = "List of silences";
+$lang->removeThisLesson   = "Move the lesson '{lessonTitle}' to the trash?";
+$lang->deleteThisLesson   = "Permanently delete '{lessonTitle}'?";
+
+// Lesson statements
+$lang->lessonAdded        = "Lesson added";
+$lang->lessonNotAdded     = "Lesson not added";
+$lang->lessonEdited       = "Lesson '{lessonTitle}' edited";
+$lang->lessonNotEdited    = "Lesson not edited";
+$lang->lessonDeleted      = "Lesson '{lessonTitle}' deleted";
+$lang->lessonNotDeleted   = "Lesson not deleted";
+$lang->lessonRemoved      = "Lesson '{lessonTitle}' removed";
+$lang->lessonNotRemoved   = "Lesson not removed";
+
+// Lesson status
+$lang->started            = "Started";
+$lang->toBeWatched        = "To be watched";
+$lang->watched            = "Watched";
+$lang->setAsWatched       = "Set as watched";
+$lang->setToBeWatched     = "Set to be watched";
+
+// Player
 $lang->overlayEnabled     = "Overlay enabled";
 $lang->overlayDisabled    = "Overlay disabled";
 $lang->paused             = "Paused";
 $lang->play               = "Play";
 $lang->playing            = "Playing";
-$lang->previousLesson     = "Previous lesson";
-$lang->professor          = "Professor";
-$lang->progress           = "Progress";
 $lang->rate               = "Rate";
 $lang->resume             = "Resume";
-$lang->search             = "Search...";
-$lang->setAsWatched       = "Set as watched";
-$lang->setToBeWatched     = "Set to be watched";
-$lang->show               = "Show";
-$lang->silencesList       = "List of silences";
 $lang->soundOff           = "Muted";
 $lang->soundOn            = "Unmuted";
-$lang->success            = "Success";
-$lang->started            = "Started";
-$lang->title              = "Title";
-$lang->toBeWatched        = "To be watched";
 $lang->volume             = "Volume";
-$lang->watched            = "Watched";
+
+// Database
+$lang->dbConnectionFailed = "Database connection failed.";
+$lang->dbNotFound         = "Database name not found.";
+$lang->installSuccessful  = "Install successful.";
+$lang->installFailed      = "Install failed.";
+$lang->notYetInstalled    = "Database has not been installed yet.";
+
+// FFmpeg
+$lang->ffmpegCopyPaste    = "Copy and paste output of";
+$lang->ffmpegOutput       = "Output of ffmpeg";
+
+// Errors
+$lang->success            = "Success";
+$lang->failed             = "Failed";
+$lang->errFileOpen        = "Error opening file";
+$lang->errInvalidData     = "Data not valid";
 
 ?>
