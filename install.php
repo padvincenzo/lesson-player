@@ -21,7 +21,7 @@ include("_connect.php");
 
 // Load script
 $filename = "database.sql";
-$db_file = fopen($filename, "r") or die($lang->errorOpeningFile);
+$db_file = fopen($filename, "r") or die($lang->errFileOpen);
 $script = fread($db_file, filesize($filename));
 fclose($db_file);
 

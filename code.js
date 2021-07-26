@@ -145,36 +145,25 @@ function secondsToTime(seconds) {
   return `${hours}:${minutes}:${seconds}`;
 }
 
-function formatDate(_date) {
-  if(lang.dateFormat == "default")
-    return _date;
+const dateDictionary = {
+  "{YYYY}": (r) => r.substring(0, 4),
+  "{YY}": (r) => r.substring(2, 4),
+  "{MM}": (r) => r.substring(5, 7),
+  "{M}": (r) => +r.substring(5, 7),
+  "{DD}": (r) => r.substring(8),
+  "{D}": (r) => +r.substring(8)
+};
 
-  return lang.dateFormat.replace(/\{[A-Z]+\}/g, (key) => {
-    switch (key) {
-      case "{YYYY}": {
-        return _date.substring(0, 4);
-      }
-      case "{YY}": {
-        return _date.substring(2, 4);
-      }
-      case "{MM}": {
-        return _date.substring(5, 7);
-      }
-      case "{M}": {
-        let m = _date.substring(5, 7);
-        return (+m) <= 9 ? +m : m;
-      }
-      case "{DD}": {
-        return _date.substring(8);
-      }
-      case "{D}": {
-        let d = _date.substring(8);
-        return (+d) <= 9 ? +d : d;
-      }
-      default: {
-        return key;
-      }
-    }
+function formatDate(date) {
+  if(lang.dateFormat == "default")
+    return date;
+
+  return dictionaryReplace(dateDictionary, lang.dateFormat, date);
+}
+
+function dictionaryReplace(dictionary, string, r = null) {
+  return string.replace(/\{[A-Z]+\}/gi, (key) => {
+    return dictionary.hasOwnProperty(key) ? dictionary[key](r) : key;
   });
 }
 
