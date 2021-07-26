@@ -53,6 +53,12 @@ switch($request) {
   case "rate": {
     return changeRate();
   }
+  case "remove": {
+    return removeLesson(); // Removes from database only
+  }
+  case "delete": {
+    return deleteLesson(); // Also remove videos from the server
+  }
 }
 
 
@@ -65,7 +71,7 @@ function getNext() {
 
   $idclass = $data->idclass;
 
-  $result = $dbh->query("select * from lesson where idclass = '$idclass' and watched = false order by dated asc limit 1;");
+  $result = $dbh->query("select * from lesson where idclass = '$idclass' and watched = false and removed is not true order by dated asc limit 1;");
   if($result) {
     $lesson = $result->fetch_assoc();
     return Response::ok($lang->nextLesson, $lesson);
@@ -84,7 +90,7 @@ function getPrevious() {
   $idclass = $data->idclass;
 
   // !!! Watch out !!!
-  $result = $dbh->query("select * from lesson where idclass = '$idclass' and watched = true order by dated desc limit 1;");
+  $result = $dbh->query("select * from lesson where idclass = '$idclass' and watched = true and removed is not true order by dated desc limit 1;");
   if($result) {
     $lesson = $result->fetch_assoc();
     return Response::ok($lang->previousLesson, $lesson);
@@ -135,6 +141,21 @@ function getSilences() {
   $result = $dbh->query("select t_start, t_end from silence where idlesson = '$idlesson' order by t_start asc;");
   $silences = $result->fetch_all(MYSQLI_ASSOC);
   return Response::ok($lang->silencesList, $silences);
+}
+
+function getSilencesInfo() {
+  global $dbh, $lang, $data;
+
+  Input::number($data, "idlesson");
+  if(Input::errors())
+    return Response::err_data();
+
+  $idlesson = $data->idlesson;
+
+  $result = $dbh->query("select count(*) as 'silencesCount', sum(t_end - t_start) as 'duration', sum(t_end - t_start) - sum(t_end - t_start) / 8 as 'timeSaved' from silence where idlesson = '$idlesson';");
+  $silences = $result->fetch_all(MYSQLI_ASSOC);
+  return Response::ok($lang->silencesList, $silences);
+  // SELECT lesson.title, count(*) as "number of silences", sum(silence.t_end - silence.t_start) as "silences (s)", sum(silence.t_end - silence.t_start) - sum(silence.t_end - silence.t_start) / 8 as "time saved at 8x (s)" FROM lesson left join silence on silence.idlesson = lesson.idlesson group by silence.idlesson ORDER BY lesson.dated ASC
 }
 
 function setToBeWatched() {
@@ -236,7 +257,7 @@ function listLessons() {
     return Response::err_data();
 
   $idclass = $data->idclass;
-  $result = $dbh->query("select * from lesson where idclass = '$idclass' order by dated, idlesson;");
+  $result = $dbh->query("select * from lesson where idclass = '$idclass' and removed is not true order by dated, idlesson;");
   $lessons = $result->fetch_all(MYSQLI_ASSOC);
   return Response::ok($lang->lessonList, $lessons);
 }
@@ -274,6 +295,43 @@ function insertSilences() {
     // echo $header . join(", ", $timestamps);
     $result = $dbh->query("insert into silence (idlesson, t_start, t_end) values" . join(", ", $timestamps));
   }
+}
+
+function removeLesson() {
+  global $dbh, $lang, $data;
+
+  Input::number($data, "idlesson");
+  if(Input::errors())
+    return Response::err_data();
+
+  $idlesson = $data->idlesson;
+
+  $result = $dbh->query("update lesson set removed = true where idlesson = '$idlesson';");
+  if($result) {
+    return Response::ok($lang->lessonRemoved);
+  }
+
+  return Response::err($lang->lessonNotRemoved);
+}
+
+function deleteLesson() {
+  global $dbh, $lang, $data;
+
+  Input::number($data, "idlesson");
+  if(Input::errors())
+    return Response::err_data();
+
+  $idlesson = $data->idlesson;
+
+  $result = $dbh->query("delete from silence where idlesson = '$idlesson';");
+  if($result) {
+    $result = $dbh->query("delete from lesson where idlesson = '$idlesson';");
+    if($result) {
+      return Response::ok($lang->lessonDeleted);
+    }
+  }
+
+  return Response::err($lang->lessonNotDeleted);
 }
 
 ?>

@@ -32,6 +32,12 @@ switch($request) {
   case "edit": {
     return editClass();
   }
+  case "remove": {
+    return removeClass(); // Removes from database only
+  }
+  case "delete": {
+    return deleteClass(); // Also remove videos from the server
+  }
 }
 
 
@@ -89,11 +95,54 @@ function addClass() {
   return Response::err($lang->classNotAdded);
 }
 
+function removeClass() {
+  global $dbh, $lang, $data;
+
+  Input::number($data, "idclass");
+  if(Input::errors())
+    return Response::err_data();
+
+  $idclass = $data->idclass;
+
+  // Remove class from database
+  $result = $dbh->query("update class set removed = true where idclass = '$idclass';");
+  if($result) {
+    return Response::ok($lang->classRemoved);
+  }
+
+  return Response::err($lang->classNotRemoved);
+}
+
+function deleteClass() {
+  global $dbh, $lang, $data;
+
+  Input::number($data, "idclass");
+  if(Input::errors())
+    return Response::err_data();
+
+  $idclass = $data->idclass;
+
+  $result = $dbh->query("delete from silence where idlesson in (select idlesson from lesson where idclass = '$idclass');");
+  if($result) {
+    $result = $dbh->query("delete from lesson where idclass = '$idclass';");
+    if($result) {
+      $result = $dbh->query("delete from class where idclass = '$idclass';");
+      if($result) {
+        return Response::ok($lang->classDeleted);
+      }
+    }
+  }
+
+  return Response::err($lang->classNotDeleted);
+}
+
 function listClasses() {
   global $dbh, $lang;
   $result = $dbh->query("select c.idclass, c.name, c.professor, c.directory, count(l.idclass) as nLessons, sum(l.watched) as nWatched
     from class c left join lesson l
     on l.idclass = c.idclass
+    where c.removed is not true
+    and l.removed is not true
     group by c.idclass
     order by max(l.lastPlayed) desc;");
   if($result) {
