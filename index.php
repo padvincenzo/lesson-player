@@ -22,6 +22,7 @@ $dbh->close();
 
 
 function getLocalIPAddress() {
+	/* https://stackoverflow.com/a/36604437 */
 	$sock = socket_create(AF_INET, SOCK_DGRAM, SOL_UDP);
 	socket_connect($sock, "8.8.8.8", 53);
 	socket_getsockname($sock, $name); // $name passed by reference
