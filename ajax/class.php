@@ -139,10 +139,9 @@ function deleteClass() {
 function listClasses() {
   global $dbh, $lang;
   $result = $dbh->query("select c.idclass, c.name, c.professor, c.directory, count(l.idclass) as nLessons, sum(l.watched) as nWatched
-    from class c left join lesson l
+    from class c left join (select * from lesson where removed is not true) l
     on l.idclass = c.idclass
     where c.removed is not true
-    and l.removed is not true
     group by c.idclass
     order by max(l.lastPlayed) desc;");
   if($result) {
