@@ -93,7 +93,7 @@ function getLocalIPAddress() {
 				&middot;
 				<a href="https://vincenzopadula.altervista.org/docs/lesson-player/" target="_blank"><?php echo $lang->documentation; ?></a>
 			</p>
-			<p>L'indirizzo IP del server locale è: <?php echo getLocalIPAddress(); ?></p>
+			<p><?php echo $lang->IPAddress . getLocalIPAddress(); ?></p>
 		</footer>
 
 	</body>
