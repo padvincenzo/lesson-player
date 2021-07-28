@@ -19,6 +19,17 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 include("_connect.php");
 $dbh->close();
+
+
+function getLocalIPAddress() {
+	$sock = socket_create(AF_INET, SOCK_DGRAM, SOL_UDP);
+	socket_connect($sock, "8.8.8.8", 53);
+	socket_getsockname($sock, $name); // $name passed by reference
+
+	// This is the local machine's external IP address
+	return $name;
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -81,6 +92,7 @@ $dbh->close();
 				&middot;
 				<a href="https://vincenzopadula.altervista.org/docs/lesson-player/" target="_blank"><?php echo $lang->documentation; ?></a>
 			</p>
+			<p>L'indirizzo IP del server locale è: <?php echo getLocalIPAddress(); ?></p>
 		</footer>
 
 	</body>
