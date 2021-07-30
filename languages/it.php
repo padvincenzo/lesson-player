@@ -57,15 +57,15 @@ $lang->removeThisClass    = "Spostare nel cestino la classe '{className}'?";
 $lang->deleteThisClass    = "Eliminare definitivamente la classe '{className}'?";
 
 // Class statements
-$lang->classAdded         = "Corso aggiunto";
+$lang->classAdded         = "Corso '{className}' aggiunto";
 $lang->classNotAdded      = "Corso non aggiunto";
-$lang->classEdited        = "Corso modificato";
+$lang->classEdited        = "Corso '{className}' modificato";
 $lang->classNotEdited     = "Corso non modificato";
 $lang->classDeleted       = "Corso '{className}' eliminato";
 $lang->classNotDeleted    = "Corso non eliminato";
 $lang->classRemoved       = "Corso '{className}' rimosso";
 $lang->classNotRemoved    = "Corso non rimosso";
-$lang->classCompleted     = "Questo corso sembra essere completato";
+$lang->classCompleted     = "Hai completato questo corso";
 
 
 // ---------- Lesson ----------
@@ -80,7 +80,7 @@ $lang->removeThisLesson   = "Spostare nel cestino la lezione '{lessonTitle}'?";
 $lang->deleteThisLesson   = "Eliminare definitivamente la lezione '{lessonTitle}'?";
 
 // Lesson statements
-$lang->lessonAdded        = "Lezione aggiunta";
+$lang->lessonAdded        = "Lezione '{lessonTitle}' aggiunta";
 $lang->lessonNotAdded     = "Lezione non aggiunta";
 $lang->lessonEdited       = "Lezione '{lessonTitle}' modificata";
 $lang->lessonNotEdited    = "Lezione non modificata";

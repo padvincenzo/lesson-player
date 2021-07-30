@@ -57,13 +57,13 @@ $lang->removeThisClass    = "Move the class '{className}' to the trash?";
 $lang->deleteThisClass    = "Permanently delete '{className}'?";
 
 // Class statements
-$lang->classAdded         = "Class added";
+$lang->classAdded         = "Class '{className}' added";
 $lang->classNotAdded      = "Class not added";
-$lang->classEdited        = "Class edited";
+$lang->classEdited        = "Class '{className}' edited";
 $lang->classNotEdited     = "Class not edited";
-$lang->classDeleted       = "Class deleted";
+$lang->classDeleted       = "Class '{className}' deleted";
 $lang->classNotDeleted    = "Class not deleted";
-$lang->classRemoved       = "Class removed";
+$lang->classRemoved       = "Class '{className}' removed";
 $lang->classNotRemoved    = "Class not removed";
 $lang->classCompleted     = "You have completed this class";
 
@@ -80,7 +80,7 @@ $lang->removeThisLesson   = "Move the lesson '{lessonTitle}' to the trash?";
 $lang->deleteThisLesson   = "Permanently delete '{lessonTitle}'?";
 
 // Lesson statements
-$lang->lessonAdded        = "Lesson added";
+$lang->lessonAdded        = "Lesson '{lessonTitle}' added";
 $lang->lessonNotAdded     = "Lesson not added";
 $lang->lessonEdited       = "Lesson '{lessonTitle}' edited";
 $lang->lessonNotEdited    = "Lesson not edited";
