@@ -47,27 +47,13 @@ class Lesson {
     let url = Lesson.isDummy(_lesson) ? "<FILE>" : _lesson.url();
     var code = form.help(`${lang.ffmpegCopyPaste}: $ ffmpeg -hide_banner -nostats -vn -i "${url}" -af silencedetect=n=0.002:d=2.3 -f null -`);
 
-    form.appendButton(lang.confirm, () => {
-      let values = form.values();
-      if(values == null) {
-        return;
-      }
-
-      if(Lesson.isDummy(_lesson)) {
-        Lesson.dbAdd(values, _lesson.parentClass);
-        _lesson = undefined;
-      } else {
-        _lesson.dbEdit(values);
-      }
-    });
-
-    form.appendButton(lang.cancel, () => {
-      _lesson.parentClass.show();
-
-      if(Lesson.isDummy(_lesson)) {
-        _lesson = undefined;
-      }
-    });
+    // form.appendButton(lang.confirm, () => {
+    //
+    // });
+    //
+    // form.appendButton(lang.cancel, () => {
+    //
+    // });
 
     // Set the default value for the lesson title
     dated.addEventListener("focusout", () => {
@@ -82,17 +68,38 @@ class Lesson {
       code.innerText = `${lang.ffmpegCopyPaste}: $ ffmpeg -hide_banner -nostats -vn -i "${url}" -af silencedetect=n=0.002:d=2.3 -f null -`;
     });
 
-    UI.display(form.wrapper, UI.btnHome.btn);
+    Message.view(form.wrapper, true, lang.confirm).then(() => {
+      let values = form.values();
+      if(values == null) {
+        return;
+      }
+
+      if(Lesson.isDummy(_lesson)) {
+        Lesson.dbAdd(values, _lesson.parentClass);
+        _lesson = undefined;
+      } else {
+        _lesson.dbEdit(values);
+      }
+    }).catch(() => {
+      if(Lesson.isDummy(_lesson)) {
+        _lesson = undefined;
+      }
+    })
   }
 
   static dbAdd(_data, _class) {
     _data.request = "add";
     _data.idclass = _class.idclass;
     return request("lesson.php", _data)
-      .then((_lesson) => {
-        _class.lessons.push(new Lesson(_lesson, _class));
-        Message.view(lang.lessonAdded);
-        Lesson.form(Lesson.dummy(_class));
+      .then((lessonData) => {
+        var lesson = new Lesson(lessonData, _class);
+        _class.lessons.push(lesson);
+        _class.show();
+        Message.view(lesson.dictionaryReplace(lang.lessonAdded), true, lang.newLesson, lang.close).then(() => {
+          Lesson.form(Lesson.dummy(_class));
+        }).catch(() => {
+          // do nothing
+        });
       })
       .catch((_message) => {
         Message.view(`${lang.failed}: ${_message}`);
@@ -266,7 +273,11 @@ class Lesson {
 
   playNext() {
     this.parentClass.dbGetNext().then(() => {
-      this.parentClass.nextLesson.play();
+      if(this.parentClass.nextLesson != null) {
+        this.parentClass.nextLesson.play();
+      } else {
+        Message.view(lang.classCompleted);
+      }
     });
   }
 
@@ -295,7 +306,7 @@ class Lesson {
       .then((_lesson) => {
         this.update(_lesson);
 
-        Message.view(lang.lessonEdited);
+        Message.view(this.dictionaryReplace(lang.lessonEdited));
         this.parentClass.show();
       })
       .catch((_message) => {

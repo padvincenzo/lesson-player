@@ -105,7 +105,31 @@ class Class {
         directory.value += "/";
     });
 
-    form.appendButton(lang.confirm, () => {
+    // form.appendButton(lang.confirm, () => {
+    //   let values = form.values();
+    //   if(values == null) {
+    //     return;
+    //   }
+    //
+    //   if(Class.isDummy(_class)) {
+    //     Class.dbAdd(values);
+    //   } else {
+    //     _class.dbEdit(values);
+    //   }
+    // });
+
+    // Permanently delete class will reappear when trash bin will be ready
+    // if(! Class.isDummy(_class)) {
+    //   form.appendButton(lang.delete, () => {
+    //     _class.askToDelete();
+    //   });
+    // }
+
+    // form.appendButton(lang.cancel, () => {
+    //   UI.listClasses();
+    // });
+
+    Message.view(form.wrapper, true, lang.confirm).then(() => {
       let values = form.values();
       if(values == null) {
         return;
@@ -116,28 +140,23 @@ class Class {
       } else {
         _class.dbEdit(values);
       }
+    }).catch(() => {
+      // do nothing
     });
-
-    if(! Class.isDummy(_class)) {
-      form.appendButton(lang.delete, () => {
-        _class.askToDelete();
-      });
-    }
-
-    form.appendButton(lang.cancel, () => {
-      UI.listClasses();
-    });
-
-    UI.display(form.wrapper, UI.btnHome.btn);
   }
 
   static dbAdd(_data) {
     _data.request = "add";
     return request("class.php", _data)
-      .then((_class) => {
-        Class.classes.push(new Class(_class));
-        Message.view(lang.classAdded);
-        Class.form(Class.dummy());
+      .then((classData) => {
+        var c = new Class(classData);
+        Class.classes.push(c);
+        UI.listClasses();
+        Message.view(c.dictionaryReplace(lang.classAdded), true, lang.newClass, lang.close).then(() => {
+          Class.form(Class.dummy());
+        }).catch(() => {
+          // do nothing
+        });
       })
       .catch((_message) => {
         Message.view(`${lang.failed}: ${_message}`);
@@ -183,16 +202,17 @@ class Class {
     }
   }
 
-  get dictionary() {
+  // Currently, reference variable r is not used
+  dictionary(r) {
     return {
-      "{className}": () => this.name,
-      "{classProfessor}": () => this.professor,
-      "{classDirectory}": () => this.directory
+      "{className}": (r) => this.name,
+      "{classProfessor}": (r) => this.professor,
+      "{classDirectory}": (r) => this.directory
     };
   }
 
   dictionaryReplace(string, r = null) {
-    return dictionaryReplace(this.dictionary, string, r);
+    return dictionaryReplace(this.dictionary(r), string, r);
   }
 
   createCard() {
@@ -364,7 +384,7 @@ class Class {
       .then((_response) => {
         this.removed = true;
         UI.listClasses();
-        console.log(this.dictionaryReplace(lang.classRemoved));
+        Message.view(this.dictionaryReplace(lang.classRemoved));
       })
       .catch((_message) => {
         Message.view(`${lang.failed}: ${_message}`);
@@ -385,7 +405,7 @@ class Class {
       .then((_response) => {
         this.removed = true; // To be changed later
         UI.listClasses();
-        console.log(this.dictionaryReplace(lang.classDeleted));
+        Message.view(this.dictionaryReplace(lang.classDeleted));
       })
       .catch((_message) => {
         Message.view(`${lang.failed}: ${_message}`);
@@ -419,7 +439,7 @@ class Class {
         _class.nWatched = this.nWatched;
         this.update(_class);
 
-        Message.view(lang.classEdited);
+        Message.view(this.dictionaryReplace(lang.classEdited));
         UI.listClasses();
       })
       .catch((_message) => {

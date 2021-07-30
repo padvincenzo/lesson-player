@@ -92,7 +92,7 @@ class Player {
 
   static initShortcuts() {
     document.body.addEventListener("keyup", (e) => {
-      if(e.target.tagName == "INPUT" || e.target.tagName == "TEXTAREA") {
+      if(e.target.tagName == "INPUT" || e.target.tagName == "TEXTAREA" || Message.isBusy()) {
         return;
       }
 
@@ -152,7 +152,7 @@ class Player {
     });
 
     document.body.addEventListener("keydown", (e) => {
-      if(e.target.tagName == "INPUT" || e.target.tagName == "TEXTAREA") {
+      if(e.target.tagName == "INPUT" || e.target.tagName == "TEXTAREA" || Message.isBusy()) {
         return;
       }
 
@@ -189,6 +189,9 @@ class Player {
         case "BracketLeft":
         case "NumpadSubtract":
         case "Minus": {
+          if(e.ctrlKey || e.metaKey) {
+            break;
+          }
           /* Decrease playback rate by 0.1 */
           e.preventDefault();
           Player.changePlaybackRate(-0.1);
@@ -197,6 +200,9 @@ class Player {
         case "BracketRight":
         case "NumpadAdd":
         case "Equal": {
+          if(e.ctrlKey || e.metaKey) {
+            break;
+          }
           /* Increase playback rate by 0.1 */
           e.preventDefault();
           Player.changePlaybackRate(+0.1);

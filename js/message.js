@@ -49,7 +49,7 @@ class Message {
     document.body.appendChild(Message.background);
   }
 
-  static view(html = null, cancelable = false, buttonText = "") {
+  static view(html = null, cancelable = false, resolveText = "", rejectText = "") {
     if(html == null) {
       return Promise.reject("Nothing to view.");
     }
@@ -69,10 +69,17 @@ class Message {
         _reject();
       };
 
-      Message.content.innerHTML = html;
-      Message.btnResolve.innerText = buttonText == "" ? lang.ok : buttonText;
+      if(typeof html === 'string' || html instanceof String) {
+        Message.content.innerHTML = html;
+      } else {
+        Message.content.innerHTML = "";
+        Message.content.appendChild(html);
+      }
+
+      Message.btnResolve.innerText = resolveText == "" ? lang.ok : resolveText;
 
       if(cancelable) {
+        Message.btnReject.innerText = rejectText == "" ? lang.cancel : rejectText;
         Message.btnReject.style.display = "inline-block";
         Message.btnReject.addEventListener("click", Message.currentReject);
         Message.btnResolve.addEventListener("click", Message.currentResolve);
