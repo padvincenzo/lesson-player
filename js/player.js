@@ -93,6 +93,10 @@ class Player {
   static initShortcuts() {
     document.body.addEventListener("keyup", (e) => {
       if(e.target.tagName == "INPUT" || e.target.tagName == "TEXTAREA" || Message.isBusy()) {
+        if(e.code == "Escape") {
+          e.preventDefault();
+          Message.close();
+        }
         return;
       }
 

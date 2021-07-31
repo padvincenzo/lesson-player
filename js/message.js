@@ -64,16 +64,22 @@ class Message {
         Message.dismiss();
         _resolve();
       };
-      Message.currentReject = () => {
+      Message.currentReject = (err = "Canceled") => {
         Message.dismiss();
-        _reject();
+        _reject(err);
       };
 
       if(typeof html === 'string' || html instanceof String) {
         Message.content.innerHTML = html;
       } else {
-        Message.content.innerHTML = "";
-        Message.content.appendChild(html);
+        try {
+          Message.content.innerHTML = "";
+          Message.content.appendChild(html);
+        } catch(err) {
+          // Something failed
+          Message.currentReject(err);
+          return;
+        }
       }
 
       Message.btnResolve.innerText = resolveText == "" ? lang.ok : resolveText;
@@ -112,6 +118,22 @@ class Message {
     Message.currentReject = null;
     Message.btnResolve.removeEventListener("click", Message.currentResolve);
     Message.currentResolve = null;
+  }
+
+  static isCancelable() {
+    return Message.btnReject.style.display == "inline-block";
+  }
+
+  static close() {
+    if(! Message.isBusy()) {
+      return;
+    }
+
+    if(Message.isCancelable()) {
+      Message.currentReject();
+    } else {
+      Message.currentResolve();
+    }
   }
 }
 
