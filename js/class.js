@@ -105,29 +105,12 @@ class Class {
         directory.value += "/";
     });
 
-    // form.appendButton(lang.confirm, () => {
-    //   let values = form.values();
-    //   if(values == null) {
-    //     return;
-    //   }
-    //
-    //   if(Class.isDummy(_class)) {
-    //     Class.dbAdd(values);
-    //   } else {
-    //     _class.dbEdit(values);
-    //   }
-    // });
-
     // Permanently delete class will reappear when trash bin will be ready
     // if(! Class.isDummy(_class)) {
     //   form.appendButton(lang.delete, () => {
     //     _class.askToDelete();
     //   });
     // }
-
-    // form.appendButton(lang.cancel, () => {
-    //   UI.listClasses();
-    // });
 
     Message.view(form.wrapper, true, lang.confirm).then(() => {
       let values = form.values();
@@ -438,9 +421,7 @@ class Class {
         _class.nLessons = this.nLessons;
         _class.nWatched = this.nWatched;
         this.update(_class);
-
         Message.view(this.dictionaryReplace(lang.classEdited));
-        UI.listClasses();
       })
       .catch((_message) => {
         Message.view(`${lang.failed}: ${_message}`);
