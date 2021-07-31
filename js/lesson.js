@@ -47,14 +47,6 @@ class Lesson {
     let url = Lesson.isDummy(_lesson) ? "<FILE>" : _lesson.url();
     var code = form.help(`${lang.ffmpegCopyPaste}: $ ffmpeg -hide_banner -nostats -vn -i "${url}" -af silencedetect=n=0.002:d=2.3 -f null -`);
 
-    // form.appendButton(lang.confirm, () => {
-    //
-    // });
-    //
-    // form.appendButton(lang.cancel, () => {
-    //
-    // });
-
     // Set the default value for the lesson title
     dated.addEventListener("focusout", () => {
       if(title.value == "" && dated.value != "") {
@@ -305,9 +297,7 @@ class Lesson {
     return request("lesson.php", _data)
       .then((_lesson) => {
         this.update(_lesson);
-
         Message.view(this.dictionaryReplace(lang.lessonEdited));
-        this.parentClass.show();
       })
       .catch((_message) => {
         Message.view(`${lang.failed}: ${_message}`);
