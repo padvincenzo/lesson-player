@@ -141,6 +141,7 @@ Scorciatoie da tastiera:
 
 |        **Tasto/i**      |               **Effetto**              |
 |:-----------------------:| -------------------------------------- |
+| ``Esc``                 | Ciudi il messaggio/richiesta corrente  |
 | ``Spazio``              | Pausa/play                             |
 | ``M``                   | Muto/sonoro                            |
 | ``F``                   | Video a schermo intero                 |
