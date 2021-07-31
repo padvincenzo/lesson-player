@@ -141,6 +141,7 @@ Hotkeys:
 
 |         **Key(s)**        |           **Effect**          |
 |:-------------------------:| ----------------------------- |
+| ``Esc``                   | Close the current message     |
 | ``Space``                 | Toggle play/pause             |
 | ``M``                     | Toggle mute                   |
 | ``F``                     | Toggle fullscreen             |
