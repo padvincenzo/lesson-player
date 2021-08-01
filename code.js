@@ -24,7 +24,7 @@ window.addEventListener("load", () => {
 });
 
 class Button {
-  btn = null;
+  // btn;
 
   constructor(_text = "", _click = null, _id = null) {
     this.btn = document.createElement("button");
