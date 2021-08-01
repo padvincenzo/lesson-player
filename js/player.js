@@ -17,27 +17,34 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 class Player {
-  static player = null;
-  static wrapper = null;
-  static background = null;
-
-  static overlay = null;
-  static overlayData = null;
-
-  static notice = null;
-  static noticeTimeout = null;
-  static fastSilence = null;
-
-  static lesson = null;
+  // static player;
+  // static wrapper;
+  // static background;
+  //
+  // static overlay;
+  // static overlayData;
+  //
+  // static notice;
+  // static noticeTimeout;
+  // static fastSilence;
+  //
+  // static lesson;
 
   /* Editable configuration */
-  static fastPlaybackRate = 8;  // PlaybackRate on silences
-  static minPlaybackRate = 0.5; // Lowest playbackRate
-  static maxPlaybackRate = 3;   // Highest playbackRate
-
-  static overlayEnabled = true;
+  // static fastPlaybackRate = 8;  // PlaybackRate on silences
+  // static minPlaybackRate = 0.5; // Lowest playbackRate
+  // static maxPlaybackRate = 3;   // Highest playbackRate
+  //
+  // static overlayEnabled = true;
 
   static init() {
+    /* Editable configuration */
+    Player.fastPlaybackRate = 8;  // PlaybackRate on silences
+    Player.minPlaybackRate = 0.5; // Lowest playbackRate
+    Player.maxPlaybackRate = 3;   // Highest playbackRate
+
+    Player.overlayEnabled = true;
+
     Player.player = videojs("my-player", {
       fluid: true,
       controls: true,
@@ -58,6 +65,10 @@ class Player {
     Player.initLessonUpdater();
     Player.removeTabIndexes();
     Player.initUserActivity();
+  }
+
+  static unavailable() {
+    return Player.lesson == null || Player.lesson == undefined;
   }
 
   static initWrapperFunctions() {
@@ -82,7 +93,7 @@ class Player {
 
     for(let i = 0; i < wrapperFunctions.length; i++) {
       Player[wrapperFunctions[i]] = (_value) => {
-        if(Player.lesson == null)
+        if(Player.unavailable())
           return;
 
         return Player.player[wrapperFunctions[i]](_value);
@@ -253,7 +264,7 @@ class Player {
 
   static initLessonUpdater() {
     Player.on("ratechange", () => {
-      if(Player.lesson == null) {
+      if(Player.unavailable()) {
         return;
       }
 
@@ -264,7 +275,7 @@ class Player {
     });
 
     Player.on("timeupdate", () => {
-      if(Player.lesson == null) {
+      if(Player.unavailable()) {
         return;
       }
 
@@ -280,7 +291,7 @@ class Player {
     });
 
     Player.on("ended", () => {
-      if(Player.lesson == null) {
+      if(Player.unavailable()) {
         return;
       }
 
@@ -395,7 +406,7 @@ class Player {
   }
 
   static skipSilence() {
-    if(Player.lesson == null) {
+    if(Player.unavailable()) {
       return;
     }
 
@@ -407,7 +418,7 @@ class Player {
   }
 
   static goFast() {
-    if(Player.lesson == null) {
+    if(Player.unavailable()) {
       return;
     }
 
@@ -416,7 +427,7 @@ class Player {
   }
 
   static goRegular() {
-    if(Player.lesson == null) {
+    if(Player.unavailable()) {
       return;
     }
 
@@ -425,7 +436,7 @@ class Player {
   }
 
   static changeVolume(_amount) {
-    if(Player.lesson == null) {
+    if(Player.unavailable()) {
       return;
     }
 
@@ -436,7 +447,7 @@ class Player {
   }
 
   static changePlaybackRate(_amount) {
-    if(Player.lesson == null) {
+    if(Player.unavailable()) {
       return;
     }
 
@@ -447,7 +458,7 @@ class Player {
   }
 
   static changeTime(_amount) {
-    if(Player.lesson == null) {
+    if(Player.unavailable()) {
       return;
     }
 
@@ -458,7 +469,7 @@ class Player {
   }
 
   static screenshot() {
-    if(Player.lesson == null) {
+    if(Player.unavailable()) {
       return;
     }
 

@@ -17,15 +17,15 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 class Class {
-  classes = null;
-  btnNewClass = null;
+  // static classes;
+  // static btnNewClass;
 
   static retrieve() {
-    if(Class.classes == null) {
+    if(Class.classes == null || Class.classes == undefined) {
       Class.classes = [];
     }
 
-    if(Class.btnNewClass == null) {
+    if(Class.btnNewClass == null || Class.btnNewClass == undefined) {
       Class.btnNewClass = new Button(lang.newClass, () => {
         Class.form(Class.dummy());
       }, "newClass");
@@ -146,24 +146,24 @@ class Class {
       });
   }
 
-  idclass = null;
-  name = null;
-  professor = null;
-  directory = null;
-  lessons = null;
-  nLessons = null;
-  nWatched = null;
-
-  card = null;
-  removed = false;
-  searchBox = null;
-
-  btnResume = null;
-  btnEdit = null;
-  btnShow = null;
-  btnAddLesson = null;
-
-  nextLesson = null;
+  // idclass;
+  // name;
+  // professor;
+  // directory;
+  // lessons;
+  // nLessons;
+  // nWatched;
+  //
+  // card;
+  // removed;
+  // searchBox;
+  //
+  // btnResume;
+  // btnEdit;
+  // btnShow;
+  // btnAddLesson;
+  //
+  // nextLesson;
 
   constructor(_data) {
     this.idclass = _data.idclass;
@@ -263,7 +263,7 @@ class Class {
   }
 
   toCard(tabIndex = 0) {
-    if(this.card == null) {
+    if(this.card == null || this.card == undefined) {
       this.createCard();
     }
 
@@ -272,7 +272,7 @@ class Class {
   }
 
   getLessonById(idlesson) {
-    if(this.lessons == null) {
+    if(this.lessons == null || this.lessons == undefined) {
       return null;
     }
 
@@ -320,7 +320,7 @@ class Class {
 
   resume() {
     return this.dbGetNext().then(() => {
-      if(this.nextLesson == null) {
+      if(this.nextLesson == null || this.nextLesson == undefined) {
         Message.view(lang.classCompleted);
       } else {
         this.nextLesson.play();

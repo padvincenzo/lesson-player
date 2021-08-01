@@ -107,26 +107,26 @@ class Lesson {
     return l1.idlesson - l2.idlesson;
   }
 
-  idlesson = null;
-  idclass = null;
-  dated = null;
-  title = null;
-  professor = null;
-  lastPlayed = null;
-  mark = null;
-  watched = null;
-  filename = null;
-  parentClass = null;
-  silences = null;
-  playbackRate = null;
-
-  card = null;
-  removed = false;
-
-  btnPlay = null;
-  btnEdit = null;
-  btnSetAsWatched = null;
-  btnSetToBeWatched = null;
+  // idlesson;
+  // idclass;
+  // dated;
+  // title;
+  // professor;
+  // lastPlayed;
+  // mark;
+  // watched;
+  // filename;
+  // parentClass;
+  // silences;
+  // playbackRate;
+  //
+  // card;
+  // removed;
+  //
+  // btnPlay;
+  // btnEdit;
+  // btnSetAsWatched;
+  // btnSetToBeWatched;
 
   constructor(_data, _class) {
     this.idlesson = _data.idlesson;
@@ -248,7 +248,7 @@ class Lesson {
   }
 
   toCard(tabIndex = 0) {
-    if(this.card == null) {
+    if(this.card == null || this.card == undefined) {
       this.createCard();
     }
 
@@ -274,7 +274,7 @@ class Lesson {
   }
 
   getSilenceByTime(time) {
-    if(this.silences == null)
+    if(this.silences == null || this.silences == undefined)
       return null;
 
     return this.silences.find((s) => {

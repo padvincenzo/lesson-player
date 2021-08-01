@@ -17,14 +17,14 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 class Message {
-  static content = null;
-  static btnReject = null;
-  static btnResolve = null;
-  static wrapper = null;
-  static background = null;
-
-  static currentResolve = null;
-  static currentReject = null;
+  // static content;
+  // static btnReject;
+  // static btnResolve;
+  // static wrapper;
+  // static background;
+  //
+  // static currentResolve;
+  // static currentReject;
 
   static init() {
     Message.background = document.createElement("div");
