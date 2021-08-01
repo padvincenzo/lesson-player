@@ -31,6 +31,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 }
 
 #my-p-wrapper {
+  width: 70%;
   width: clamp(60%, 70vh, 100%);
   display: inline-block;
 }
@@ -52,21 +53,25 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 }
 
 #my-p-overlay #class {
+  font-size: 3em;
   font-size: clamp(1em, 8em, 7vw);
   flex: 2;
 }
 
 #my-p-overlay #date {
+  font-size: 1.5em;
   font-size: clamp(1em, 2.5em, 2vw);
   flex: 1;
 }
 
 #my-p-overlay #professor {
+  font-size: 1.7em;
   font-size: clamp(1em, 5.5em, 3vw);
   flex: 2;
 }
 
 #my-p-overlay #title {
+  font-size: 2.4em;
   font-size: clamp(1em, 4em, 4vw);
   flex: 2;
 }
