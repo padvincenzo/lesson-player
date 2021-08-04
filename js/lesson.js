@@ -146,17 +146,27 @@ class Lesson {
     this.professor = decodeString(_data.professor);
     this.filename = decodeString(_data.filename);
 
+    if(!Player.unavailable() && this.isPlaying()) {
+      Player.updateOverlay();
+    }
+
     if(this.card != null) {
       this.card.title.innerText = this.title;
       this.card.professor.innerText = this.professor;
     }
   }
 
+  isPlaying() {
+    return !Player.unavailable() && Player.lesson.idlesson == this.idlesson;
+  }
+
   dictionary(r) {
     return {
       "{lessonTitle}": (r) => this.title,
+      "{lessonClass}": (r) => this.parentClass.name,
       "{lessonProfessor}": (r) => this.professor,
-      "{lessonDated}": (r) => formatDate(r == null ? this.dated : r)
+      "{lessonDated}": (r) => formatDate(r == null ? this.dated : r),
+      "{lessonMark}": (r) => secondsToTime(this.mark)
     };
   }
 

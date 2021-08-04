@@ -368,11 +368,7 @@ class Player {
 
     Player.lesson = _lesson;
     Player.src(Player.lesson.url());
-
-    Player.overlayData.class.innerText = Player.lesson.parentClass.name;
-    Player.overlayData.date.innerText = formatDate(Player.lesson.dated);
-    Player.overlayData.professor.innerText = Player.lesson.professor;
-    Player.overlayData.title.innerText = Player.lesson.title;
+    Player.updateOverlay();
 
     document.title = `${Player.lesson.parentClass.name}: ${Player.lesson.title}`;
 
@@ -382,6 +378,17 @@ class Player {
     if(_autoplay) {
       Player.play();
     }
+  }
+
+  static updateOverlay() {
+    if(Player.unavailable()) {
+      return;
+    }
+
+    Player.overlayData.class.innerText = Player.lesson.parentClass.name;
+    Player.overlayData.date.innerText = formatDate(Player.lesson.dated);
+    Player.overlayData.professor.innerText = Player.lesson.professor;
+    Player.overlayData.title.innerText = Player.lesson.title;
   }
 
   static appendLayer(_id) {
@@ -498,7 +505,7 @@ class Player {
     Message.view(`<img src="${dataURI}" />`, true, "Download").then(() => {
       var a = document.createElement("a");
       a.href = dataURI;
-      a.download = `${Player.lesson.title} (${Player.lesson.parentClass.name}) [${secondsToTime(timestamp)}].jpg`;
+      a.download = Player.lesson.dictionaryReplace(lang.screenshotName) + ".jpg";
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
