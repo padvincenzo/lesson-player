@@ -78,6 +78,7 @@ $lang->newLesson          = "Add lesson";
 $lang->silencesList       = "List of silences";
 $lang->removeThisLesson   = "Move the lesson '{lessonTitle}' to the trash?";
 $lang->deleteThisLesson   = "Permanently delete '{lessonTitle}'?";
+$lang->screenshotName     = "{lessonTitle} ({lessonClass}) [{lessonMark}]";
 
 // Lesson statements
 $lang->lessonAdded        = "Lesson '{lessonTitle}' added";

@@ -78,6 +78,7 @@ $lang->newLesson          = "Nuova lezione";
 $lang->silencesList       = "Elenco dei silenzi";
 $lang->removeThisLesson   = "Spostare nel cestino la lezione '{lessonTitle}'?";
 $lang->deleteThisLesson   = "Eliminare definitivamente la lezione '{lessonTitle}'?";
+$lang->screenshotName     = "{lessonTitle} ({lessonClass}) [{lessonMark}]";
 
 // Lesson statements
 $lang->lessonAdded        = "Lezione '{lessonTitle}' aggiunta";
