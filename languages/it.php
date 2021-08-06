@@ -109,6 +109,8 @@ $lang->resume             = "Riprendi";
 $lang->soundOff           = "Muto";
 $lang->soundOn            = "Sonoro";
 $lang->volume             = "Volume";
+$lang->zoomArea           = "Seleziona l'area da ingrandire";
+$lang->zoomReseted        = "Dimensioni originali";
 
 // Database
 $lang->dbConnectionFailed = "Connessione al database fallita.";

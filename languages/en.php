@@ -22,7 +22,7 @@ $lang = (object) [];
 
 // Properties
 $lang->dateFormat         = "default";
-$lang->IPAddress          = "Server's local IP address is: ";
+$lang->IPAddress          = "Server's local IP address is:";
 $lang->IPNotAvailable     = "Server's local IP address is not available";
 
 // Actions
@@ -109,6 +109,8 @@ $lang->resume             = "Resume";
 $lang->soundOff           = "Muted";
 $lang->soundOn            = "Unmuted";
 $lang->volume             = "Volume";
+$lang->zoomArea           = "Select area to zoom";
+$lang->zoomReseted        = "Zoom reseted";
 
 // Database
 $lang->dbConnectionFailed = "Database connection failed.";
