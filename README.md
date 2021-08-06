@@ -154,6 +154,7 @@ Hotkeys:
 | ``S``                     | Skip current silence          |
 | ``Shift+S``               | Screenshot                    |
 | ``O``                     | Enable/disable overlay        |
+| ``X``                     | Zoom/restore the video        |
 
 Other types of shortcuts:
 * Boxes of classes and lessons are tabindexed and scrollable with ``Tab`` key. Pressing ``Enter`` on a box, it will start the relative lesson. Same effect by double-clicking a box.
