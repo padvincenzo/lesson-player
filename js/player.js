@@ -22,6 +22,7 @@ class Player {
   // static notice, noticeTimeout, fastSilence;
   // static lesson;
   // static fastPlaybackRate, minPlaybackRate, maxPlaybackRate;
+  // static areaSelectorWrapper, areaSelector, areaCoordinates;
 
   static init() {
     /* Editable configuration */
@@ -51,6 +52,7 @@ class Player {
     Player.initLessonUpdater();
     Player.removeTabIndexes();
     Player.initUserActivity();
+    Player.initAreaSelector();
   }
 
   static unavailable() {
@@ -149,6 +151,15 @@ class Player {
           Player.toggleOverlayEnabled();
           break;
         }
+        case "KeyX": {
+          e.preventDefault();
+          if(Player.isZoomed()) {
+            Player.zoomReset();
+          } else {
+            Player.selectArea();
+          }
+          break;
+        }
       }
     });
 
@@ -237,6 +248,111 @@ class Player {
     };
   }
 
+  static initAreaSelector() {
+    Player.areaSelectorWrapper = Player.appendLayer("my-p-area-selector-wrapper");
+    Player.areaSelector = document.createElement("div");
+    Player.areaSelector.id = "my-p-area-selector";
+    Player.areaSelector.hidden = true;
+    Player.areaSelectorWrapper.appendChild(Player.areaSelector);
+
+    Player.areaCoordinates = {
+      x1: 0,
+      x2: 0,
+      y1: 0,
+      y2: 0,
+      left: function() {
+        return Math.min(this.x1, this.x2);
+      },
+      top: function() {
+        return Math.min(this.y1, this.y2);
+      },
+      width: function() {
+        return Math.max(this.x1, this.x2) - this.left();
+      },
+      height: function() {
+        return Math.max(this.y1, this.y2) - this.top();
+      }
+    };
+
+    Player.areaSelectorWrapper.addEventListener("mousedown", (e) => {
+      Player.areaSelector.hidden = false;
+      let offset = Player.wrapper.getBoundingClientRect();
+      Player.areaCoordinates.x1 = e.clientX - offset.x;
+      Player.areaCoordinates.y1 = e.clientY - offset.y;
+      Player.areaSelectorUpdate();
+    });
+
+    Player.areaSelectorWrapper.addEventListener("mousemove", (e) => {
+      let offset = Player.wrapper.getBoundingClientRect();
+      Player.areaCoordinates.x2 = e.clientX - offset.x;
+      Player.areaCoordinates.y2 = e.clientY - offset.y;
+      Player.areaSelectorUpdate();
+    });
+
+    Player.areaSelectorWrapper.addEventListener("mouseup", (e) => {
+      Player.zoomArea();
+      Player.areaSelector.hidden = true;
+    });
+
+    Player.zoomReset();
+  }
+
+  static areaSelectorUpdate() {
+    Object.assign(Player.areaSelector.style, {
+      top: `${Player.areaCoordinates.top()}px`,
+      left: `${Player.areaCoordinates.left()}px`,
+      width: `${Player.areaCoordinates.width()}px`,
+      height: `${Player.areaCoordinates.height()}px`
+    });
+  }
+
+  static zoomArea() {
+    let offset = Player.wrapper.getBoundingClientRect();
+
+    let relativeWidth = offset.width / Player.areaCoordinates.width() * 100;
+    let relativeHeight = offset.height / Player.areaCoordinates.height() * 100;
+
+    // Do nothing if selected area width or height is less than 10%
+    if(relativeWidth < 10 || relativeHeight < 10) {
+      return;
+    }
+
+    let relativeTop = Player.areaCoordinates.top() / Player.areaCoordinates.height() * 100;
+    let relativeLeft = Player.areaCoordinates.left() / Player.areaCoordinates.width() * 100;
+
+    Object.assign(Player.player.el().childNodes[0].style, {
+      top: `${-relativeTop}%`,
+      left: `${-relativeLeft}%`,
+      width: `${relativeWidth}%`,
+      height: `${relativeHeight}%`
+    });
+
+    Player.areaSelectorWrapper.style.display = "none";
+  }
+
+  static zoomReset() {
+    Object.assign(Player.player.el().childNodes[0].style, {
+      top: 0, left: 0, width: "100%", height: "100%"
+    });
+    Player.notify(lang.zoomReseted);
+  }
+
+  static isZoomed() {
+    let style = Player.player.el().childNodes[0].style;
+    return style.top != "0px" || style.left != "0px" || style.width != "100%" || style.height != "100%";
+  }
+
+  static selectArea() {
+    Player.pause();
+    Player.hideOverlay();
+    Player.notify(lang.zoomArea);
+    Player.areaSelectorWrapper.style.display = "block";
+  }
+
+  static isSelectingArea() {
+    Player.areaSelectorWrapper.style.display == "block";
+  }
+
   static initNotifier() {
     Player.notice = Player.appendLayer("notice");
     Player.fastSilence = Player.appendLayer("fastSilence");
@@ -315,13 +431,13 @@ class Player {
       if(Player.paused()) {
         Player.showOverlay();
       } else {
-        // ...
+        // do nothing
       }
     });
   }
 
   static showOverlay() {
-    if(Player.overlayEnabled) {
+    if(Player.overlayEnabled && !Player.isSelectingArea()) {
       Player.overlay.style.display = "";
     }
   }
