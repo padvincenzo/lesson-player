@@ -17,8 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 class Class {
-  // static classes;
-  // static btnNewClass;
+  // static classes, btnNewClass;
 
   static retrieve() {
     if(Class.classes == null || Class.classes == undefined) {
@@ -146,23 +145,9 @@ class Class {
       });
   }
 
-  // idclass;
-  // name;
-  // professor;
-  // directory;
-  // lessons;
-  // nLessons;
-  // nWatched;
-  //
-  // card;
-  // removed;
-  // searchBox;
-  //
-  // btnResume;
-  // btnEdit;
-  // btnShow;
-  // btnAddLesson;
-  //
+  // idclass, name, professor, directory, lessons, nLessons, nWatched;
+  // card, removed, searchBox;
+  // btnResume, btnEdit, btnShow, btnAddLesson;
   // nextLesson;
 
   constructor(_data) {
@@ -178,11 +163,19 @@ class Class {
     this.nLessons = _data.nLessons;
     this.nWatched = _data.nWatched ? _data.nWatched : 0;
 
+    if(!Player.unavailable() && this.isPlaying()) {
+      Player.updateOverlay();
+    }
+
     if(this.card != null) {
       this.card.name.innerText = this.name;
       this.card.professor.innerText = this.professor;
       this.card.progress.innerText = `${this.nWatched} / ${this.nLessons}`;
     }
+  }
+
+  isPlaying() {
+    return !Player.unavailable() && Player.lesson.idclass == this.idclass;
   }
 
   // Currently, reference variable r is not used

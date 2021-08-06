@@ -17,8 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 class UI {
-  // wrapper;
-  // btnHome;
+  // wrapper, btnHome;
 
   static init() {
     UI.wrapper = document.getElementById("container");

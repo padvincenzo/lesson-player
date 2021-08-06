@@ -107,26 +107,9 @@ class Lesson {
     return l1.idlesson - l2.idlesson;
   }
 
-  // idlesson;
-  // idclass;
-  // dated;
-  // title;
-  // professor;
-  // lastPlayed;
-  // mark;
-  // watched;
-  // filename;
-  // parentClass;
-  // silences;
-  // playbackRate;
-  //
-  // card;
-  // removed;
-  //
-  // btnPlay;
-  // btnEdit;
-  // btnSetAsWatched;
-  // btnSetToBeWatched;
+  // idlesson, idclass, dated, title, professor, lastPlayed, mark, watched, filename, parentClass, silences, playbackRate;
+  // card, removed;
+  // btnPlay, btnEdit, btnSetAsWatched, btnSetToBeWatched;
 
   constructor(_data, _class) {
     this.idlesson = _data.idlesson;

@@ -17,25 +17,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 class Player {
-  // static player;
-  // static wrapper;
-  // static background;
-  //
-  // static overlay;
-  // static overlayData;
-  //
-  // static notice;
-  // static noticeTimeout;
-  // static fastSilence;
-  //
+  // static player, wrapper, background;
+  // static overlay, overlayData, overlayEnabled;
+  // static notice, noticeTimeout, fastSilence;
   // static lesson;
-
-  /* Editable configuration */
-  // static fastPlaybackRate = 8;  // PlaybackRate on silences
-  // static minPlaybackRate = 0.5; // Lowest playbackRate
-  // static maxPlaybackRate = 3;   // Highest playbackRate
-  //
-  // static overlayEnabled = true;
+  // static fastPlaybackRate, minPlaybackRate, maxPlaybackRate;
 
   static init() {
     /* Editable configuration */
@@ -372,8 +358,8 @@ class Player {
 
     document.title = `${Player.lesson.parentClass.name}: ${Player.lesson.title}`;
 
-    Player.currentTime(Player.lesson.mark);
     Player.defaultPlaybackRate(Player.lesson.playbackRate);
+    Player.currentTime(Player.lesson.mark);
 
     if(_autoplay) {
       Player.play();

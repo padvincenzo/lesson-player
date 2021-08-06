@@ -17,9 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 class Form {
-  // wrapper;
-  // form;
-  // prefix;
+  // wrapper, form, prefix;
 
   constructor() {
     this.wrapper = document.createElement("form");
