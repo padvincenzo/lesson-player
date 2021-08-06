@@ -34,6 +34,27 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   width: 70%;
   width: clamp(60%, 70vh, 100%);
   display: inline-block;
+  overflow: hidden;
+}
+
+#my-p-wrapper video {
+  object-fit: fill;
+}
+
+#my-p-area-selector-wrapper {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  display: none;
+  border: 2px dotted #F00;
+}
+
+#my-p-area-selector {
+  border: 2px dotted #000;
+  position: absolute;
 }
 
 #my-p-overlay {
