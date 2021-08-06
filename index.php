@@ -22,17 +22,33 @@ $dbh->close();
 
 
 function getLocalIPAddress() {
-	/* https://stackoverflow.com/a/36604437 */
-	$sock = socket_create(AF_INET, SOCK_DGRAM, SOL_UDP);
-	socket_connect($sock, "8.8.8.8", 53);
-	socket_getsockname($sock, $name); // $name passed by reference
+	global $lang;
 
-	// This is the local machine's external IP address
-	return $name;
+	try {
+		/* Based on https://stackoverflow.com/a/36604437 */
+		$sock = socket_create(AF_INET, SOCK_DGRAM, SOL_UDP);
+
+		if($sock === false) {
+			return $lang->notAvailable;
+		}
+
+		@socket_connect($sock, "8.8.8.8", 53);
+
+		if(@dns_get_record("127.0.0.1") === false) {
+			return $lang->notAvailable;
+		}
+
+		socket_getsockname($sock, $name); // $name passed by reference
+
+		// This is the local machine's external IP address
+		return $name;
+
+	} catch(Exception $e) {
+		return $lang->notAvailable;
+	}
 }
 
 ?>
-
 <!DOCTYPE html>
 <html lang="<?php echo $langCode; ?>">
 	<head>
@@ -58,7 +74,7 @@ function getLocalIPAddress() {
 		<!-- <link href="themes/light.css" rel="stylesheet"> -->
 
 		<script type="text/javascript">
-			<?php echo "const lang = " . json_encode($lang) . ";"; ?>
+			const lang = <?php echo json_encode($lang); ?>;
 		</script>
 
 		<script src="code.js" type="text/javascript"></script>
