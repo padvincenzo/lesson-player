@@ -116,9 +116,6 @@ class Lesson {
     this.parentClass = _class;
     this.idclass = _data.idclass;
     this.lastPlayed = _data.lastPlayed;
-    this.mark = _data.mark;
-    this.watched = _data.watched == true;
-    this.playbackRate = _data.playbackRate;
 
     this.update(_data);
   }
@@ -128,6 +125,9 @@ class Lesson {
     this.title = decodeString(_data.title);
     this.professor = decodeString(_data.professor);
     this.filename = decodeString(_data.filename);
+    this.mark = _data.mark;
+    this.watched = _data.watched == true;
+    this.playbackRate = _data.playbackRate;
 
     if(!Player.unavailable() && this.isPlaying()) {
       Player.updateOverlay();
