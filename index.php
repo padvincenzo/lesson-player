@@ -20,34 +20,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 include("_connect.php");
 $dbh->close();
 
-
-function getLocalIPAddress() {
-	global $lang;
-
-	try {
-		/* Based on https://stackoverflow.com/a/36604437 */
-		$sock = socket_create(AF_INET, SOCK_DGRAM, SOL_UDP);
-
-		if($sock === false) {
-			return $lang->notAvailable;
-		}
-
-		@socket_connect($sock, "8.8.8.8", 53);
-
-		if(@dns_get_record("127.0.0.1") === false) {
-			return $lang->notAvailable;
-		}
-
-		socket_getsockname($sock, $name); // $name passed by reference
-
-		// This is the local machine's external IP address
-		return $name;
-
-	} catch(Exception $e) {
-		return $lang->notAvailable;
-	}
-}
-
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $langCode; ?>">
@@ -109,7 +81,7 @@ function getLocalIPAddress() {
 				&middot;
 				<a href="https://vincenzopadula.altervista.org/docs/lesson-player/" target="_blank"><?php echo $lang->documentation; ?></a>
 			</p>
-			<p><?php echo $lang->IPAddress . getLocalIPAddress(); ?></p>
+			<p id="ip-address"></p>
 		</footer>
 
 	</body>
