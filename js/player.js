@@ -624,7 +624,13 @@ class Player {
   }
 
   static toggleOverlayEnabled() {
-    Player.overlayEnabled = !Player.overlayEnabled;
-    Player.notify(Player.overlayEnabled ? lang.overlayEnabled : lang.overlayDisabled);
+    if(Player.overlayEnabled) {
+      Player.overlayEnabled = false;
+      Player.hideOverlay();
+      Player.notify(lang.overlayDisabled);
+    } else {
+      Player.overlayEnabled = true;
+      Player.notify(lang.overlayEnabled);
+    }
   }
 }
