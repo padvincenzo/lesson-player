@@ -23,6 +23,7 @@ $lang = (object) [];
 // Properties
 $lang->dateFormat         = "default";
 $lang->IPAddress          = "Server's local IP address is: ";
+$lang->notAvailable       = "not available";
 
 // Actions
 $lang->cancel             = "Cancel";
