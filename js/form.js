@@ -37,7 +37,7 @@ class Form {
     return label;
   }
 
-  appendText(_name = "", _value = "", _placeholder = "", _maxlength = 150) {
+  appendText(_name = "", _value = "", _placeholder = "", _maxlength = 150, _prefix = "") {
     let id = this.prefix + _name;
     this.appendLabel(id, _placeholder);
     const text = document.createElement("input");
@@ -51,7 +51,18 @@ class Form {
       return encodeString(text.value).length <= _maxlength;
     };
 
-    this.wrapper.appendChild(text);
+    if(_prefix == "") {
+      this.wrapper.appendChild(text);
+    } else {
+      let wrapper = document.createElement("span");
+      wrapper.classList.add("inputWrapper");
+      let span = document.createElement("span");
+      span.innerText = _prefix;
+      wrapper.appendChild(span);
+      wrapper.appendChild(text);
+      this.wrapper.appendChild(wrapper);
+    }
+
     this.form.push({name: _name, dom: text});
     return text;
   }

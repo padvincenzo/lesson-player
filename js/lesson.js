@@ -42,7 +42,7 @@ class Lesson {
     var dated = form.appendDate("dated", _lesson.dated, lang.dated);
     var title = form.appendText("title", _lesson.title, lang.title);
     form.appendText("professor", _lesson.professor, lang.professor);
-    var filename = form.appendText("filename", _lesson.filename, lang.filename);
+    var filename = form.appendText("filename", _lesson.filename, lang.filename, 200, _lesson.parentClass.directory);
     form.appendTextarea("silences", "", lang.ffmpegOutput);
     let url = Lesson.isDummy(_lesson) ? "<FILE>" : _lesson.url();
     var code = form.help(`${lang.ffmpegCopyPaste}: $ ffmpeg -hide_banner -nostats -vn -i "${url}" -af silencedetect=n=0.002:d=2.3 -f null -`);
