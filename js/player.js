@@ -256,10 +256,7 @@ class Player {
     Player.areaSelectorWrapper.appendChild(Player.areaSelector);
 
     Player.areaCoordinates = {
-      x1: 0,
-      x2: 0,
-      y1: 0,
-      y2: 0,
+      x1: 0, x2: 0, y1: 0, y2: 0,
       left: function() {
         return Math.min(this.x1, this.x2);
       },
@@ -277,8 +274,8 @@ class Player {
     Player.areaSelectorWrapper.addEventListener("mousedown", (e) => {
       Player.areaSelector.hidden = false;
       let offset = Player.wrapper.getBoundingClientRect();
-      Player.areaCoordinates.x1 = e.clientX - offset.x;
-      Player.areaCoordinates.y1 = e.clientY - offset.y;
+      Player.areaCoordinates.x1 = Player.areaCoordinates.x2 = e.clientX - offset.x;
+      Player.areaCoordinates.y1 = Player.areaCoordinates.y2 = e.clientY - offset.y;
       Player.areaSelectorUpdate();
     });
 
@@ -320,6 +317,7 @@ class Player {
     let relativeTop = Player.areaCoordinates.top() / Player.areaCoordinates.height() * 100;
     let relativeLeft = Player.areaCoordinates.left() / Player.areaCoordinates.width() * 100;
 
+    // Zoom the video using relative position and size
     Object.assign(Player.player.el().childNodes[0].style, {
       top: `${-relativeTop}%`,
       left: `${-relativeLeft}%`,
