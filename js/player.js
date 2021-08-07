@@ -434,6 +434,15 @@ class Player {
         // do nothing
       }
     });
+
+    // When fullscreen, set the landscape orientation on mobile
+    Player.wrapper.addEventListener("fullscreenchange", () => {
+      if (document.fullscreenElement) {
+        screen.orientation.lock('landscape').catch(err => {
+          // do nothing
+        });
+      }
+    });
   }
 
   static showOverlay() {
