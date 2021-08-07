@@ -50,6 +50,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   z-index: 3;
   display: none;
   border: 2px dotted #F00;
+  cursor: crosshair;
 }
 
 #my-p-area-selector {
