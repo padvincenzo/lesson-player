@@ -37,26 +37,16 @@ switch($request) {
 function getLocalIPAddress() {
 	global $dbh, $lang;
 
-	try {
-		/* Based on https://stackoverflow.com/a/36604437 */
-		$sock = socket_create(AF_INET, SOCK_DGRAM, SOL_UDP);
+	/* Based on https://stackoverflow.com/a/36604437 */
+	$sock = socket_create(AF_INET, SOCK_DGRAM, SOL_UDP);
 
-		if($sock === false) {
-			return Response::err($lang->IPNotAvailable);
-		}
-
-		@socket_connect($sock, "8.8.8.8", 53);
-
-		if(@dns_get_record("127.0.0.1") === false) {
-			return Response::err($lang->IPNotAvailable);
-		}
-
-		socket_getsockname($sock, $ip); // $name passed by reference
-
-		// This is the local machine's external IP address
-		return Response::ok("", $ip);
-
-	} catch(Exception $e) {
+	if($sock === false) {
 		return Response::err($lang->IPNotAvailable);
 	}
+
+	socket_connect($sock, "8.8.8.8", 53);
+  socket_getsockname($sock, $ip); // $name passed by reference
+
+	// This is the local machine's external IP address
+	return Response::ok("", $ip);
 }
