@@ -1,9 +1,11 @@
 # Lesson Player
-È un sito web (ma non è online) per guardare le video lezioni sulla rete locale: installandolo sul pc è possibile vedere le lezioni da tutti i dispositivi connessi.
+Lesson player è un sito web (ma non è online) per guardare le video lezioni sulla rete locale: installandolo sul pc è possibile vedere le lezioni da tutti i dispositivi connessi.
 
 Le sue principali caratteristiche sono:
 1) Tiene traccia di dove sei arrivato (all'interno di un corso);
 2) Velocizza (a 8x) il video durante i silenzi (quando il professore non parla).
+
+Ti sta piacendo questo progetto? Scrivimi una tua opinione a [padvincenzo@gmail.com](mailto:padvincenzo@gmail.com) oppure lascia un commento su [vincenzopadula.altervista.org/lesson-player/](https://vincenzopadula.altervista.org/lesson-player/), grazie.
 
 *Leggi in altre lingue: [Inglese](README.md), Italiano.*
 
