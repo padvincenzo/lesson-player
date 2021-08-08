@@ -51,8 +51,8 @@ class UI {
       .then((ip) => {
         document.querySelector("#ip-address").innerText = `${lang.IPAddress} ${ip}`;
       })
-      .catch((message) => {
-        document.querySelector("#ip-address").innerText = message;
+      .catch(() => {
+        document.querySelector("#ip-address").innerText = lang.IPNotAvailable;
       });
   }
 }
