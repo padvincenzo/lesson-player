@@ -75,7 +75,7 @@ $dbh->close();
 		<footer>
 			<p>Developed by <a href="https://vincenzopadula.altervista.org" target="_blank">Vincenzo Padula</a></p>
 			<p>
-				<a href="JavaScript:popup('credits.php');"><?php echo $lang->credits; ?></a>
+				<a href="JavaScript:UI.showCredits();"><?php echo $lang->credits; ?></a>
 				&middot;
 				<a href="https://vincenzopadula.altervista.org/lesson-player/" target="_blank">Feedback</a>
 				&middot;
