@@ -171,7 +171,7 @@ class Lesson {
     }
 
     this.btnPlay = Button.small(this.mark == 0 ? lang.play : lang.resume, () => { this.play(); });
-    this.btnEdit = Button.small(lang.edit, () => { Lesson.form(this); });
+    this.btnEdit = Button.small(lang.edit, () => { this.edit(); });
     this.btnSetAsWatched = Button.small(lang.setAsWatched, () => { this.dbSetAsWatched(); });
     this.btnSetToBeWatched = Button.small(lang.setToBeWatched, () => { this.dbSetToBeWatched(); });
     this.btnRemove = Button.small(lang.remove, () => { this.askToRemove(); });
@@ -282,6 +282,10 @@ class Lesson {
   getEndOfSilence(time) {
     let silence = this.getSilenceByTime(time);
     return silence ? silence.t_end : null;
+  }
+
+  edit() {
+    Lesson.form(this);
   }
 
   dbEdit(_data) {
