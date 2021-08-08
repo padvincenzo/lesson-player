@@ -91,6 +91,10 @@ a:active, a:hover {
   color: #888;
 }
 
+ul, ol {
+  text-align: left;
+}
+
 .searchBox {
   width: 95%;
   box-sizing: border-box;
