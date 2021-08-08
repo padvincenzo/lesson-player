@@ -55,4 +55,14 @@ class UI {
         document.querySelector("#ip-address").innerText = lang.IPNotAvailable;
       });
   }
+
+  static showCredits() {
+    let credits = `<h2>${lang.credits}</h2>\n` +
+		'<ul>\n' +
+			'<li>Using <a href="https://videojs.com/" target="_blank">video.js</a> version 7.11.8 and a modified version of <a href="https://github.com/videojs/themes" target="_blank">theme City</a></li>\n' +
+			'<li>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></li>\n' +
+		'</ul>\n';
+
+    Message.view(credits);
+  }
 }
