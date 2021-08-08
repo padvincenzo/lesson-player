@@ -20,7 +20,7 @@ class Player {
   // static player, wrapper, background;
   // static overlay, overlayData, overlayEnabled;
   // static notice, noticeTimeout, fastSilence;
-  // static lesson;
+  // static lesson, hasJustLoaded;
   // static fastPlaybackRate, minPlaybackRate, maxPlaybackRate;
   // static areaSelectorWrapper, areaSelector, areaCoordinates;
 
@@ -37,7 +37,7 @@ class Player {
       controls: true,
       autoplay: false,
       preload: "auto",
-      playbackRates: range(Player.minPlaybackRate, Player.maxPlaybackRate, 0.25, 2),
+      playbackRates: ["0.5", "0.8", "1", "1.25", "1.5", "1.75", "2", "2.25", "2.5", "2.75", "3"],
       rewind: true,
       inactivityTimeout: 4000
     });
@@ -290,8 +290,6 @@ class Player {
       Player.zoomArea();
       Player.areaSelector.hidden = true;
     });
-
-    Player.zoomReset();
   }
 
   static areaSelectorUpdate() {
@@ -363,8 +361,11 @@ class Player {
   }
 
   static initLessonUpdater() {
-    Player.on("ratechange", () => {
-      if(Player.unavailable()) {
+    Player.on("ratechange", (event) => {
+
+      // Prevent playbackRate change
+      if(Player.hasJustLoaded) {
+        Player.hasJustLoaded = false;
         return;
       }
 
@@ -375,10 +376,6 @@ class Player {
     });
 
     Player.on("timeupdate", () => {
-      if(Player.unavailable()) {
-        return;
-      }
-
       let currentTime = Player.currentTime();
 
       if(Player.lesson.isInSilence(currentTime)) {
@@ -391,10 +388,6 @@ class Player {
     });
 
     Player.on("ended", () => {
-      if(Player.unavailable()) {
-        return;
-      }
-
       Player.lesson.dbSetAsWatched().then(() => {
         Player.lesson.playNext();
       });
@@ -471,18 +464,30 @@ class Player {
   }
 
   static load(_lesson, _autoplay = true) {
-    if(_lesson == null) {
+    if(_lesson == null || _lesson == undefined) {
       return;
     }
 
+    if(!Player.unavailable() && Player.lesson.isEqualTo(_lesson)) {
+      return;
+    }
+
+    Player.zoomReset();
+
+    // Save the lesson playbackRate before anything change
+    let playbackRateBackup = _lesson.playbackRate;
+
+    Player.hasJustLoaded = true;
     Player.lesson = _lesson;
     Player.src(Player.lesson.url());
     Player.updateOverlay();
 
     document.title = `${Player.lesson.parentClass.name}: ${Player.lesson.title}`;
 
-    Player.defaultPlaybackRate(Player.lesson.playbackRate);
     Player.currentTime(Player.lesson.mark);
+
+    // Restore the lesson playbackRate
+    Player.defaultPlaybackRate(playbackRateBackup);
 
     if(_autoplay) {
       Player.play();
@@ -569,7 +574,7 @@ class Player {
 
     let newPlaybackRate = limit(+Player.lesson.playbackRate + +_amount, Player.minPlaybackRate, Player.maxPlaybackRate).toFixed(1);
 
-    Player.playbackRate(+newPlaybackRate);
+    Player.playbackRate(newPlaybackRate);
     Player.notify(`${lang.rate} ${newPlaybackRate}x`);
   }
 
