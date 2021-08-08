@@ -62,17 +62,15 @@ form textarea {
   resize: vertical;
 }
 
-form span.inputWrapper {
-  display: flex;
-}
-
 form span.inputWrapper span {
-  padding: 1.6em 0;
+  padding: 0;
+  text-align: left;
+  display: block;
+  margin: 1em 0 -1em 0;
 }
 
 form span.inputWrapper input {
   text-align: left;
-  padding-left: 0.2em;
 }
 
 form button {
