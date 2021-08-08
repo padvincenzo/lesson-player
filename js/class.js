@@ -191,6 +191,10 @@ class Class {
     return dictionaryReplace(this.dictionary(r), string, r);
   }
 
+  isEqualTo(anotherClass) {
+    return this.idclass == anotherClass.idclass;
+  }
+
   createCard() {
     if(this.card != null) {
       return;

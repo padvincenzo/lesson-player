@@ -165,6 +165,10 @@ class Lesson {
     return (this.dated.search(str) != -1 || this.title.toLowerCase().search(str) != -1 || this.professor.toLowerCase().search(str) != -1 || this.filename.toLowerCase().search(str) != -1);
   }
 
+  isEqualTo(anotherLesson) {
+    return this.idlesson == anotherLesson.idlesson;
+  }
+
   createCard() {
     if(this.card != null) {
       return;
