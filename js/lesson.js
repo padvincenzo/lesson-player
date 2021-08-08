@@ -25,7 +25,7 @@ class Lesson {
       lastPlayed: "",
       mark: "",
       watched: false,
-      playbackRate: 1,
+      playbackRate: "1",
       dated: "",
       title: "",
       professor: _class.professor,
@@ -127,7 +127,7 @@ class Lesson {
     this.filename = decodeString(_data.filename);
     this.mark = _data.mark;
     this.watched = _data.watched == true;
-    this.playbackRate = _data.playbackRate;
+    this.playbackRate = (+_data.playbackRate).toFixed(1);
 
     if(!Player.unavailable() && this.isPlaying()) {
       Player.updateOverlay();
@@ -339,7 +339,7 @@ class Lesson {
   }
 
   dbRate(_rate) {
-    this.playbackRate = _rate;
+    this.playbackRate = (+_rate).toFixed(1);
     return request("lesson.php", {request: "rate", idlesson: this.idlesson, rate: this.playbackRate});
   }
 
