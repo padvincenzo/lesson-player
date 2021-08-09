@@ -566,6 +566,10 @@ class Player {
   }
 
   static changeVolume(_amount) {
+    if(Player.unavailable()) {
+      return;
+    }
+
     let newVolume = limit(+Player.volume() + +_amount, 0, 1);
 
     Player.volume(newVolume);
@@ -621,10 +625,12 @@ class Player {
       Player.exitFullscreen();
     }
 
-    Message.view(`<img src="${dataURI}" />`, true, "Download").then(() => {
+    let screenshotName = Player.lesson.dictionaryReplace(lang.screenshotName) + ".jpg";
+
+    Message.view(`<p>${screenshotName}</p><img src="${dataURI}" />`, true, "Download").then(() => {
       var a = document.createElement("a");
       a.href = dataURI;
-      a.download = Player.lesson.dictionaryReplace(lang.screenshotName) + ".jpg";
+      a.download = screenshotName;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
