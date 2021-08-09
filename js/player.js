@@ -22,7 +22,7 @@ class Player {
   // static notice, noticeTimeout, fastSilence;
   // static lesson, hasJustLoaded;
   // static fastPlaybackRate, minPlaybackRate, maxPlaybackRate;
-  // static areaSelectorWrapper, areaSelector, areaCoordinates;
+  // static areaSelectorWrapper, areaSelector, areaCoordinates, areaSelectorListeners;
 
   static init() {
     /* Editable configuration */
@@ -37,7 +37,7 @@ class Player {
       controls: true,
       autoplay: false,
       preload: "auto",
-      playbackRates: ["0.5", "0.8", "1", "1.25", "1.5", "1.75", "2", "2.25", "2.5", "2.75", "3"],
+      playbackRates: ["0.5", "0.75", "1", "1.25", "1.5", "1.75", "2", "2.25", "2.5", "2.75", "3"],
       rewind: true,
       inactivityTimeout: 4000
     });
@@ -271,25 +271,25 @@ class Player {
       }
     };
 
-    Player.areaSelectorWrapper.addEventListener("mousedown", (e) => {
-      Player.areaSelector.hidden = false;
-      let offset = Player.wrapper.getBoundingClientRect();
-      Player.areaCoordinates.x1 = Player.areaCoordinates.x2 = e.clientX - offset.x;
-      Player.areaCoordinates.y1 = Player.areaCoordinates.y2 = e.clientY - offset.y;
-      Player.areaSelectorUpdate();
-    });
-
-    Player.areaSelectorWrapper.addEventListener("mousemove", (e) => {
-      let offset = Player.wrapper.getBoundingClientRect();
-      Player.areaCoordinates.x2 = e.clientX - offset.x;
-      Player.areaCoordinates.y2 = e.clientY - offset.y;
-      Player.areaSelectorUpdate();
-    });
-
-    Player.areaSelectorWrapper.addEventListener("mouseup", (e) => {
-      Player.zoomArea();
-      Player.areaSelector.hidden = true;
-    });
+    Player.areaSelectorListeners = {
+      "mousedown": (e) => {
+        Player.areaSelector.hidden = false;
+        let offset = Player.wrapper.getBoundingClientRect();
+        Player.areaCoordinates.x1 = Player.areaCoordinates.x2 = e.clientX - offset.x;
+        Player.areaCoordinates.y1 = Player.areaCoordinates.y2 = e.clientY - offset.y;
+        Player.areaSelectorUpdate();
+      },
+      "mousemove": (e) => {
+        let offset = Player.wrapper.getBoundingClientRect();
+        Player.areaCoordinates.x2 = e.clientX - offset.x;
+        Player.areaCoordinates.y2 = e.clientY - offset.y;
+        Player.areaSelectorUpdate();
+      },
+      "mouseup": (e) => {
+        Player.zoomArea();
+        Player.areaSelector.hidden = true;
+      }
+    };
   }
 
   static areaSelectorUpdate() {
@@ -324,6 +324,10 @@ class Player {
     });
 
     Player.areaSelectorWrapper.style.display = "none";
+
+    Player.areaSelectorWrapper.removeEventListener("mousedown", Player.areaSelectorListeners.mousedown);
+    Player.areaSelectorWrapper.removeEventListener("mousemove", Player.areaSelectorListeners.mousemove);
+    Player.areaSelectorWrapper.removeEventListener("mouseup", Player.areaSelectorListeners.mouseup);
   }
 
   static zoomReset() {
@@ -341,6 +345,11 @@ class Player {
   static selectArea() {
     Player.pause();
     Player.hideOverlay();
+
+    Player.areaSelectorWrapper.addEventListener("mousedown", Player.areaSelectorListeners.mousedown);
+    Player.areaSelectorWrapper.addEventListener("mousemove", Player.areaSelectorListeners.mousemove);
+    Player.areaSelectorWrapper.addEventListener("mouseup", Player.areaSelectorListeners.mouseup);
+
     Player.notify(lang.zoomArea);
     Player.areaSelectorWrapper.style.display = "block";
   }
@@ -557,10 +566,6 @@ class Player {
   }
 
   static changeVolume(_amount) {
-    if(Player.unavailable()) {
-      return;
-    }
-
     let newVolume = limit(+Player.volume() + +_amount, 0, 1);
 
     Player.volume(newVolume);
