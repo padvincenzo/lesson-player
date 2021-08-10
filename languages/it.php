@@ -116,7 +116,7 @@ $lang->zoomReseted        = "Dimensioni originali";
 // Database
 $lang->dbConnectionFailed = "Connessione al database fallita.";
 $lang->dbNotFound         = "Il database non è stato trovato.";
-$lang->installSuccessful  = "Installazione riuscita.";
+$lang->installSuccessful  = "Installazione riuscita. Reindirizzamento alla pagina iniziale...";
 $lang->installFailed      = "Installazione fallita.";
 $lang->notYetInstalled    = "Il database non è ancora stato installato. Installarlo ora?";
 

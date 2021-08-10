@@ -116,7 +116,7 @@ $lang->zoomReseted        = "Zoom reseted";
 // Database
 $lang->dbConnectionFailed = "Database connection failed.";
 $lang->dbNotFound         = "Database name not found.";
-$lang->installSuccessful  = "Install successful.";
+$lang->installSuccessful  = "Install successful. Redirecting to the home page...";
 $lang->installFailed      = "Install failed.";
 $lang->notYetInstalled    = "Database has not been installed yet. Install it now?";
 
