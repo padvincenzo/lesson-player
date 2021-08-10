@@ -23,27 +23,25 @@ window.addEventListener("load", () => {
   UI.init();
 });
 
-class Button {
-  // btn;
+function createButton(_text = "", _click = null, _id = null) {
+  const button = document.createElement("button");
+  button.innerText = _text;
 
-  constructor(_text = "", _click = null, _id = null) {
-    this.btn = document.createElement("button");
-    this.btn.innerText = _text;
-
-    if(_click != null) {
-      this.btn.addEventListener("click", _click);
-    }
-
-    if(_id != null) {
-      this.btn.setAttribute("id", _id);
-    }
+  if(_click != null) {
+    button.addEventListener("click", _click);
   }
 
-  static small(_text = "", _click = null, _id = null) {
-    const btn = new Button(_text, _click, _id);
-    btn.btn.setAttribute("class", "btnSmall");
-    return btn;
+  if(_id != null) {
+    button.id = _id;
   }
+
+  return button;
+}
+
+function createSmallButton(_text = "", _click = null, _id = null) {
+  const button = createButton(_text, _click, _id);
+  button.classList.add("btnSmall");
+  return button;
 }
 
 function request(_to, _data) {
@@ -125,12 +123,6 @@ function randomString(_length = 4) {
   return str;
 }
 
-function popup(url, w = 400, h = 300) {
-  let left = (screen.width) ? (screen.width - w) / 2 : 10;
-  let top = (screen.height) ? (screen.height - h) / 2 : 10;
-  let popupWindow = window.open(url, 'popupWindow', `height=${h},width=${w},left=${left},top=${top},resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=no,directories=no,status=no`);
-}
-
 function limit(_x, _min, _max) {
   if(+_x < +_min) return +_min;
   if(+_x > +_max) return +_max;
@@ -169,9 +161,4 @@ function dictionaryReplace(dictionary, string, r = null) {
 
 function br() {
   return document.createElement("br");
-}
-
-function range(min = 0, max = 10, gap = 1, decimals = 0) {
-  let n = Math.floor((max - min) / gap) + 1;
-  return [...Array(n).keys()].map(x => (x * gap + min).toFixed(decimals));
 }
