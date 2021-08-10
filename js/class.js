@@ -50,7 +50,7 @@ class Class {
             // do nothing
           })
         } else {
-          Message.text("FAIL: " + _message);
+          Message.text(`FAIL: ${message}`);
         }
       });
   }
