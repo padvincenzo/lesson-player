@@ -25,7 +25,7 @@ class Class {
     }
 
     if(Class.btnNewClass == null || Class.btnNewClass == undefined) {
-      Class.btnNewClass = new Button(lang.newClass, () => {
+      Class.btnNewClass = createButton(lang.newClass, () => {
         Class.form(Class.dummy());
       }, "newClass");
     }
@@ -200,11 +200,11 @@ class Class {
       return;
     }
 
-    this.btnResume = Button.small(lang.resume, () => { this.resume(); });
-    this.btnEdit = Button.small(lang.edit, () => { this.edit(); });
-    this.btnAddLesson = new Button(lang.newLesson, () => { this.newLesson(); });
-    this.btnShow = Button.small(lang.show, () => { this.show(); });
-    this.btnRemove = Button.small(lang.remove, () => { this.askToRemove(); });
+    this.btnAddLesson = createButton(lang.newLesson, () => { this.newLesson(); });
+    this.btnResume = createSmallButton(lang.resume, () => { this.resume(); });
+    this.btnEdit = createSmallButton(lang.edit, () => { this.edit(); });
+    this.btnShow = createSmallButton(lang.show, () => { this.show(); });
+    this.btnRemove = createSmallButton(lang.remove, () => { this.askToRemove(); });
 
     this.card = {};
 
@@ -226,10 +226,10 @@ class Class {
 
     this.card.buttons = document.createElement("div");
     this.card.buttons.setAttribute("class", "buttons");
-    this.card.buttons.appendChild(this.btnResume.btn);
-    this.card.buttons.appendChild(this.btnShow.btn);
-    this.card.buttons.appendChild(this.btnEdit.btn);
-    this.card.buttons.appendChild(this.btnRemove.btn);
+    this.card.buttons.appendChild(this.btnResume);
+    this.card.buttons.appendChild(this.btnShow);
+    this.card.buttons.appendChild(this.btnEdit);
+    this.card.buttons.appendChild(this.btnRemove);
     this.card.dom.appendChild(this.card.buttons);
 
     this.card.dom.addEventListener("dblclick", () => {
@@ -310,7 +310,7 @@ class Class {
 
   show() {
     return this.retrieveLessons().then(() => {
-      UI.display(this.listLessons(), br(), UI.btnHome.btn, this.btnAddLesson.btn);
+      UI.display(this.listLessons(), br(), UI.btnHome, this.btnAddLesson);
       document.title = `${this.name} | Lesson Player`;
     });
   }

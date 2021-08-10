@@ -22,7 +22,7 @@ class UI {
   static init() {
     UI.wrapper = document.getElementById("container");
 
-    UI.btnHome = new Button(lang.homePage, () => {
+    UI.btnHome = createButton(lang.homePage, () => {
       UI.listClasses();
     });
 
@@ -41,7 +41,7 @@ class UI {
 
   static listClasses() {
     return Class.retrieve().then(() => {
-      UI.display(Class.cards(), br(), Class.btnNewClass.btn);
+      UI.display(Class.cards(), br(), Class.btnNewClass);
       document.title = `${lang.classList} | Lesson Player`;
     });
   }

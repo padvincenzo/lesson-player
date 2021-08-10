@@ -174,11 +174,11 @@ class Lesson {
       return;
     }
 
-    this.btnPlay = Button.small(this.mark == 0 ? lang.play : lang.resume, () => { this.play(); });
-    this.btnEdit = Button.small(lang.edit, () => { this.edit(); });
-    this.btnSetAsWatched = Button.small(lang.setAsWatched, () => { this.dbSetAsWatched(); });
-    this.btnSetToBeWatched = Button.small(lang.setToBeWatched, () => { this.dbSetToBeWatched(); });
-    this.btnRemove = Button.small(lang.remove, () => { this.askToRemove(); });
+    this.btnPlay = createSmallButton(this.mark == 0 ? lang.play : lang.resume, () => { this.play(); });
+    this.btnEdit = createSmallButton(lang.edit, () => { this.edit(); });
+    this.btnSetAsWatched = createSmallButton(lang.setAsWatched, () => { this.dbSetAsWatched(); });
+    this.btnSetToBeWatched = createSmallButton(lang.setToBeWatched, () => { this.dbSetToBeWatched(); });
+    this.btnRemove = createSmallButton(lang.remove, () => { this.askToRemove(); });
 
     this.card = {};
 
@@ -202,18 +202,18 @@ class Lesson {
 
     this.card.buttons = document.createElement("div");
     this.card.buttons.setAttribute("class", "buttons");
-    this.card.buttons.appendChild(this.btnPlay.btn);
-    this.card.buttons.appendChild(this.btnEdit.btn);
-    this.card.buttons.appendChild(this.btnSetToBeWatched.btn);
-    this.card.buttons.appendChild(this.btnSetAsWatched.btn);
-    this.card.buttons.appendChild(this.btnRemove.btn);
+    this.card.buttons.appendChild(this.btnPlay);
+    this.card.buttons.appendChild(this.btnEdit);
+    this.card.buttons.appendChild(this.btnSetToBeWatched);
+    this.card.buttons.appendChild(this.btnSetAsWatched);
+    this.card.buttons.appendChild(this.btnRemove);
     this.card.dom.appendChild(this.card.buttons);
 
     if(this.watched) {
       this.card.dom.classList.add("watched");
-      this.btnSetAsWatched.btn.style.display = "none";
+      this.btnSetAsWatched.style.display = "none";
     } else {
-      this.btnSetToBeWatched.btn.style.display = "none";
+      this.btnSetToBeWatched.style.display = "none";
     }
 
     this.card.dom.addEventListener("dblclick", () => {
@@ -315,7 +315,7 @@ class Lesson {
   dbMark(_mark) {
     this.mark = _mark;
     if(this.card != null && !this.watched) {
-      this.btnPlay.btn.innerText = lang.resume;
+      this.btnPlay.innerText = lang.resume;
       this.card.progress.innerText = lang.started;
     }
     return request("lesson.php", {request: "mark", idlesson: this.idlesson, mark: _mark});
@@ -325,10 +325,10 @@ class Lesson {
     this.watched = false;
     if(this.card != null) {
       this.card.dom.classList.remove("watched");
-      this.btnSetAsWatched.btn.style.display = "inline-block";
-      this.btnSetToBeWatched.btn.style.display = "none";
+      this.btnSetAsWatched.style.display = "inline-block";
+      this.btnSetToBeWatched.style.display = "none";
       this.card.progress.innerText = lang.toBeWatched;
-      this.btnPlay.btn.innerText = lang.resume;
+      this.btnPlay.innerText = lang.resume;
     }
     return request("lesson.php", {request: "setToBeWatched", idlesson: this.idlesson});
   }
@@ -338,10 +338,10 @@ class Lesson {
     this.mark = 0;
     if(this.card != null) {
       this.card.dom.classList.add("watched");
-      this.btnSetAsWatched.btn.style.display = "none";
-      this.btnSetToBeWatched.btn.style.display = "inline-block";
+      this.btnSetAsWatched.style.display = "none";
+      this.btnSetToBeWatched.style.display = "inline-block";
       this.card.progress.innerText = lang.watched;
-      this.btnPlay.btn.innerText = lang.play;
+      this.btnPlay.innerText = lang.play;
     }
     return request("lesson.php", {request: "setAsWatched", idlesson: this.idlesson});
   }

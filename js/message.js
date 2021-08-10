@@ -31,10 +31,8 @@ class Message {
     Message.content = document.createElement("div");
     Message.content.id = "msg_content";
 
-    Message.btnReject = document.createElement("button");
-    Message.btnReject.innerText = lang.cancel;
-
-    Message.btnResolve = document.createElement("button");
+    Message.btnReject = createButton(lang.cancel);
+    Message.btnResolve = createButton(lang.ok);
 
     Message.background.appendChild(Message.wrapper);
     Message.wrapper.appendChild(Message.content);
