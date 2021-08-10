@@ -78,16 +78,16 @@ $database = "lesson-player"; // The name of your database
 
 ```
 lesson-player/
-    classes/
-        Physics I/
-            Lesson 01.mp4
-            Lesson 02.mp4
-            ...
-        Chemistry/
-            Lesson 2021-01-01.mp4
-            Lesson 2021-01-02.mp4
-            ...
-        ...
+└── classes/
+|   └── Physics I/
+|   |   └── Lesson 01.mp4
+|   |   └── Lesson 02.mp4
+|   |   └── ...
+|   └── Chemistry/
+|   |   └── Lesson 2021-01-01.mp4
+|   |   └── Lesson 2021-01-02.mp4
+|   |   └── ...
+|   └───── ...
 ```
 
   * Note: folders and videos inside ``classes`` may also be links.
