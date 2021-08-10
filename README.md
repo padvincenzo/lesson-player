@@ -97,7 +97,7 @@ lesson-player/
 ![New_class](img/screenshots/New_class.png)
 
 4) Go back to the homepage;
-5) Select a class and press ``Show`` (_``Mostra`` in italian_);
+5) Select a class and press ``Show``;
 6) Insert all lessons of the selected class: date of the lesson, title, file name (e.g.: ``Lesson 01.mp4``).
 
 ![New_lesson](img/screenshots/New_lesson.png)
