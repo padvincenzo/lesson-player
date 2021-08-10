@@ -43,6 +43,7 @@ $lang->directory          = "Cartella";
 $lang->documentation      = "Documentazione";
 $lang->filename           = "Nome del file";
 $lang->homePage           = "Pagina iniziale";
+$lang->install            = "Installa";
 $lang->professor          = "Professore";
 $lang->progress           = "Progresso";
 $lang->search             = "Cerca...";
@@ -117,7 +118,7 @@ $lang->dbConnectionFailed = "Connessione al database fallita.";
 $lang->dbNotFound         = "Il database non è stato trovato.";
 $lang->installSuccessful  = "Installazione riuscita.";
 $lang->installFailed      = "Installazione fallita.";
-$lang->notYetInstalled    = "Il database non è ancora stato installato.";
+$lang->notYetInstalled    = "Il database non è ancora stato installato. Installarlo ora?";
 
 // FFmpeg
 $lang->ffmpegCopyPaste    = "Copia e incolla l'output di";

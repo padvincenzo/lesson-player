@@ -43,6 +43,7 @@ $lang->directory          = "Directory";
 $lang->documentation      = "Documentation";
 $lang->filename           = "File name";
 $lang->homePage           = "Home page";
+$lang->install            = "Install";
 $lang->professor          = "Professor";
 $lang->progress           = "Progress";
 $lang->search             = "Search...";
@@ -117,7 +118,7 @@ $lang->dbConnectionFailed = "Database connection failed.";
 $lang->dbNotFound         = "Database name not found.";
 $lang->installSuccessful  = "Install successful.";
 $lang->installFailed      = "Install failed.";
-$lang->notYetInstalled    = "Database has not been installed yet.";
+$lang->notYetInstalled    = "Database has not been installed yet. Install it now?";
 
 // FFmpeg
 $lang->ffmpegCopyPaste    = "Copy and paste output of";
