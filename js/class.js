@@ -42,8 +42,16 @@ class Class {
           }
         });
       })
-      .catch((_message) => {
-        Message.text("FAIL: " + _message);
+      .catch((message) => {
+        if(message == lang.notYetInstalled) {
+          Message.text(lang.notYetInstalled, true, lang.install).then(() => {
+            window.location.href = "install.php";
+          }).catch(() => {
+            // do nothing
+          })
+        } else {
+          Message.text("FAIL: " + _message);
+        }
       });
   }
 
