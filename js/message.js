@@ -99,6 +99,12 @@ class Message {
     });
   }
 
+  static text(message = "", cancelable = false, resolveText = "", rejectText = "") {
+    let p = document.createElement("p");
+    p.innerText = message;
+    return Message.view(p, cancelable, resolveText, rejectText);
+  }
+
   static isBusy() {
     return Message.background.style.display == "block";
   }

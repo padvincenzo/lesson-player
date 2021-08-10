@@ -87,14 +87,14 @@ class Lesson {
         var lesson = new Lesson(lessonData, _class);
         _class.lessons.push(lesson);
         _class.show();
-        Message.view(lesson.dictionaryReplace(lang.lessonAdded), true, lang.newLesson, lang.close).then(() => {
+        Message.text(lesson.dictionaryReplace(lang.lessonAdded), true, lang.newLesson, lang.close).then(() => {
           Lesson.form(Lesson.dummy(_class));
         }).catch(() => {
           // do nothing
         });
       })
       .catch((_message) => {
-        Message.view(`${lang.failed}: ${_message}`);
+        Message.text(`${lang.failed}: ${_message}`);
       });
   }
 
@@ -265,7 +265,7 @@ class Lesson {
       if(this.parentClass.nextLesson != null) {
         this.parentClass.nextLesson.play();
       } else {
-        Message.view(lang.classCompleted);
+        Message.text(this.parentClass.dictionaryReplace(lang.classCompleted));
       }
     });
   }
@@ -298,10 +298,10 @@ class Lesson {
     return request("lesson.php", _data)
       .then((_lesson) => {
         this.update(_lesson);
-        Message.view(this.dictionaryReplace(lang.lessonEdited));
+        Message.text(this.dictionaryReplace(lang.lessonEdited));
       })
       .catch((_message) => {
-        Message.view(`${lang.failed}: ${_message}`);
+        Message.text(`${lang.failed}: ${_message}`);
       });
   }
 
@@ -352,7 +352,7 @@ class Lesson {
   }
 
   askToRemove() {
-    Message.view(this.dictionaryReplace(lang.removeThisLesson), true, lang.remove).then(() => {
+    Message.text(this.dictionaryReplace(lang.removeThisLesson), true, lang.remove).then(() => {
       this.dbRemove();
     }).catch(() => {
       console.log(lang.lessonNotRemoved);
@@ -368,12 +368,12 @@ class Lesson {
         console.log(this.dictionaryReplace(lang.lessonRemoved));
       })
       .catch((_message) => {
-        Message.view(`${lang.failed}: ${_message}`);
+        Message.text(`${lang.failed}: ${_message}`);
       });
   }
 
   askToDelete() {
-    Message.view(this.dictionaryReplace(lang.deleteThisLesson), true, lang.delete).then(() => {
+    Message.text(this.dictionaryReplace(lang.deleteThisLesson), true, lang.delete).then(() => {
       this.dbDelete();
     }).catch(() => {
       console.log(lang.lessonNotDeleted);
@@ -389,7 +389,7 @@ class Lesson {
         console.log(this.dictionaryReplace(lang.lessonDeleted));
       })
       .catch((_message) => {
-        Message.view(`${lang.failed}: ${_message}`);
+        Message.text(`${lang.failed}: ${_message}`);
       });
   }
 }

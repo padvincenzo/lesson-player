@@ -43,7 +43,7 @@ class Class {
         });
       })
       .catch((_message) => {
-        Message.view("FAIL: " + _message);
+        Message.text("FAIL: " + _message);
       });
   }
 
@@ -134,14 +134,14 @@ class Class {
         var c = new Class(classData);
         Class.classes.push(c);
         UI.listClasses();
-        Message.view(c.dictionaryReplace(lang.classAdded), true, lang.newClass, lang.close).then(() => {
+        Message.text(c.dictionaryReplace(lang.classAdded), true, lang.newClass, lang.close).then(() => {
           Class.form(Class.dummy());
         }).catch(() => {
           // do nothing
         });
       })
       .catch((_message) => {
-        Message.view(`${lang.failed}: ${_message}`);
+        Message.text(`${lang.failed}: ${_message}`);
       });
   }
 
@@ -292,7 +292,7 @@ class Class {
         });
       })
       .catch((_message) => {
-        Message.view(`${lang.failed}: ${_message}`);
+        Message.text(`${lang.failed}: ${_message}`);
       });
   }
 
@@ -318,7 +318,7 @@ class Class {
   resume() {
     return this.dbGetNext().then(() => {
       if(this.nextLesson == null || this.nextLesson == undefined) {
-        Message.view(lang.classCompleted);
+        Message.text(this.dictionaryReplace(lang.classCompleted));
       } else {
         this.nextLesson.play();
       }
@@ -351,7 +351,7 @@ class Class {
   }
 
   askToRemove() {
-    Message.view(this.dictionaryReplace(lang.removeThisClass), true, lang.remove).then(() => {
+    Message.text(this.dictionaryReplace(lang.removeThisClass), true, lang.remove).then(() => {
       this.dbRemove();
     }).catch(() => {
       console.log(lang.classNotRemoved);
@@ -364,15 +364,15 @@ class Class {
       .then((_response) => {
         this.removed = true;
         UI.listClasses();
-        Message.view(this.dictionaryReplace(lang.classRemoved));
+        Message.text(this.dictionaryReplace(lang.classRemoved));
       })
       .catch((_message) => {
-        Message.view(`${lang.failed}: ${_message}`);
+        Message.text(`${lang.failed}: ${_message}`);
       });
   }
 
   askToDelete() {
-    Message.view(this.dictionaryReplace(lang.deleteThisClass), true, lang.delete).then(() => {
+    Message.text(this.dictionaryReplace(lang.deleteThisClass), true, lang.delete).then(() => {
       this.dbDelete();
     }).catch(() => {
       console.log(lang.classNotDeleted);
@@ -385,10 +385,10 @@ class Class {
       .then((_response) => {
         this.removed = true; // To be changed later
         UI.listClasses();
-        Message.view(this.dictionaryReplace(lang.classDeleted));
+        Message.text(this.dictionaryReplace(lang.classDeleted));
       })
       .catch((_message) => {
-        Message.view(`${lang.failed}: ${_message}`);
+        Message.text(`${lang.failed}: ${_message}`);
       });
   }
 
@@ -418,10 +418,10 @@ class Class {
         _class.nLessons = this.nLessons;
         _class.nWatched = this.nWatched;
         this.update(_class);
-        Message.view(this.dictionaryReplace(lang.classEdited));
+        Message.text(this.dictionaryReplace(lang.classEdited));
       })
       .catch((_message) => {
-        Message.view(`${lang.failed}: ${_message}`);
+        Message.text(`${lang.failed}: ${_message}`);
       });
   }
 }
