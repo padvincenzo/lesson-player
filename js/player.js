@@ -18,7 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 class Player {
   // static player, wrapper, background;
-  // static overlay, overlayData, overlayEnabled;
+  // static overlay;
   // static notice, noticeTimeout, fastSilence;
   // static lesson, hasJustLoaded;
   // static fastPlaybackRate, minPlaybackRate, maxPlaybackRate;
@@ -29,8 +29,6 @@ class Player {
     Player.fastPlaybackRate = 8;  // PlaybackRate on silences
     Player.minPlaybackRate = 0.5; // Lowest playbackRate
     Player.maxPlaybackRate = 3;   // Highest playbackRate
-
-    Player.overlayEnabled = true;
 
     Player.player = videojs("my-player", {
       fluid: true,
@@ -148,7 +146,9 @@ class Player {
         case "KeyO": {
           e.preventDefault();
           /* Toggle overlay On/Off */
-          Player.toggleOverlayEnabled();
+          Player.overlay.toggle((enabled) => {
+            Player.notify(enabled ? lang.overlayEnabled : lang.overlayDisabled);
+          });
           break;
         }
         case "KeyX": {
@@ -225,27 +225,87 @@ class Player {
   }
 
   static initOverlay() {
-    Player.overlay = Player.appendLayer("my-p-overlay");
 
-    Player.overlayData = {
-      class: null,
-      date: null,
-      professor: null,
-      title: null
-    };
+    Player.overlay = {
+      dom: null,
+      data: {},
+      enabled: true,
+      init: function(_player, _dom, _data) {
+        this.dom = _dom;
 
-    Object.keys(Player.overlayData).forEach((id) => {
-      Player.overlayData[id] = document.createElement("div");
-      Player.overlayData[id].id = id;
-      Player.overlayData[id].innerText = "";
-      Player.overlay.appendChild(Player.overlayData[id]);
-    });
+        for(const id in _data) {
+          this.data[id] = document.createElement("div");
+          this.data[id].id = id;
+          this.data[id].innerText = _data[id];
+          this.dom.appendChild(this.data[id]);
+        };
 
-    Player.overlay.onclick = () => {
-      Player.hideOverlay();
-      Player.play();
-      Player.userActive(true);
-    };
+        this.dom.addEventListener("click", () => {
+          this.hide();
+          _player.play();
+          _player.userActive(true);
+        });
+
+        _player.on("useractive", () => {
+          this.hide();
+        });
+
+        _player.on("userinactive", () => {
+          if(_player.paused()) {
+            this.show();
+          } else {
+            // do nothing
+          }
+        });
+
+        _player.on("pause", () => {
+          this.hide();
+          _player.userActive(true);
+        });
+
+        _player.on("play", () => {
+          this.hide();
+          _player.userActive(true);
+        });
+      },
+      update: function(_data) {
+        for(const id in this.data) {
+          this.data[id].innerText = _data[id];
+        }
+      },
+      hide: function() {
+        this.dom.style.display = "none";
+      },
+      show: function() {
+        if(this.enabled && !Player.isSelectingArea()) {
+          this.dom.style.display = "";
+        }
+      },
+      toggle: function(_callback = null) {
+        if(this.enabled) {
+          this.enabled = false;
+          this.hide();
+        } else {
+          this.enabled = true;
+        }
+
+        if(_callback != null) {
+          _callback(this.enabled);
+        }
+      }
+    }
+
+    Player.overlay.init(
+      Player,
+      Player.appendLayer("my-p-overlay"),
+      {
+        class: "",
+        date: "",
+        professor: "",
+        title: ""
+      }
+    );
+
   }
 
   static initAreaSelector() {
@@ -344,7 +404,7 @@ class Player {
 
   static selectArea() {
     Player.pause();
-    Player.hideOverlay();
+    Player.overlay.hide();
 
     Player.areaSelectorWrapper.addEventListener("mousedown", Player.areaSelectorListeners.mousedown);
     Player.areaSelectorWrapper.addEventListener("mousemove", Player.areaSelectorListeners.mousemove);
@@ -415,25 +475,6 @@ class Player {
   }
 
   static initUserActivity() {
-    Player.on("pause", () => {
-      Player.userActive(true);
-    });
-
-    Player.on("playing", () => {
-      Player.userActive(true);
-    });
-
-    Player.on("useractive", () => {
-      Player.hideOverlay();
-    });
-
-    Player.on("userinactive", () => {
-      if(Player.paused()) {
-        Player.showOverlay();
-      } else {
-        // do nothing
-      }
-    });
 
     // When fullscreen, set the landscape orientation on mobile
     Player.wrapper.addEventListener("fullscreenchange", () => {
@@ -443,16 +484,6 @@ class Player {
         });
       }
     });
-  }
-
-  static showOverlay() {
-    if(Player.overlayEnabled && !Player.isSelectingArea()) {
-      Player.overlay.style.display = "";
-    }
-  }
-
-  static hideOverlay() {
-    Player.overlay.style.display = "none";
   }
 
   static on(_event, _function) {
@@ -508,10 +539,12 @@ class Player {
       return;
     }
 
-    Player.overlayData.class.innerText = Player.lesson.parentClass.name;
-    Player.overlayData.date.innerText = formatDate(Player.lesson.dated);
-    Player.overlayData.professor.innerText = Player.lesson.professor;
-    Player.overlayData.title.innerText = Player.lesson.title;
+    Player.overlay.update({
+      class: Player.lesson.parentClass.name,
+      date: formatDate(Player.lesson.dated),
+      professor: Player.lesson.professor,
+      title: Player.lesson.title
+    });
   }
 
   static appendLayer(_id) {
@@ -646,14 +679,4 @@ class Player {
     });
   }
 
-  static toggleOverlayEnabled() {
-    if(Player.overlayEnabled) {
-      Player.overlayEnabled = false;
-      Player.hideOverlay();
-      Player.notify(lang.overlayDisabled);
-    } else {
-      Player.overlayEnabled = true;
-      Player.notify(lang.overlayEnabled);
-    }
-  }
 }
