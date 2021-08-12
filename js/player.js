@@ -561,7 +561,7 @@ class Player {
       return;
     }
 
-    Player.playbackRate(Player.lesson.playbackRate);
+    Player.playbackRate((+Player.lesson.playbackRate).toFixed(1));
     Player.fastSilence.style.display = "none";
   }
 
