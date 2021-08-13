@@ -270,24 +270,6 @@ class Lesson {
     });
   }
 
-  getSilenceByTime(time) {
-    if(this.silences == null || this.silences == undefined)
-      return null;
-
-    return this.silences.find((s) => {
-      return +s.t_start <= +time && +s.t_end >= +time;
-    });
-  }
-
-  isInSilence(time) {
-    return this.getSilenceByTime(time) != undefined;
-  }
-
-  getEndOfSilence(time) {
-    let silence = this.getSilenceByTime(time);
-    return silence ? silence.t_end : null;
-  }
-
   edit() {
     Lesson.form(this);
   }

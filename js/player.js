@@ -19,14 +19,14 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 class Player {
   // static player, wrapper, background;
   // static overlay;
-  // static notice, noticeTimeout, fastSilence;
+  // static silences, fastSilenceButton;
+  // static notice, noticeTimeout;
   // static lesson, hasJustLoaded;
-  // static fastPlaybackRate, minPlaybackRate, maxPlaybackRate;
+  // static minPlaybackRate, maxPlaybackRate;
   // static areaSelectorWrapper, areaSelector, areaCoordinates, areaSelectorListeners;
 
   static init() {
     /* Editable configuration */
-    Player.fastPlaybackRate = 8;  // PlaybackRate on silences
     Player.minPlaybackRate = 0.5; // Lowest playbackRate
     Player.maxPlaybackRate = 3;   // Highest playbackRate
 
@@ -43,10 +43,12 @@ class Player {
     Player.background = document.getElementById("my-p-background");
 
     Player.player.el().parentNode.style.position = "relative";
+    Player.notice = Player.appendLayer("notice");
+
     Player.initWrapperFunctions();
     Player.initShortcuts();
     Player.initOverlay();
-    Player.initNotifier();
+    Player.initSilences();
     Player.initLessonUpdater();
     Player.removeTabIndexes();
     Player.initUserActivity();
@@ -139,7 +141,9 @@ class Player {
             Player.screenshot();
           } else {
             /* Skip silence */
-            Player.skipSilence();
+            Player.silences.skipCurrent((t_end) => {
+              Player.notify(secondsToTime(t_end));
+            });
           }
           break;
         }
@@ -222,6 +226,77 @@ class Player {
         }
       }
     });
+  }
+
+  static initSilences() {
+    Player.silences = {
+      timestamps: [],
+      button: null,
+      fastRate: "8",
+      normalRate: "1",
+      nextEnd: 0,
+      skipCurrent: null,
+      init: function(_player, _button, _fastRate = "8", _normalRate = "1") {
+        this.button = _button;
+        this.fastRate = (+_fastRate).toFixed(1);
+        this.normalRate = (+_normalRate).toFixed(1);
+        this.nextEnd = 0;
+
+        this.skipCurrent = (_callback) => {
+          if(this.nextEnd != 0) {
+            _player.currentTime(this.nextEnd);
+            if(_callback != null) {
+              _callback(this.nextEnd);
+            }
+          }
+        }
+
+        _player.on("timeupdate", () => {
+          let currentSilence = this.getCurrent(_player.currentTime());
+
+          if(currentSilence != null) {
+            _player.playbackRate(this.fastRate);
+            this.button.style.display = "inline-block";
+            this.nextEnd = currentSilence.t_end;
+          } else {
+            _player.playbackRate(this.normalRate);
+            this.button.style.display = "none";
+            this.nextEnd = 0;
+          }
+        });
+      },
+      setTimestamps: function(_timestamps) {
+        this.timestamps = _timestamps;
+        this.nextEnd = 0;
+      },
+      setNormalRate: function(_normalRate) {
+        this.normalRate = (+_normalRate).toFixed(1);
+      },
+      getCurrent: function(needle = 0) {
+        if(this.timestamps == null) {
+          return null;
+        }
+
+        return this.timestamps.find((ts) => {
+          return (+ts.t_start <= +needle) && (+ts.t_end >= +needle);
+        });
+      },
+      isInSilence: function() {
+        return this.nextEnd != 0;
+      }
+    };
+
+
+    Player.fastSilenceButton = Player.appendLayer("fastSilence");
+    Player.fastSilenceButton.innerText = "»";
+
+    Player.fastSilenceButton.addEventListener("click", () => {
+      Player.silences.skipCurrent((t_end) => {
+        Player.notify(secondsToTime(t_end));
+      });
+    });
+
+    Player.silences.init(Player, Player.fastSilenceButton);
   }
 
   static initOverlay() {
@@ -418,20 +493,8 @@ class Player {
     Player.areaSelectorWrapper.style.display == "block";
   }
 
-  static initNotifier() {
-    Player.notice = Player.appendLayer("notice");
-    Player.fastSilence = Player.appendLayer("fastSilence");
-    Player.fastSilence.innerText = "»";
-
-    // Skip silence on click
-    Player.fastSilence.addEventListener("click", () => {
-      Player.skipSilence();
-    });
-  }
-
   static initLessonUpdater() {
     Player.on("ratechange", (event) => {
-
       // Prevent playbackRate change
       if(Player.hasJustLoaded) {
         Player.hasJustLoaded = false;
@@ -439,21 +502,14 @@ class Player {
       }
 
       let rate = Player.playbackRate();
-      if(rate != Player.fastPlaybackRate && rate != Player.lesson.playbackRate) {
+      if(!Player.silences.isInSilence() && rate != Player.silences.normalRate) {
         Player.lesson.dbRate(rate);
+        Player.silences.setNormalRate(rate);
       }
     });
 
     Player.on("timeupdate", () => {
-      let currentTime = Player.currentTime();
-
-      if(Player.lesson.isInSilence(currentTime)) {
-        Player.goFast();
-      } else {
-        Player.goRegular();
-      }
-
-      Player.lesson.dbMark(currentTime);
+      Player.lesson.dbMark(Player.currentTime());
     });
 
     Player.on("ended", () => {
@@ -475,7 +531,6 @@ class Player {
   }
 
   static initUserActivity() {
-
     // When fullscreen, set the landscape orientation on mobile
     Player.wrapper.addEventListener("fullscreenchange", () => {
       if (document.fullscreenElement) {
@@ -512,6 +567,7 @@ class Player {
       return;
     }
 
+    Player.pause();
     Player.zoomReset();
 
     // Save the lesson playbackRate before anything change
@@ -521,6 +577,8 @@ class Player {
     Player.lesson = _lesson;
     Player.src(Player.lesson.url());
     Player.updateOverlay();
+    Player.silences.setTimestamps(Player.lesson.silences);
+    Player.silences.setNormalRate(Player.lesson.playbackRate);
 
     document.title = `${Player.lesson.parentClass.name}: ${Player.lesson.title}`;
 
@@ -566,36 +624,6 @@ class Player {
       Player.notice.style.display = "none";
       Player.notice.innerText = "";
     }, 1500);
-  }
-
-  static skipSilence() {
-    if(Player.unavailable()) {
-      return;
-    }
-
-    let t_end = Player.lesson.getEndOfSilence(Player.currentTime());
-    if(t_end != null) {
-      Player.currentTime(t_end);
-      Player.notify(secondsToTime(t_end));
-    }
-  }
-
-  static goFast() {
-    if(Player.unavailable()) {
-      return;
-    }
-
-    Player.playbackRate(Player.fastPlaybackRate);
-    Player.fastSilence.style.display = "inline-block";
-  }
-
-  static goRegular() {
-    if(Player.unavailable()) {
-      return;
-    }
-
-    Player.playbackRate((+Player.lesson.playbackRate).toFixed(1));
-    Player.fastSilence.style.display = "none";
   }
 
   static changeVolume(_amount) {
