@@ -154,7 +154,7 @@ Scorciatoie da tastiera:
 | ``]`` o ``+`` (o ``=``) | Aumenta la velocità di riproduzione    |
 | ``[`` o ``-``           | Diminuisci la velocità di riproduzione |
 | ``S``                   | Salta il silenzio in corso             |
-| ``Shift+S``             | Screenshot                             |
+| ``P``                   | Screenshot                             |
 | ``O``                   | Abilita/disabilita overlay             |
 | ``X``                   | Ingrandisci/ripristina il video        |
 
