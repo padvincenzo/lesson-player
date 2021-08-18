@@ -154,7 +154,7 @@ Hotkeys:
 | ``]`` or ``+`` (or ``=``) | Increase playback rate        |
 | ``[`` or ``-``            | Decrease playback rate        |
 | ``S``                     | Skip current silence          |
-| ``Shift+S``               | Screenshot                    |
+| ``P``                     | Screenshot                    |
 | ``O``                     | Enable/disable overlay        |
 | ``X``                     | Zoom/restore the video        |
 
