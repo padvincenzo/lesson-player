@@ -136,15 +136,16 @@ class Player {
         }
         case "KeyS": {
           e.preventDefault();
-          if(e.shiftKey) {
-            /* Take a screenshot */
-            Player.screenshot();
-          } else {
-            /* Skip silence */
-            Player.silences.skipCurrent((t_end) => {
-              Player.notify(secondsToTime(t_end));
-            });
-          }
+          /* Skip silence */
+          Player.silences.skipCurrent((t_end) => {
+            Player.notify(secondsToTime(t_end));
+          });
+          break;
+        }
+        case "KeyP": {
+          e.preventDefault();
+          /* Take a screenshot */
+          Player.screenshot();
           break;
         }
         case "KeyO": {
@@ -564,6 +565,7 @@ class Player {
     }
 
     if(!Player.unavailable() && Player.lesson.isEqualTo(_lesson)) {
+      Player.play();
       return;
     }
 
