@@ -28,6 +28,11 @@ $dbh->close();
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+		<!-- Disable cache (to avoid problems in updates. Better solutions are welcome) -->
+		<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+		<meta http-equiv="Pragma" content="no-cache" />
+		<meta http-equiv="Expires" content="0" />
+
 		<!-- VideoJS -->
 		<!-- <script type="text/javascript">window.HELP_IMPROVE_VIDEOJS = false;</script> -->
 		<!-- <script src="https://unpkg.com/video.js@7/dist/video.min.js"></script> -->
