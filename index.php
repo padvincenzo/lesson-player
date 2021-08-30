@@ -82,7 +82,7 @@ $dbh->close();
 			<p>
 				<a href="JavaScript:UI.showCredits();"><?php echo $lang->credits; ?></a>
 				&middot;
-				<a href="https://vincenzopadula.altervista.org/lesson-player/" target="_blank">Feedback</a>
+				<a href="JavaScript:UI.feedback();">Feedback</a>
 				&middot;
 				<a href="https://vincenzopadula.altervista.org/docs/lesson-player/" target="_blank"><?php echo $lang->documentation; ?></a>
 			</p>
