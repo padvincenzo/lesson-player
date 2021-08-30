@@ -85,7 +85,7 @@ class Form {
     return date;
   }
 
-  appendTextarea(_name = "", _value = "", _placeholder = "") {
+  appendTextarea(_name = "", _value = "", _placeholder = "", _maxlength = 10000) {
     let id = this.prefix + _name;
     this.appendLabel(id, _placeholder);
     const text = document.createElement("textarea");
@@ -94,7 +94,7 @@ class Form {
     text.innerText = _value;
 
     text.checkValidity = () => {
-      return true;
+      return text.innerText.length <= _maxlength;
     };
 
     this.wrapper.appendChild(text);

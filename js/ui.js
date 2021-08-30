@@ -65,4 +65,62 @@ class UI {
 
     Message.view(credits);
   }
+
+  static feedback() {
+    var form = new Form();
+    form.appendText("name", "", lang.yourName, 100);
+    form.appendText("mail", "", lang.yourMail, 150);
+    form.appendTextarea("feedback", "", lang.feedbackWrite, 1000);
+
+    Message.view(form.wrapper, true, lang.feedbackSend).then(() => {
+      let values = form.values();
+      if(values == null) {
+        return;
+      }
+
+      UI.sendFeedback(values).then(() => {
+        Message.text(lang.feedbackThanks);
+      }).catch((err) => {
+        Message.view(err);
+      });
+    }).catch(() => {
+      // do nothing
+    })
+
+  }
+
+  static sendFeedback(_feedback) {
+    return new Promise((_resolve, _reject) => {
+      var xhr = new XMLHttpRequest();
+      var json = JSON.stringify(_feedback);
+
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+          try {
+
+            if(xhr.responseText == "Ok") {
+              _resolve();
+            } else {
+              _reject(xhr.responseText);
+            }
+          }
+          catch(err) {
+            _reject(err.message + "<br><br>" + xhr.responseText);
+          }
+        }
+
+        if(xhr.readyState == 4 && xhr.status > 299) {
+          _reject("Server Error: " + xhr.statusText);
+        }
+      };
+
+      xhr.onerror = () => {
+        _reject("xmlHTTP Error: " + xhr.responseText);
+      };
+
+      xhr.open("POST", "https://vincenzopadula.altervista.org/projects/lesson-player/feedback.php", true);
+      xhr.setRequestHeader("Content-Type", "application/json");
+      xhr.send(json);
+    });
+  }
 }
