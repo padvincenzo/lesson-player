@@ -130,4 +130,12 @@ $lang->failed             = "Failed";
 $lang->errFileOpen        = "Error opening file";
 $lang->errInvalidData     = "Data not valid";
 
+// Feedback
+$lang->feedback           = "Feedback";
+$lang->feedbackWrite      = "What would you like to communicate to the developer?";
+$lang->feedbackSend       = "Send";
+$lang->feedbackThanks     = "Thanks for your feedback :)";
+$lang->yourName           = "Your name";
+$lang->yourMail           = "Your mail";
+
 ?>
