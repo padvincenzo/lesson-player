@@ -176,7 +176,8 @@ In other words, fork this project and have fun coding. When you think something 
 For any doubt or perplexity we can [discuss here](https://github.com/padvincenzo/lesson-player/discussions).
 
 ## Feedbacks
-To send me a feedback, just click on link ``Feedback`` and write anything (_watch out for language_). This will send me a mail containing what you have written. Only what you write will be stored, and none of the fields is required.
+To send me a feedback, just click on link ``Feedback`` and write anything (_watch out for language_). This will send me a mail containing what you have written. 
+What you write and your IP address will be stored, and none of the fields is required.
 
 ![Feedback_preview](img/screenshots/feedback.png)
 
