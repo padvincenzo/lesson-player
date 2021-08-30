@@ -176,7 +176,8 @@ In altre parole, crea una fork e divertiti a scrivere codice. Quando avrai qualc
 Per qualunque dubbio o perplessità possiamo discuterne sulla [pagina apposita](https://github.com/padvincenzo/lesson-player/discussions).
 
 ## Feedback
-Per inviarmi un feedback, basta cliccare sul link ``Feedback`` e scrivere qualunque cosa (_occhio al linguaggio_). In questo modo mi arriverà una mail contenente quello che hai scritto. Solo quello che scrivi verrà memorizzato, e nessuno dei campi è obbligatorio.
+Per inviarmi un feedback, basta cliccare sul link ``Feedback`` e scrivere qualunque cosa (_occhio al linguaggio_). In questo modo mi arriverà una mail contenente quello che hai scritto.
+Quello che scrivi e il tuo indirizzo IP verranno memorizzati, e nessuno dei campi è obbligatorio.
 
 ![Feedback_preview](img/screenshots/feedback.png)
 
