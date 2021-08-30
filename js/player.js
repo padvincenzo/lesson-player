@@ -17,7 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 class Player {
-  // static player, wrapper, background;
+  // static player, wrapper, background, video;
   // static overlay;
   // static silences, fastSilenceButton;
   // static notice, noticeTimeout;
@@ -39,10 +39,11 @@ class Player {
       rewind: true,
       inactivityTimeout: 4000
     });
-    Player.wrapper = document.getElementById("my-player");
+    Player.wrapper = Player.player.el();
     Player.background = document.getElementById("my-p-background");
+    Player.video = Player.wrapper.childNodes[0];
 
-    Player.player.el().parentNode.style.position = "relative";
+    Player.wrapper.parentNode.style.position = "relative";
     Player.notice = Player.appendLayer("notice");
 
     Player.initWrapperFunctions();
@@ -440,11 +441,11 @@ class Player {
   static zoomArea() {
     let offset = Player.wrapper.getBoundingClientRect();
 
-    let relativeWidth = offset.width / Player.areaCoordinates.width() * 100;
-    let relativeHeight = offset.height / Player.areaCoordinates.height() * 100;
+    let relativeWidth = offset.width / Player.areaCoordinates.width();
+    let relativeHeight = offset.height / Player.areaCoordinates.height();
 
     // Do nothing if selected area width or height is less than 10%
-    if(relativeWidth < 10 || relativeHeight < 10) {
+    if(relativeWidth < 0.1 || relativeHeight < 0.1) {
       return;
     }
 
@@ -452,12 +453,7 @@ class Player {
     let relativeLeft = Player.areaCoordinates.left() / Player.areaCoordinates.width() * 100;
 
     // Zoom the video using relative position and size
-    Object.assign(Player.player.el().childNodes[0].style, {
-      top: `${-relativeTop}%`,
-      left: `${-relativeLeft}%`,
-      width: `${relativeWidth}%`,
-      height: `${relativeHeight}%`
-    });
+    Player.video.style.transform = `translate(${-relativeLeft}%, ${-relativeTop}%) scale(${relativeWidth}, ${relativeHeight})`;
 
     Player.areaSelectorWrapper.style.display = "none";
 
@@ -467,15 +463,12 @@ class Player {
   }
 
   static zoomReset() {
-    Object.assign(Player.player.el().childNodes[0].style, {
-      top: 0, left: 0, width: "100%", height: "100%"
-    });
+    Player.video.style.transform = "none";
     Player.notify(lang.zoomReseted);
   }
 
   static isZoomed() {
-    let style = Player.player.el().childNodes[0].style;
-    return style.top != "0px" || style.left != "0px" || style.width != "100%" || style.height != "100%";
+    return style.transform != "none";
   }
 
   static selectArea() {
@@ -679,7 +672,7 @@ class Player {
     var canvas = document.createElement('canvas');
     canvas.width = Player.player.videoWidth();
     canvas.height = Player.player.videoHeight();
-    canvas.getContext('2d').drawImage(Player.player.el().childNodes[0], 0, 0, canvas.width, canvas.height);
+    canvas.getContext('2d').drawImage(Player.video, 0, 0, canvas.width, canvas.height);
 
     // Canvas to base64 encoded data
     var dataURI = canvas.toDataURL('image/jpeg');
