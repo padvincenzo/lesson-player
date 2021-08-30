@@ -468,7 +468,7 @@ class Player {
   }
 
   static isZoomed() {
-    return style.transform != "none";
+    return Player.video.style.transform != "none";
   }
 
   static selectArea() {
