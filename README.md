@@ -30,6 +30,7 @@ ALTER TABLE lesson ADD removed BOOLEAN NOT NULL DEFAULT false;
     - [Speed up silences](#speed-up-silences)
   - [Shortcuts](#shortcuts)
   - [Contributing](#contributing)
+  - [Feedbacks](#feedbacks)
   - [FAQ](#faq)
   - [Credits](#credits)
 
@@ -173,6 +174,11 @@ Anyone can contribute to this project, in many ways:
 In other words, fork this project and have fun coding. When you think something you wrote can improve this project, open your pull request.
 
 For any doubt or perplexity we can [discuss here](https://github.com/padvincenzo/lesson-player/discussions).
+
+## Feedbacks
+To send me a feedback, just click on link ``Feedback`` and write anything (_watch out for language_). This will send me a mail containing what you have written. Only what you write will be stored, and none of the fields is required.
+
+![Feedback_preview](img/screenshots/feedback.png)
 
 ## FAQ
 
