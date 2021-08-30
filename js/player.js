@@ -35,7 +35,7 @@ class Player {
       controls: true,
       autoplay: false,
       preload: "auto",
-      playbackRates: ["0.5", "0.75", "1", "1.25", "1.5", "1.75", "2", "2.25", "2.5", "2.75", "3"],
+      playbackRates: ["0.5", "0.6", "0.7", "0.8", "0.9", "1", "1.1", "1.2", "1.3", "1.4", "1.5", "1.6", "1.7", "1.8", "1.9", "2", "2.2", "2.5", "2.8", "3"],
       rewind: true,
       inactivityTimeout: 4000
     });
@@ -582,6 +582,8 @@ class Player {
     // Restore the lesson playbackRate
     Player.defaultPlaybackRate(playbackRateBackup);
 
+    Player.notify(`${Player.lesson.parentClass.name}:<br>${Player.lesson.title}`, 2000);
+
     if(_autoplay) {
       Player.play();
     }
@@ -607,7 +609,7 @@ class Player {
     return layer;
   }
 
-  static notify(_notice) {
+  static notify(_notice, _timeout = 1500) {
     if(Player.noticeTimeout != null) {
       clearTimeout(Player.noticeTimeout)
     }
@@ -618,7 +620,7 @@ class Player {
     Player.noticeTimeout = setTimeout(() => {
       Player.notice.style.display = "none";
       Player.notice.innerText = "";
-    }, 1500);
+    }, _timeout);
   }
 
   static changeVolume(_amount) {
