@@ -143,7 +143,7 @@ function listClasses() {
     on l.idclass = c.idclass
     where c.removed is not true
     group by c.idclass
-    order by max(l.lastPlayed) desc;");
+    order by count(l.idclass) = sum(l.watched) asc, max(l.lastPlayed) desc;");
   if($result) {
     $classes = $result->fetch_all(MYSQLI_ASSOC);
     return Response::ok($lang->classList, $classes);
