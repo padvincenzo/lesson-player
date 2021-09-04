@@ -108,18 +108,16 @@ ul, ol {
 
 #header {
   width: 100%;
-  height: 60px;
   display: flex;
 }
 
 #header-logo {
-  height: 40px;
   display: flex;
   flex: none;
   cursor: pointer;
   padding: 10px 15px;
   margin-right: 20px;
-
+  align-items: center;
 }
 
 #header-logo:hover {
@@ -128,20 +126,24 @@ ul, ol {
 
 #header-logo img {
   margin-right: 5px;
-  height: 100%;
+  height: 40px;
 }
 
 #header-logo p,
 #header-title p {
-  line-height: 40px;
+  padding: 10px 0;
   margin: 0;
 }
 
 #header-title {
   display: flex;
   width: 100%;
-  height: 40px;
   padding: 10px 15px;
+  align-items: center;
+}
+
+p#header-class {
+  text-align: center;
 }
 
 p#header-separator {
