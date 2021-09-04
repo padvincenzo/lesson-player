@@ -25,7 +25,8 @@ form {
 
 form input,
 form textarea,
-form label {
+form label,
+form select {
   width: 100%;
   box-sizing: border-box;
   display: inline-block;
@@ -38,7 +39,8 @@ form label {
 }
 
 form input,
-form textarea {
+form textarea,
+form select {
   margin: 1em 0;
   color: var(--color-primary);
   border-color: var(--color-secondary);
@@ -47,7 +49,8 @@ form textarea {
   background-color: var(--color-secondary-opaque);
 }
 
-form input {
+form input,
+form select {
   text-align: center;
   font-size: 1.2em;
   line-height: 1.6em;
