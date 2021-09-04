@@ -22,11 +22,20 @@ class UI {
   static init() {
     UI.wrapper = document.getElementById("container");
 
+    UI.listClasses().then(() => {
+      Class.loadLast();
+    });
+
     UI.btnHome = createButton(lang.homePage, () => {
       UI.listClasses();
     });
 
-    UI.listClasses().then(() => { Class.loadLast(); });
+    document.getElementById("header-logo").addEventListener("click", () => {
+      UI.listClasses();
+    });
+
+    document.getElementById("header-separator").innerText = ">";
+
     UI.getLocalIPAddress();
   }
 
@@ -44,6 +53,12 @@ class UI {
       UI.display(Class.cards(), br(), Class.btnNewClass);
       document.title = `${lang.classList} | Lesson Player`;
     });
+  }
+
+  static setHeaderTitle(_class, _lesson) {
+    document.title = `${_class}: ${_lesson}`;
+    document.getElementById("header-class").innerText = _class;
+    document.getElementById("header-lesson").innerText = _lesson;
   }
 
   static getLocalIPAddress() {

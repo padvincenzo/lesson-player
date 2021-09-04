@@ -575,7 +575,7 @@ class Player {
     Player.silences.setTimestamps(Player.lesson.silences);
     Player.silences.setNormalRate(Player.lesson.playbackRate);
 
-    document.title = `${Player.lesson.parentClass.name}: ${Player.lesson.title}`;
+    UI.setHeaderTitle(Player.lesson.parentClass.name, Player.lesson.title);
 
     Player.currentTime(Player.lesson.mark);
 
