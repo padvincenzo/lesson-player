@@ -69,6 +69,18 @@ $dbh->close();
 
 	<body>
 
+		<div id="header">
+			<div id="header-logo" title="<?php echo $lang->homePage; ?>">
+				<img src="img/icon.svg" alt="Lesson Player">
+				<p>Lesson Player</p>
+			</div>
+			<div id="header-title">
+				<p id="header-class"></p>
+				<p id="header-separator"></p>
+				<p id="header-lesson"></p>
+			</div>
+		</div>
+
 		<div id="my-p-background" tabindex="1">
 			<div id="my-p-wrapper">
 				<video id="my-player" class="video-js vjs-theme-lesson"></video>
