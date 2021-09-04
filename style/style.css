@@ -52,7 +52,7 @@ button:not([tabIndex = "-1"]) {
   line-height: 2em;
   color: var(--color-primary);
   background: var(--background-focused);
-  border-width: 2px;
+  border-width: 1px;
   border-style: solid;
   border-color: var(--color-primary-opaque);
   margin: 1em;
@@ -104,4 +104,53 @@ ul, ol {
   padding: 10px;
   margin: 10px 0;
   border: 2px solid var(--background-focused);
+}
+
+#header {
+  width: 100%;
+  height: 60px;
+  display: flex;
+}
+
+#header-logo {
+  height: 40px;
+  display: flex;
+  flex: none;
+  cursor: pointer;
+  padding: 10px 15px;
+  margin-right: 20px;
+
+}
+
+#header-logo:hover {
+  background-color: var(--background-focused);
+}
+
+#header-logo img {
+  margin-right: 5px;
+  height: 100%;
+}
+
+#header-logo p,
+#header-title p {
+  line-height: 40px;
+  margin: 0;
+}
+
+#header-title {
+  display: flex;
+  width: 100%;
+  height: 40px;
+  padding: 10px 15px;
+}
+
+p#header-separator {
+  margin: 0 10px;
+}
+
+
+@media only screen and (max-width: 600px) {
+  #header-logo p {
+    display: none;
+  }
 }
