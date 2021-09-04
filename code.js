@@ -113,16 +113,6 @@ function decodeString(_string) {
   }
 }
 
-function randomString(_length = 4) {
-  let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-  let str = "";
-  for (let i = 0; i < _length; i++) {
-    str += chars.charAt(Math.floor(Math.random() * chars.length));
-  }
-
-  return str;
-}
-
 function limit(_x, _min, _max) {
   if(+_x < +_min) return +_min;
   if(+_x > +_max) return +_max;
