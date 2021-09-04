@@ -69,6 +69,26 @@ class UI {
     document.getElementById("header-separator").innerText = value;
   }
 
+  static get theme() {
+    return document.head.querySelector("link#theme").href;
+  }
+
+  static set theme(value) {
+    document.head.querySelector("link#theme").href = value;
+  }
+
+  static get themes() {
+    let installedThemes = [];
+    for(let i = 0; i < themes.length; i++) {
+      installedThemes.push({
+        value: themes[i],
+        text: themes[i].match(/themes\/(.*)\.css/)[1],
+        selected: UI.theme.match(themes[i]) != null
+      });
+    }
+    return installedThemes;
+  }
+
   static getLocalIPAddress() {
     return request("ui.php", {request: "ip"})
       .then((ip) => {
@@ -149,6 +169,9 @@ class UI {
   static settings() {
     var form = new Form();
     form.appendText("separator", UI.separator, lang.separator, 10);
+    form.appendSelect("theme", UI.themes, lang.theme);
+
+    // To add more
 
     Message.view(form.wrapper, true, lang.confirm).then(() => {
       let values = form.values();
@@ -157,8 +180,10 @@ class UI {
       }
 
       UI.separator = decodeString(values.separator);
+      UI.theme = decodeString(values.theme);
 
-      // to do
+      // To add more
+
     }).catch(() => {
       // do nothing
     });
