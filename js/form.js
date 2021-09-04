@@ -17,12 +17,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 class Form {
-  // wrapper, form, prefix;
+  // wrapper, form;
 
   constructor() {
     this.wrapper = document.createElement("form");
     this.form = [];
-    this.prefix = randomString() + "_";
   }
 
   appendLabel(_for, _text = "") {
@@ -38,12 +37,10 @@ class Form {
   }
 
   appendText(_name = "", _value = "", _placeholder = "", _maxlength = 150, _prefix = "") {
-    let id = this.prefix + _name;
-    this.appendLabel(id, _placeholder);
+    this.appendLabel(_name, _placeholder);
     const text = document.createElement("input");
     text.type = "text";
     text.name = _name;
-    text.id = id;
     text.value = _value;
     text.placeholder = _placeholder;
 
@@ -68,12 +65,10 @@ class Form {
   }
 
   appendDate(_name = "", _value = "", _placeholder = "Data") {
-    let id = this.prefix + _name;
-    this.appendLabel(id, _placeholder);
+    this.appendLabel(_name, _placeholder);
     const date = document.createElement("input");
     date.type = "date";
     date.name = _name;
-    date.id = id;
     date.value = _value;
 
     date.checkValidity = () => {
@@ -86,11 +81,9 @@ class Form {
   }
 
   appendTextarea(_name = "", _value = "", _placeholder = "", _maxlength = 10000) {
-    let id = this.prefix + _name;
-    this.appendLabel(id, _placeholder);
+    this.appendLabel(_name, _placeholder);
     const text = document.createElement("textarea");
     text.name = _name;
-    text.id = id;
     text.innerText = _value;
 
     text.checkValidity = () => {
@@ -103,11 +96,9 @@ class Form {
   }
 
   appendSelect(_name, _values = [], _placeholder = "") {
-    let id = this.prefix + _name;
-    this.appendLabel(id, _placeholder);
+    this.appendLabel(_name, _placeholder);
     const wrapper = document.createElement("select");
     wrapper.name = _name;
-    wrapper.id = id;
 
     for(let i = 0; i < _values.length; i++) {
       let option = document.createElement("option");
