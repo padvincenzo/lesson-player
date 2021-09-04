@@ -49,6 +49,7 @@ $lang->progress           = "Progresso";
 $lang->search             = "Cerca...";
 $lang->separator          = "Separatore";
 $lang->settings           = "Impostazioni";
+$lang->theme              = "Tema";
 $lang->title              = "Titolo";
 
 // ---------- Class ----------
