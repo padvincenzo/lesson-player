@@ -34,7 +34,7 @@ class UI {
       UI.listClasses();
     });
 
-    document.getElementById("header-separator").innerText = ">";
+    UI.separator = ">";
 
     UI.getLocalIPAddress();
   }
@@ -59,6 +59,14 @@ class UI {
     document.title = `${_class}: ${_lesson}`;
     document.getElementById("header-class").innerText = _class;
     document.getElementById("header-lesson").innerText = _lesson;
+  }
+
+  static get separator() {
+    return document.getElementById("header-separator").innerText;
+  }
+
+  static set separator(value) {
+    document.getElementById("header-separator").innerText = value;
   }
 
   static getLocalIPAddress() {
@@ -100,8 +108,7 @@ class UI {
       });
     }).catch(() => {
       // do nothing
-    })
-
+    });
   }
 
   static sendFeedback(_feedback) {
@@ -136,6 +143,24 @@ class UI {
       xhr.open("POST", "https://vincenzopadula.altervista.org/projects/lesson-player/feedback.php", true);
       xhr.setRequestHeader("Content-Type", "application/json");
       xhr.send(json);
+    });
+  }
+
+  static settings() {
+    var form = new Form();
+    form.appendText("separator", UI.separator, lang.separator, 10);
+
+    Message.view(form.wrapper, true, lang.confirm).then(() => {
+      let values = form.values();
+      if(values == null) {
+        return;
+      }
+
+      UI.separator = decodeString(values.separator);
+
+      // to do
+    }).catch(() => {
+      // do nothing
     });
   }
 }
