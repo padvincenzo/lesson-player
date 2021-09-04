@@ -47,6 +47,8 @@ $lang->install            = "Installa";
 $lang->professor          = "Professore";
 $lang->progress           = "Progresso";
 $lang->search             = "Cerca...";
+$lang->separator          = "Separatore";
+$lang->settings           = "Impostazioni";
 $lang->title              = "Titolo";
 
 // ---------- Class ----------
