@@ -47,11 +47,12 @@ $dbh->close();
 		<link href="style/cards.css" rel="stylesheet">
 		<link href="style/form.css" rel="stylesheet">
 
-		<!-- Change the theme of the site. If not provided, default is dark.css -->
-		<!-- <link href="themes/light.css" rel="stylesheet"> -->
+		<!-- Change the theme of the site. Default is "themes/dark.css" -->
+		<link id="theme" href="themes/dark.css" rel="stylesheet">
 
 		<script type="text/javascript">
 			const lang = <?php echo json_encode($lang); ?>;
+			const themes = <?php echo json_encode(glob("themes/*.css")) ?>;
 		</script>
 
 		<script src="code.js" type="text/javascript"></script>
