@@ -35,6 +35,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   --vjs-theme-lesson--secondary: #fff
 }
 
+.video-js .vjs-big-play-button {
+  left: unset;
+  right: 10px;
+}
+
 .vjs-theme-lesson .vjs-control-bar {
   height: 70px;
   padding-top: 20px;
