@@ -102,6 +102,30 @@ class Form {
     return text;
   }
 
+  appendSelect(_name, _values = [], _placeholder = "") {
+    let id = this.prefix + _name;
+    this.appendLabel(id, _placeholder);
+    const wrapper = document.createElement("select");
+    wrapper.name = _name;
+    wrapper.id = id;
+
+    for(let i = 0; i < _values.length; i++) {
+      let option = document.createElement("option");
+      option.value = _values[i].value;
+      option.innerText = _values[i].hasOwnProperty("text") ? _values[i].text : _values[i].value;
+      option.selected = _values[i].hasOwnProperty("selected") ? _values[i].selected : false;
+      wrapper.appendChild(option);
+    }
+
+    wrapper.checkValidity = () => {
+      return true;
+    };
+
+    this.wrapper.appendChild(wrapper);
+    this.form.push({name: _name, dom: wrapper});
+    return wrapper;
+  }
+
   appendButton(_text, _click) {
     const btn = document.createElement("button");
     btn.innerText = _text;
@@ -134,7 +158,7 @@ class Form {
       } else {
         values[name] = encodeString(obj.value);
       }
-    };
+    }
 
     if(errors.length > 0) {
       Message.view(`${lang.errInvalidData}: ${errors.join("; ")}.`);
