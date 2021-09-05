@@ -47,9 +47,6 @@ $lang->install            = "Installa";
 $lang->professor          = "Professore";
 $lang->progress           = "Progresso";
 $lang->search             = "Cerca...";
-$lang->separator          = "Separatore";
-$lang->settings           = "Impostazioni";
-$lang->theme              = "Tema";
 $lang->title              = "Titolo";
 
 // ---------- Class ----------
@@ -140,5 +137,14 @@ $lang->feedbackSend       = "Invia";
 $lang->feedbackThanks     = "Grazie per il tuo feedback :)";
 $lang->yourName           = "Il tuo nome";
 $lang->yourMail           = "La tua mail";
+
+// Settings
+$lang->settings                 = "Impostazioni";
+$lang->setting = (object) [];
+$lang->setting->dictionaryTags  = "Puoi usare: ";
+$lang->setting->dateFormat      = "Formato delle date";
+$lang->setting->separator       = "Separatore";
+$lang->setting->screenshotName  = "Nome dello screenshot (.jpg)";
+$lang->setting->theme           = "Tema";
 
 ?>
