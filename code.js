@@ -149,6 +149,10 @@ function dictionaryReplace(dictionary, string, r = null) {
   });
 }
 
+function dictionaryTags(dictionary = {}) {
+  return `${lang.setting.dictionaryTags} ${Object.keys(dictionary)}`;
+}
+
 function br() {
   return document.createElement("br");
 }
