@@ -27,6 +27,7 @@ $dbh->close();
 		<title>Lesson Player</title>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="manifest" href="manifest.json">
 
 		<!-- Disable cache (to avoid problems in updates. Better solutions are welcome) -->
 		<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
