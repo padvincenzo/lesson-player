@@ -233,16 +233,24 @@ class Player {
   static initSilences() {
     Player.silences = {
       timestamps: [],
+      savedSeconds: 0,
       button: null,
       fastRate: "8",
       normalRate: "1",
       nextEnd: 0,
       skipCurrent: null,
+      remainingTimeDisplay: null,
       init: function(_player, _button, _fastRate = "8", _normalRate = "1") {
         this.button = _button;
         this.fastRate = (+_fastRate).toFixed(1);
         this.normalRate = (+_normalRate).toFixed(1);
         this.nextEnd = 0;
+
+        let currentRemainingTimeDisplay = document.querySelector(".vjs-remaining-time-display");
+        // this.remainingTimeDisplay = document.createElement("span");
+        // this.remainingTimeDisplay.classList.add("vjs-remaining-time-display-custom");
+        // currentRemainingTimeDisplay.parentNode.insertBefore(this.remainingTimeDisplay, currentRemainingTimeDisplay);
+        // currentRemainingTimeDisplay.style.display = "none";
 
         this.skipCurrent = (_callback) => {
           if(this.nextEnd != 0) {
@@ -255,6 +263,7 @@ class Player {
 
         _player.on("timeupdate", () => {
           let currentSilence = this.getCurrent(_player.currentTime());
+          // this.remainingTimeDisplay.innerText = secondsToTime(_player.remainingTimeDisplay() - this.savedSeconds);
 
           if(currentSilence != null) {
             _player.playbackRate(this.fastRate);
@@ -269,6 +278,11 @@ class Player {
       },
       setTimestamps: function(_timestamps) {
         this.timestamps = _timestamps;
+        this.savedSeconds = 0;
+        for(let i = 0; i < this.timestamps.length; i++) {
+          this.savedSeconds += this.timestamps[i].t_end - this.timestamps[i].t_start;
+        }
+        this.savedSeconds /= this.fastRate;
         this.nextEnd = 0;
       },
       setNormalRate: function(_normalRate) {
@@ -386,6 +400,7 @@ class Player {
   }
 
   static initAreaSelector() {
+    // TO DO: make independent and reusable
     Player.areaSelectorWrapper = Player.appendLayer("my-p-area-selector-wrapper");
     Player.areaSelector = document.createElement("div");
     Player.areaSelector.id = "my-p-area-selector";
@@ -650,7 +665,7 @@ class Player {
       return;
     }
 
-    let newTime = limit(+Player.currentTime() + +_amount, 0, Player.duration());
+    let newTime = limit(+Player.currentTime() + +_amount, 0, Player.duration() - 0.1);
 
     Player.currentTime(newTime);
     Player.notify(secondsToTime(newTime));
