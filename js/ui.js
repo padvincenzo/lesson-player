@@ -168,8 +168,16 @@ class UI {
 
   static settings() {
     var form = new Form();
-    form.appendText("separator", UI.separator, lang.separator, 10);
-    form.appendSelect("theme", UI.themes, lang.theme);
+
+    form.appendText("separator", UI.separator, lang.setting.separator, 10);
+    form.appendSelect("theme", UI.themes, lang.setting.theme);
+
+    // Language preferences
+    form.appendText("dateFormat", lang.dateFormat, lang.setting.dateFormat);
+    form.help(dictionaryTags(dateDictionary));
+
+    form.appendText("screenshotName", lang.screenshotName, lang.setting.screenshotName);
+    form.help(dictionaryTags(Lesson.dummy(Class.dummy()).dictionary()));
 
     // To add more
 
@@ -181,6 +189,10 @@ class UI {
 
       UI.separator = decodeString(values.separator);
       UI.theme = decodeString(values.theme);
+
+      // Language preferences
+      lang.dateFormat = decodeString(values.dateFormat);
+      lang.screenshotName = decodeString(values.screenshotName);
 
       // To add more
 
