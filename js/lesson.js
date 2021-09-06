@@ -125,9 +125,9 @@ class Lesson {
     this.title = decodeString(_data.title);
     this.professor = decodeString(_data.professor);
     this.filename = decodeString(_data.filename);
-    this.mark = _data.mark;
+    this.mark = _data.mark ?? 0;
     this.watched = _data.watched == true;
-    this.playbackRate = (+_data.playbackRate).toFixed(1);
+    this.playbackRate = (+_data.playbackRate ?? 1).toFixed(1);
 
     if(!Player.unavailable() && this.isPlaying()) {
       Player.updateOverlay();
