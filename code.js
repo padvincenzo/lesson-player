@@ -123,7 +123,7 @@ function secondsToTime(seconds, withDecimals = false) {
   let hours = (Math.floor(seconds / 3600)).toString().padStart(2, "0");
   seconds %= 3600;
   let minutes = (Math.floor(seconds / 60)).toString().padStart(2, "0");
-  seconds = withDecimals ? (seconds % 60).toFixed(2).padStart(5, "0") : (seconds % 60).toFixed(0).padStart(2, "0");
+  seconds = withDecimals ? (seconds % 60).toFixed(2).padStart(5, "0") : (Math.floor(seconds % 60)).toString().padStart(2, "0");
   return `${hours}:${minutes}:${seconds}`;
 }
 
