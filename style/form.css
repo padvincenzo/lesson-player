@@ -49,6 +49,11 @@ form select {
   background-color: var(--color-secondary-opaque);
 }
 
+form option {
+  color: var(--color-primary);
+  background-color: var(--background-opaque);
+}
+
 form input,
 form select {
   text-align: center;
