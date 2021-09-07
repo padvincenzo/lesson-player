@@ -172,6 +172,11 @@ class UI {
     form.appendText("separator", UI.separator, lang.setting.separator, 10);
     form.appendSelect("theme", UI.themes, lang.setting.theme);
 
+    form.appendSelect("remainingTime", [
+      {value:true, text:lang.setting.timeDisplayReal, selected:Player.shouldDisplayRealRemainingTime},
+      {value:false, text:lang.setting.timeDisplayCurr, selected:!Player.shouldDisplayRealRemainingTime}
+    ], lang.setting.timeDisplay);
+
     // Language preferences
     form.appendText("dateFormat", lang.dateFormat, lang.setting.dateFormat);
     form.help(dictionaryTags(dateDictionary));
@@ -189,6 +194,9 @@ class UI {
 
       UI.separator = decodeString(values.separator);
       UI.theme = decodeString(values.theme);
+
+      // console.log(values.remainingTime);
+      Player.shouldDisplayRealRemainingTime = values.remainingTime;
 
       // Language preferences
       lang.dateFormat = decodeString(values.dateFormat);

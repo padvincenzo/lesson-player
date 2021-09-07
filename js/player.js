@@ -139,7 +139,7 @@ class Player {
           e.preventDefault();
           /* Skip silence */
           Player.silences.skipCurrent((t_end) => {
-            Player.notify(secondsToTime(t_end));
+            // Player.notify(secondsToTime(t_end));
           });
           break;
         }
@@ -233,24 +233,26 @@ class Player {
   static initSilences() {
     Player.silences = {
       timestamps: [],
-      savedSeconds: 0,
       button: null,
       fastRate: "8",
       normalRate: "1",
       nextEnd: 0,
       skipCurrent: null,
+      currentRemainingTimeDisplay: null,
       remainingTimeDisplay: null,
+      displayRealRemainingTime: true,
       init: function(_player, _button, _fastRate = "8", _normalRate = "1") {
+        this.player = _player;
         this.button = _button;
         this.fastRate = (+_fastRate).toFixed(1);
         this.normalRate = (+_normalRate).toFixed(1);
-        this.nextEnd = 0;
 
-        let currentRemainingTimeDisplay = document.querySelector(".vjs-remaining-time-display");
-        // this.remainingTimeDisplay = document.createElement("span");
-        // this.remainingTimeDisplay.classList.add("vjs-remaining-time-display-custom");
-        // currentRemainingTimeDisplay.parentNode.insertBefore(this.remainingTimeDisplay, currentRemainingTimeDisplay);
-        // currentRemainingTimeDisplay.style.display = "none";
+        // Set up a custom element that displays the actually remaining time
+        this.currentRemainingTimeDisplay = document.querySelector(".vjs-remaining-time-display");
+        this.remainingTimeDisplay = document.createElement("span");
+        this.remainingTimeDisplay.classList.add("vjs-remaining-time-display-custom");
+        this.currentRemainingTimeDisplay.parentNode.insertBefore(this.remainingTimeDisplay, this.currentRemainingTimeDisplay);
+        this.currentRemainingTimeDisplay.style.display = "none";
 
         this.skipCurrent = (_callback) => {
           if(this.nextEnd != 0) {
@@ -261,11 +263,15 @@ class Player {
           }
         }
 
-        _player.on("timeupdate", () => {
-          let currentSilence = this.getCurrent(_player.currentTime());
-          // this.remainingTimeDisplay.innerText = secondsToTime(_player.remainingTimeDisplay() - this.savedSeconds);
+        _player.on("timeupdate", (e) => {
+          if(e.manuallyTriggered) {
+            return;
+          }
 
-          if(currentSilence != null) {
+          let currentTime = +_player.currentTime();
+          let currentSilence = this.getCurrent(currentTime);
+
+          if(currentSilence != undefined) {
             _player.playbackRate(this.fastRate);
             this.button.style.display = "inline-block";
             this.nextEnd = currentSilence.t_end;
@@ -274,15 +280,45 @@ class Player {
             this.button.style.display = "none";
             this.nextEnd = 0;
           }
+
+          if(this.displayRealRemainingTime) {
+            // Assuming that silences' timestamp are correct
+            let remainingSilences = this.timestamps.filter((silence) => silence.t_end > currentTime);
+            let remainingSilenceSeconds = 0;
+
+            if(remainingSilences.length > 0) {
+              // Eventually correct currentSilence
+              if(currentTime > remainingSilences[0].t_start) {
+                remainingSilenceSeconds -= currentTime - remainingSilences[0].t_start;
+              }
+
+              remainingSilenceSeconds += remainingSilences.reduce((seconds, silence) => seconds + (silence.t_end - silence.t_start), 0);
+            }
+
+            let remainingSpokenSeconds = _player.duration() - currentTime - remainingSilenceSeconds;
+            let realRemainingSeconds = (remainingSpokenSeconds / +this.normalRate) + (remainingSilenceSeconds / +this.fastRate);
+
+            this.remainingTimeDisplay.innerText = secondsToTime(realRemainingSeconds);
+          }
         });
       },
-      setTimestamps: function(_timestamps) {
-        this.timestamps = _timestamps;
-        this.savedSeconds = 0;
-        for(let i = 0; i < this.timestamps.length; i++) {
-          this.savedSeconds += this.timestamps[i].t_end - this.timestamps[i].t_start;
+      shouldDisplayRealRemainingTime: function(should = true) {
+        this.displayRealRemainingTime = should;
+
+        if(should) {
+          this.remainingTimeDisplay.style.display = "inline";
+          this.currentRemainingTimeDisplay.style.display = "none";
+        } else {
+          this.remainingTimeDisplay.style.display = "none";
+          this.currentRemainingTimeDisplay.style.display = "inline";
         }
-        this.savedSeconds /= this.fastRate;
+      },
+      setTimestamps: function(_timestamps) {
+        this.timestamps = _timestamps
+          .map((silence) => { return {t_start: +silence.t_start, t_end: +silence.t_end} })  // Make sure timestamps are numbers
+          .filter((silence) => silence.t_end > silence.t_start)                             // Remove no sense silences
+          .sort((silence1, silence2) => silence1.t_start - silence2.t_start);               // Sort timestamps to improve read speed
+
         this.nextEnd = 0;
       },
       setNormalRate: function(_normalRate) {
@@ -290,12 +326,12 @@ class Player {
       },
       getCurrent: function(needle = 0) {
         if(this.timestamps == null) {
-          return null;
+          return undefined;
         }
 
-        return this.timestamps.find((ts) => {
-          return (+ts.t_start <= +needle) && (+ts.t_end >= +needle);
-        });
+        // Silences are in order, so just check for the first silence that comes after the needle
+        let current = this.timestamps.find((silence) => needle <= silence.t_end);
+        return (current && current.t_start <= needle) ? current : undefined;
       },
       isInSilence: function() {
         return this.nextEnd != 0;
@@ -308,11 +344,20 @@ class Player {
 
     Player.fastSilenceButton.addEventListener("click", () => {
       Player.silences.skipCurrent((t_end) => {
-        Player.notify(secondsToTime(t_end));
+        // Player.notify(secondsToTime(t_end));
       });
     });
 
     Player.silences.init(Player, Player.fastSilenceButton);
+  }
+
+  static get shouldDisplayRealRemainingTime() {
+    return Player.silences.displayRealRemainingTime;
+  }
+
+  static set shouldDisplayRealRemainingTime(should) {
+    should = should == "true" || should === true;
+    Player.silences.shouldDisplayRealRemainingTime(should);
   }
 
   static initOverlay() {
@@ -586,17 +631,14 @@ class Player {
     Player.hasJustLoaded = true;
     Player.lesson = _lesson;
     Player.src(Player.lesson.url());
-    Player.updateOverlay();
-    Player.silences.setTimestamps(Player.lesson.silences);
     Player.silences.setNormalRate(Player.lesson.playbackRate);
 
-    UI.setHeaderTitle(Player.lesson.parentClass.name, Player.lesson.title);
-
+    // Restore lesson's time and playbackRate
     Player.currentTime(Player.lesson.mark);
-
-    // Restore the lesson playbackRate
     Player.defaultPlaybackRate(playbackRateBackup);
 
+    Player.updateOverlay();
+    Player.silences.setTimestamps(Player.lesson.silences);
     Player.notify(`${Player.lesson.parentClass.name}:<br>${Player.lesson.title}`, 2000);
 
     if(_autoplay) {
@@ -608,6 +650,8 @@ class Player {
     if(Player.unavailable()) {
       return;
     }
+
+    UI.setHeaderTitle(Player.lesson.parentClass.name, Player.lesson.title);
 
     Player.overlay.update({
       class: Player.lesson.parentClass.name,
