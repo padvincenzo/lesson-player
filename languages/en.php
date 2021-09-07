@@ -146,5 +146,8 @@ $lang->setting->dateFormat      = "Format for dates";
 $lang->setting->separator       = "Separator";
 $lang->setting->screenshotName  = "Screenshot name (.jpg)";
 $lang->setting->theme           = "Theme";
+$lang->setting->timeDisplay     = "Remaining time display mode";
+$lang->setting->timeDisplayCurr = "Video time";
+$lang->setting->timeDisplayReal = "Real remaining time";
 
 ?>
