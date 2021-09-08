@@ -50,12 +50,12 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   left: 0;
   z-index: 3;
   display: none;
-  border: 2px dotted #F00;
+  box-shadow: inset 0px 0px 10px 1px #F00C;
   cursor: crosshair;
 }
 
 #my-p-area-selector {
-  border: 2px dotted #000;
+  box-shadow: 0px 0px 0px 100vw #0007;
   position: absolute;
 }
 
@@ -130,4 +130,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   border-radius: 0.5em;
   cursor: pointer;
   z-index: 2;
+}
+
+.vjs-zoom-control {
+  cursor: pointer;
+}
+
+.vjs-zoom-control span {
+  font-size: 2.5em;
+  line-height: 0.5em;
 }
