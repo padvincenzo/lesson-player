@@ -1,5 +1,5 @@
 # Lesson Player
-Lesson Player it's a website (but not online) for watching video lessons on the local network: by installing it on your pc, you can watch your lessons from all devices connected.
+Lesson Player is a website (but not online) for watching video lessons on the local network: by installing it on your pc, you can watch your lessons from all devices connected.
 
 Main features are:
 1) Keep track of which lessons you have watched (within a course);
