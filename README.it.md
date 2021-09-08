@@ -4,6 +4,8 @@ Lesson player è un sito web (ma non è online) per guardare le video lezioni su
 Le sue principali caratteristiche sono:
 1) Tiene traccia di dove sei arrivato (all'interno di un corso);
 2) Velocizza (a 8x) il video durante i silenzi (quando il professore non parla).
+3) Ingrandisci rapidamente sull'area importante della lezione;
+4) Visualizza il tempo residuo effettivo, considerando sia la velocità di riproduzione che i silenzi.
 
 Ti sta piacendo questo progetto? Scrivimi una tua opinione a [padvincenzo@gmail.com](mailto:padvincenzo@gmail.com) oppure lascia un commento su [vincenzopadula.altervista.org/lesson-player/](https://vincenzopadula.altervista.org/lesson-player/), grazie.
 
