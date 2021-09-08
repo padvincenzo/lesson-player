@@ -3,7 +3,9 @@ Lesson Player is a website (but not online) for watching video lessons on the lo
 
 Main features are:
 1) Keep track of which lessons you have watched (within a course);
-2) Speed up (at 8x) the video during silences (when the teacher does not speak).
+2) Speed up (at 8x) the video during silences (when the teacher does not speak);
+3) Quickly zoom in on the important area of the lesson;
+4) Displays the actual remaining time, considering both playback speed and silences.
 
 Are you enjoying this project? Please write me your opinion at [padvincenzo@gmail.com](mailto:padvincenzo@gmail.com) or leave a comment at [vincenzopadula.altervista.org/lesson-player/](https://vincenzopadula.altervista.org/lesson-player/), thank you.
 
