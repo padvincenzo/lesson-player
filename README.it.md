@@ -13,23 +13,13 @@ Ti sta piacendo questo progetto? Scrivimi una tua opinione a [padvincenzo@gmail.
 
 ---
 
-## Aggiorna alla versione v0.4.0
-
-Esegui questo script da phpmyadmin
-
-```sql
-ALTER TABLE class ADD removed BOOLEAN NOT NULL DEFAULT false;
-ALTER TABLE lesson ADD removed BOOLEAN NOT NULL DEFAULT false;
-```
-
----
-
 ![Presentation](img/screenshots/Presentation.png)
 
   - [Guida introduttiva](#guida-introduttiva)
     - [Installazione](#installazione)
     - [Aggiungere videolezioni](#aggiungere-videolezioni)
     - [Velocizzare i silenzi](#velocizzare-i-silenzi)
+  - [Come aggiornare](#come-aggiornare)
   - [Scorciatoie](#scorciatoie)
   - [Contribuire](#contribuire)
   - [Feedback](#feedback)
@@ -140,6 +130,21 @@ ffmpeg -hide_banner -nostats -vn -i "classes/Physics I/Lesson 01.mp4" -af silenc
   * Si possono anche apportare modifiche al filtro, ma per un corretto funzionamento la durata minima dei silenzi (``d``) deve essere > 2.25. [Perché?](#perché-la-durata-minima-dei-silenzi-deve-essere-maggiore-di-225s)
 
 Per velocizzare questa operazione ho creato due piccoli script, [uno per Linux](https://github.com/padvincenzo/lesson-player/blob/main/scripts/silences.sh) e [uno per Windows](https://github.com/padvincenzo/lesson-player/blob/main/scripts/silences.bat). Entrambi eseguono il filtro su tutte le videolezioni presenti nella cartella da cui sono eseguiti, e salvano il risultato in un file di testo dallo stesso nome della videolezione (vanno perció copiati ed eseguiti dalla directory che contiene le lezioni).
+
+## Come aggiornare
+Per aggiornare ``Lesson Player`` basta scaricare l'[ultima versione](https://github.com/padvincenzo/lesson-player/releases/latest) e copia e incolla i nuovi file nella tua cartella d'installazione di Lesson Player (rimpiazzando i vecchi file). **Non cancellare la cartella che contiene le tue lezioni**.
+
+**Solo se hai una versione precedente la 0.4.0**:
+
+* Vai sulla pagina di ``phpmyadmin`` (``localhost/phpmyadmin``);
+* Seleziona il database di lesson-player;
+* Esegui questo script SQL:
+
+```sql
+ALTER TABLE class ADD removed BOOLEAN NOT NULL DEFAULT false;
+ALTER TABLE lesson ADD removed BOOLEAN NOT NULL DEFAULT false;
+```
+
 
 ## Scorciatoie
 Scorciatoie da tastiera:
