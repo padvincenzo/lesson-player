@@ -13,23 +13,13 @@ Are you enjoying this project? Please write me your opinion at [padvincenzo@gmai
 
 ---
 
-## Update to version v0.4.0
-
-Run this script from phpmyadmin
-
-```sql
-ALTER TABLE class ADD removed BOOLEAN NOT NULL DEFAULT false;
-ALTER TABLE lesson ADD removed BOOLEAN NOT NULL DEFAULT false;
-```
-
----
-
 ![Presentation](img/screenshots/Presentation.png)
 
   - [Getting started](#getting-started)
     - [Install](#install)
     - [Add video lessons](#add-video-lessons)
     - [Speed up silences](#speed-up-silences)
+  - [How to update](#how-to-update)
   - [Shortcuts](#shortcuts)
   - [Contributing](#contributing)
   - [Feedbacks](#feedbacks)
@@ -140,6 +130,21 @@ ffmpeg -hide_banner -nostats -vn -i "classes/Physics I/Lesson 01.mp4" -af silenc
   * You can also edit the filter, but in order to ensure the success of the program, the minimum duration of silences (``d``) must be > 2.25. [Why?](#why-should-the-minimum-silence-duration-be-greater-than-225s)
 
 With the aim of saving time, I've written two little scripts, [one for Linux](https://github.com/padvincenzo/lesson-player/blob/main/scripts/silences.sh) and [one for Windows](https://github.com/padvincenzo/lesson-player/blob/main/scripts/silences.bat). They both run the filter on every video in the same folder where the script is executed, and save the result in a file with the same name of the video (so the script should be executed in the folder that contains the videos).
+
+## How to update
+To update ``Lesson Player`` just download the new version and copy/paste new files to your lesson player directory (replacing old files).
+
+**Only if you have installed a version below 0.4.0**:
+
+* Go to ``phpmyadmin`` page (``localhost/phpmyadmin``);
+* Select lesson-player's database;
+* Run this SQL script:
+
+```sql
+ALTER TABLE class ADD removed BOOLEAN NOT NULL DEFAULT false;
+ALTER TABLE lesson ADD removed BOOLEAN NOT NULL DEFAULT false;
+```
+
 
 ## Shortcuts
 Hotkeys:
