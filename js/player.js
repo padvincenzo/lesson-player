@@ -452,6 +452,27 @@ class Player {
     Player.areaSelector.hidden = true;
     Player.areaSelectorWrapper.appendChild(Player.areaSelector);
 
+    var zoomBtn = document.createElement("button");
+    zoomBtn.classList.add("vjs-zoom-control", "vjs-control", "vjs-button");
+    zoomBtn.type = "button";
+    zoomBtn.title = "Zoom";
+    zoomBtn.tabIndex = "-1";
+    let zoomText = document.createElement("span");
+    zoomText.innerText = "✂";
+    zoomBtn.appendChild(zoomText);
+
+    document.querySelector(".vjs-fullscreen-control").style.order = 5;
+    zoomBtn.style.order = 4;
+
+    document.querySelector(".vjs-control-bar").appendChild(zoomBtn);
+    zoomBtn.addEventListener("click", () => {
+      if(Player.isZoomed()) {
+        Player.zoomReset();
+      } else {
+        Player.selectArea();
+      }
+    });
+
     Player.areaCoordinates = {
       x1: 0, x2: 0, y1: 0, y2: 0,
       left: function() {
@@ -476,13 +497,35 @@ class Player {
         Player.areaCoordinates.y1 = Player.areaCoordinates.y2 = e.clientY - offset.y;
         Player.areaSelectorUpdate();
       },
+      "touchstart": (e) => {
+        e.preventDefault();
+        var touches = e.changedTouches;
+        Player.areaSelector.hidden = false;
+        let offset = Player.wrapper.getBoundingClientRect();
+        Player.areaCoordinates.x1 = Player.areaCoordinates.x2 = e.changedTouches[0].pageX - offset.x;
+        Player.areaCoordinates.y1 = Player.areaCoordinates.y2 = e.changedTouches[0].pageY - offset.y;
+        Player.areaSelectorUpdate();
+        // Message.view(c);
+      },
       "mousemove": (e) => {
         let offset = Player.wrapper.getBoundingClientRect();
         Player.areaCoordinates.x2 = e.clientX - offset.x;
         Player.areaCoordinates.y2 = e.clientY - offset.y;
         Player.areaSelectorUpdate();
       },
+      "touchmove": (e) => {
+        e.preventDefault();
+        let offset = Player.wrapper.getBoundingClientRect();
+        Player.areaCoordinates.x2 = e.changedTouches[0].pageX - offset.x;
+        Player.areaCoordinates.y2 = e.changedTouches[0].pageY - offset.y;
+        Player.areaSelectorUpdate();
+      },
       "mouseup": (e) => {
+        Player.zoomArea();
+        Player.areaSelector.hidden = true;
+      },
+      "touchend": (e) => {
+        e.preventDefault();
         Player.zoomArea();
         Player.areaSelector.hidden = true;
       }
@@ -516,10 +559,9 @@ class Player {
     Player.video.style.transform = `translate(${-relativeLeft}%, ${-relativeTop}%) scale(${relativeWidth}, ${relativeHeight})`;
 
     Player.areaSelectorWrapper.style.display = "none";
-
-    Player.areaSelectorWrapper.removeEventListener("mousedown", Player.areaSelectorListeners.mousedown);
-    Player.areaSelectorWrapper.removeEventListener("mousemove", Player.areaSelectorListeners.mousemove);
-    Player.areaSelectorWrapper.removeEventListener("mouseup", Player.areaSelectorListeners.mouseup);
+    for(const listener in Player.areaSelectorListeners) {
+      Player.areaSelectorWrapper.removeEventListener(listener, Player.areaSelectorListeners[listener]);
+    }
   }
 
   static zoomReset() {
@@ -535,16 +577,16 @@ class Player {
     Player.pause();
     Player.overlay.hide();
 
-    Player.areaSelectorWrapper.addEventListener("mousedown", Player.areaSelectorListeners.mousedown);
-    Player.areaSelectorWrapper.addEventListener("mousemove", Player.areaSelectorListeners.mousemove);
-    Player.areaSelectorWrapper.addEventListener("mouseup", Player.areaSelectorListeners.mouseup);
+    for(const listener in Player.areaSelectorListeners) {
+      Player.areaSelectorWrapper.addEventListener(listener, Player.areaSelectorListeners[listener], false);
+    }
 
     Player.notify(lang.zoomArea);
     Player.areaSelectorWrapper.style.display = "block";
   }
 
   static isSelectingArea() {
-    Player.areaSelectorWrapper.style.display == "block";
+    return Player.areaSelectorWrapper.style.display == "block";
   }
 
   static initLessonUpdater() {
