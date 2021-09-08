@@ -132,7 +132,7 @@ ffmpeg -hide_banner -nostats -vn -i "classes/Physics I/Lesson 01.mp4" -af silenc
 With the aim of saving time, I've written two little scripts, [one for Linux](https://github.com/padvincenzo/lesson-player/blob/main/scripts/silences.sh) and [one for Windows](https://github.com/padvincenzo/lesson-player/blob/main/scripts/silences.bat). They both run the filter on every video in the same folder where the script is executed, and save the result in a file with the same name of the video (so the script should be executed in the folder that contains the videos).
 
 ## How to update
-To update ``Lesson Player`` just download the new version and copy/paste new files to your lesson player directory (replacing old files).
+To update ``Lesson Player`` just download the new version and copy/paste new files to your lesson player directory (replacing old files). **Do not delete the directory that contain your lessons**.
 
 **Only if you have installed a version below 0.4.0**:
 
