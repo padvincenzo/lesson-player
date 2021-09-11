@@ -147,6 +147,9 @@ ALTER TABLE lesson ADD removed BOOLEAN NOT NULL DEFAULT false;
 
 
 ## Scorciatoie
+
+![Keyboard](img/keyboard.svg)
+
 Scorciatoie da tastiera:
 
 |        **Tasto/i**      |               **Effetto**              |
