@@ -89,12 +89,12 @@ class Class {
   }
 
   static dummy() {
-    return {
+    return new Class({
       idclass: null,
       name: "",
       professor: "",
       directory: ""
-    };
+    });
   }
 
   static isDummy(_class) {
@@ -178,7 +178,7 @@ class Class {
     if(this.card != null) {
       this.card.name.innerText = this.name;
       this.card.professor.innerText = this.professor;
-      this.card.progress.innerText = `${this.nWatched} / ${this.nLessons}`;
+      this.card.progress.innerText = this.dictionaryReplace(lang.classProgress);
     }
   }
 
@@ -191,7 +191,10 @@ class Class {
     return {
       "{className}": (r) => this.name,
       "{classProfessor}": (r) => this.professor,
-      "{classDirectory}": (r) => this.directory
+      "{classDirectory}": (r) => this.directory,
+      "{nLessons}": (r) => this.nLessons,
+      "{nWatched}": (r) => this.nWatched,
+      "{percentage}": (r) => Math.ceil(this.percentage) + "%"
     };
   }
 
@@ -201,6 +204,10 @@ class Class {
 
   isEqualTo(anotherClass) {
     return this.idclass == anotherClass.idclass;
+  }
+
+  get percentage() {
+    return this.nLessons == 0 ? 0 : (this.nWatched / this.nLessons * 100);
   }
 
   createCard() {
@@ -228,7 +235,7 @@ class Class {
     this.card.dom.appendChild(this.card.professor);
 
     this.card.progress = document.createElement("div");
-    this.card.progress.innerText = `${this.nWatched} / ${this.nLessons}`;
+    this.card.progress.innerText = this.dictionaryReplace(lang.classProgress);
     this.card.progress.classList.add("progress");
     this.card.dom.appendChild(this.card.progress);
 

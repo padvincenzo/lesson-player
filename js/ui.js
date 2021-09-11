@@ -111,12 +111,6 @@ class UI {
 
   static showKeyboardShortcuts() {
     var html = `<h2>${lang.shortcuts}</h2><img src="img/keyboard.svg"><div class="shortcuts">`;
-// ] o + (o =) 	Aumenta la velocità di riproduzione
-// [ o - 	Diminuisci la velocità di riproduzione
-// S 	Salta il silenzio in corso
-// P 	Screenshot
-// O 	Abilita/disabilita overlay
-// X 	Ingrandisci/ripristina il video
 
     var shortcuts = [
       {
@@ -248,6 +242,9 @@ class UI {
     form.appendText("dateFormat", lang.dateFormat, lang.setting.dateFormat);
     form.help(dictionaryTags(dateDictionary));
 
+    form.appendText("classProgress", lang.classProgress, lang.setting.classProgress);
+    form.help(dictionaryTags(Class.dummy().dictionary()));
+
     form.appendText("screenshotName", lang.screenshotName, lang.setting.screenshotName);
     form.help(dictionaryTags(Lesson.dummy(Class.dummy()).dictionary()));
 
@@ -267,6 +264,7 @@ class UI {
 
       // Language preferences
       lang.dateFormat = decodeString(values.dateFormat);
+      lang.classProgress = decodeString(values.classProgress);
       lang.screenshotName = decodeString(values.screenshotName);
 
       // To add more
