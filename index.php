@@ -101,6 +101,8 @@ $dbh->close();
 				<a href="https://vincenzopadula.altervista.org/docs/lesson-player/" target="_blank"><?php echo $lang->documentation; ?></a>
 				&middot;
 				<a href="JavaScript:UI.settings();"><?php echo $lang->settings; ?></a>
+				&middot;
+				<a href="JavaScript:UI.showKeyboardShortcuts();"><?php echo $lang->shortcuts; ?></a>
 			</p>
 			<p id="ip-address"></p>
 		</footer>
