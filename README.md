@@ -147,6 +147,9 @@ ALTER TABLE lesson ADD removed BOOLEAN NOT NULL DEFAULT false;
 
 
 ## Shortcuts
+
+![Keyboard](img/keyboard.svg)
+
 Hotkeys:
 
 |         **Key(s)**        |           **Effect**          |
