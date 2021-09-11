@@ -46,7 +46,6 @@ $lang->homePage           = "Pagina iniziale";
 $lang->install            = "Installa";
 $lang->professor          = "Professore";
 $lang->progress           = "Progresso";
-$lang->search             = "Cerca...";
 $lang->title              = "Titolo";
 
 // ---------- Class ----------
@@ -57,6 +56,7 @@ $lang->className          = "Nome del corso";
 $lang->newClass           = "Nuovo corso";
 $lang->removeThisClass    = "Spostare nel cestino la classe '{className}'?";
 $lang->deleteThisClass    = "Eliminare definitivamente la classe '{className}'?";
+$lang->search             = "Cerca in {className}...";
 
 // Class statements
 $lang->classAdded         = "Corso '{className}' aggiunto";

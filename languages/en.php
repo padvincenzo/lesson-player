@@ -46,7 +46,6 @@ $lang->homePage           = "Home page";
 $lang->install            = "Install";
 $lang->professor          = "Professor";
 $lang->progress           = "Progress";
-$lang->search             = "Search...";
 $lang->title              = "Title";
 
 // ---------- Class ----------
@@ -57,6 +56,7 @@ $lang->className          = "Class name";
 $lang->newClass           = "Add class";
 $lang->removeThisClass    = "Move the class '{className}' to the trash?";
 $lang->deleteThisClass    = "Permanently delete '{className}'?";
+$lang->search             = "Search in {className}...";
 
 // Class statements
 $lang->classAdded         = "Class '{className}' added";
