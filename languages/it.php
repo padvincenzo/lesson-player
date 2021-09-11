@@ -150,4 +150,23 @@ $lang->setting->timeDisplay     = "Modalità di visualizzazione del tempo rimast
 $lang->setting->timeDisplayCurr = "Tempo del video";
 $lang->setting->timeDisplayReal = "Tempo effettivamente rimanente";
 
+// Shortcuts
+$lang->shortcuts              = "Scorciatoie";
+$lang->shortcut = (object) [];
+$lang->shortcut->backward     = "Recupera (5sec)";
+$lang->shortcut->faster       = "Aumenta velocità";
+$lang->shortcut->forward      = "Vai avanti (5sec)";
+$lang->shortcut->fullscreen   = "Schermo intero";
+$lang->shortcut->longBackward = "Recupera (1min)";
+$lang->shortcut->longForward  = "Vai avanti (1min)";
+$lang->shortcut->mute         = "Muto";
+$lang->shortcut->overlay      = "Abilita/Disabilita overlay";
+$lang->shortcut->play         = "Riproduci/Pausa";
+$lang->shortcut->screenshot   = "Cattura schermata";
+$lang->shortcut->skipSilence  = "Salta il silenzio in corso";
+$lang->shortcut->slower       = "Riduci velocità";
+$lang->shortcut->volumeDown   = "Riduci il volume";
+$lang->shortcut->volumeUp     = "Aumenta il volume";
+$lang->shortcut->zoom         = "Ingrandisci zona";
+
 ?>

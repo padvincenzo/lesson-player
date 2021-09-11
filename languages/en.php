@@ -150,4 +150,23 @@ $lang->setting->timeDisplay     = "Remaining time display mode";
 $lang->setting->timeDisplayCurr = "Video time";
 $lang->setting->timeDisplayReal = "Real remaining time";
 
+// Shortcuts
+$lang->shortcuts              = "Shortcuts";
+$lang->shortcut = (object) [];
+$lang->shortcut->backward     = "Go backward (5sec)";
+$lang->shortcut->faster       = "Faster";
+$lang->shortcut->forward      = "Go forward (5sec)";
+$lang->shortcut->fullscreen   = "Toggle fullscreen";
+$lang->shortcut->longBackward = "Go backward (1min)";
+$lang->shortcut->longForward  = "Go forward (1min)";
+$lang->shortcut->mute         = "Toggle audio";
+$lang->shortcut->overlay      = "Toggle overlay";
+$lang->shortcut->play         = "Play/Pause";
+$lang->shortcut->screenshot   = "Take a screenshot";
+$lang->shortcut->skipSilence  = "Skip current silence";
+$lang->shortcut->slower       = "Slower";
+$lang->shortcut->volumeDown   = "Volume down";
+$lang->shortcut->volumeUp     = "Volume up";
+$lang->shortcut->zoom         = "Zoom";
+
 ?>
