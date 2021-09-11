@@ -68,6 +68,7 @@ $lang->classNotDeleted    = "Class not deleted";
 $lang->classRemoved       = "Class '{className}' removed";
 $lang->classNotRemoved    = "Class not removed";
 $lang->classCompleted     = "You have completed this class";
+$lang->classProgress      = "{nWatched} / {nLessons}";
 
 
 // ---------- Lesson ----------
@@ -142,6 +143,7 @@ $lang->yourMail           = "Your mail";
 $lang->settings                 = "Settings";
 $lang->setting = (object) [];
 $lang->setting->dictionaryTags  = "You can use: ";
+$lang->setting->classProgress   = "Class progress";
 $lang->setting->dateFormat      = "Format for dates";
 $lang->setting->separator       = "Separator";
 $lang->setting->screenshotName  = "Screenshot name (.jpg)";
