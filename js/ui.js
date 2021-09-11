@@ -100,13 +100,80 @@ class UI {
   }
 
   static showCredits() {
-    let credits = `<h2>${lang.credits}</h2>\n` +
-		'<ul>\n' +
-			'<li>Using <a href="https://videojs.com/" target="_blank">video.js</a> version 7.11.8 and a modified version of <a href="https://github.com/videojs/themes" target="_blank">theme City</a></li>\n' +
-			'<li>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></li>\n' +
-		'</ul>\n';
+    let credits = `<h2>${lang.credits}</h2>` +
+		'<ul>' +
+			'<li>Using <a href="https://videojs.com/" target="_blank">video.js</a> version 7.11.8 and a modified version of <a href="https://github.com/videojs/themes" target="_blank">theme City</a></li>' +
+			'<li>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></li>' +
+		'</ul>';
 
     Message.view(credits);
+  }
+
+  static showKeyboardShortcuts() {
+    var html = `<h2>${lang.shortcuts}</h2><img src="img/keyboard.svg"><div class="shortcuts">`;
+// ] o + (o =) 	Aumenta la velocità di riproduzione
+// [ o - 	Diminuisci la velocità di riproduzione
+// S 	Salta il silenzio in corso
+// P 	Screenshot
+// O 	Abilita/disabilita overlay
+// X 	Ingrandisci/ripristina il video
+
+    var shortcuts = [
+      {
+        keys: ["M"],
+        action: lang.shortcut.mute
+      }, {
+        keys: ["F"],
+        action: lang.shortcut.fullscreen
+      }, {
+        keys: ["O"],
+        action: lang.shortcut.overlay
+      }, {
+        keys: ["P"],
+        action: lang.shortcut.screenshot
+      }, {
+        keys: ["S"],
+        action: lang.shortcut.skipSilence
+      }, {
+        keys: ["X"],
+        action: lang.shortcut.zoom
+      }, {
+        keys: ["▲"],
+        action: lang.shortcut.volumeUp
+      }, {
+        keys: ["▼"],
+        action: lang.shortcut.volumeDown
+      }, {
+        keys: ["◄"],
+        action: lang.shortcut.backward
+      }, {
+        keys: ["Ctrl", "◄"],
+        action: lang.shortcut.longBackward
+      }, {
+        keys: ["►"],
+        action: lang.shortcut.forward
+      }, {
+        keys: ["Ctrl", "►"],
+        action: lang.shortcut.longForward
+      }, {
+        keys: ["["],
+        action: lang.shortcut.slower
+      }, {
+        keys: ["]"],
+        action: lang.shortcut.faster
+      }, {
+        keys: ["Spacebar"],
+        action: lang.shortcut.play
+      }
+    ];
+
+    html = shortcuts.reduce((html, shortcut) => html +
+      '<div class="shortcut">' +
+      shortcut.keys.reduce((html, key) => html + `<div class="key key${key}">${key}</div>`, "") +
+      `<div class="action">${shortcut.action}</div></div>`
+    , html);
+
+    Message.view(html, false, lang.close);
   }
 
   static feedback() {
