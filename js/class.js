@@ -267,7 +267,7 @@ class Class {
     this.searchBox = document.createElement("input");
     this.searchBox.type = "text";
     this.searchBox.classList.add("searchBox");
-    this.searchBox.placeholder = lang.search;
+    this.searchBox.placeholder = this.dictionaryReplace(lang.search);
 
     this.searchBox.addEventListener("keyup", () => {
       this.searchLessons(this.searchBox.value);
