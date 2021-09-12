@@ -42,7 +42,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   transform-origin: top left;
 }
 
-#my-p-area-selector-wrapper {
+.vjs-area-selector-background {
   width: 100%;
   height: 100%;
   position: absolute;
@@ -54,7 +54,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   cursor: crosshair;
 }
 
-#my-p-area-selector {
+.vjs-area-selector-rectangle {
   box-shadow: 0px 0px 0px 100vw #0007;
   position: absolute;
 }

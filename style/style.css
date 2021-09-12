@@ -38,6 +38,10 @@ body {
   overflow-y: scroll;
 }
 
+h2 {
+  margin-bottom: 1.5em;
+}
+
 br {
   clear: both;
 }
@@ -148,6 +152,55 @@ p#header-class {
 
 p#header-separator {
   margin: 0 10px;
+}
+
+.shortcuts {
+  margin-top: 2em;
+  text-align: center;
+}
+
+.shortcut:nth-of-type(even) {
+  background-color: #0002;
+}
+
+.shortcut {
+  display: flex;
+  align-items: center;
+  max-width: 32em;
+  margin: auto;
+  padding: 0 1em;
+}
+
+.shortcut .action {
+  width: 100%;
+  text-align: right;
+}
+
+.shortcut .key {
+  display: inline-block;
+  width: 1.2em;
+  height: 1.2em;
+  line-height: 1.2;
+  font-size: 1.4em;
+  padding: 0.5em;
+  margin: 0.3em;
+  border-radius: 15px;
+  background-color: var(--background-opaque);
+  color: var(--color-primary);
+  flex: none;
+}
+
+.shortcut .keySpacebar {
+  width: 8em;
+  color: #0000;
+  flex: auto;
+}
+
+.shortcut .keyCtrl {
+  width: 3em;
+  transform: scaleX(0.7);
+  transform-origin: center left;
+  margin-right: -1em;
 }
 
 
