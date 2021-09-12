@@ -553,8 +553,6 @@ class Player {
             break;
           }
           case "mouseup": {
-            this.rectangle.dom.hidden = true;
-            this.background.style.display = "none";
             if(this.promise.resolve != null) {
               this.promise.resolve();
             }
@@ -562,8 +560,6 @@ class Player {
           }
           case "touchend": {
             e.preventDefault();
-            this.rectangle.dom.hidden = true;
-            this.background.style.display = "none";
             if(this.promise.resolve != null) {
               this.promise.resolve();
             }
@@ -602,6 +598,8 @@ class Player {
               this.player.play();
             }
 
+            this.rectangle.dom.hidden = true;
+            this.background.style.display = "none";
             this.player.controls(true);
           };
 
@@ -617,6 +615,8 @@ class Player {
               this.player.play();
             }
 
+            this.rectangle.dom.hidden = true;
+            this.background.style.display = "none";
             this.player.controls(true);
           };
         });
