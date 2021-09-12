@@ -108,6 +108,10 @@ class Player {
         return;
       }
 
+      if(e.target.tagName == "INPUT" || e.target.tagName == "TEXTAREA") {
+        return;
+      }
+
       switch (e.code) {
         case "Space": {
           /* Pause/play the video */
@@ -178,7 +182,7 @@ class Player {
     });
 
     document.body.addEventListener("keydown", (e) => {
-      if(Message.isBusy() || Player.isSelectingArea()) {
+      if(e.target.tagName == "INPUT" || e.target.tagName == "TEXTAREA" || Message.isBusy() || Player.isSelectingArea()) {
         return;
       }
 
