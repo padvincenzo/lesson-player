@@ -233,6 +233,7 @@ class UI {
   static settings() {
     var form = new Form();
 
+    form.insertTitle(lang.settings);
     form.appendText("separator", UI.separator, lang.setting.separator, 10);
     form.appendSelect("theme", UI.themes, lang.setting.theme);
 

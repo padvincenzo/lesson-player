@@ -40,6 +40,8 @@ class Lesson {
 
   static form(_lesson) {
     var form = new Form();
+
+    form.insertTitle(Lesson.isDummy(_lesson) ? lang.newLesson : lang.editLesson);
     var dated = form.appendDate("dated", _lesson.dated, lang.dated);
     var title = form.appendText("title", _lesson.title, lang.title);
     form.appendText("professor", _lesson.professor, lang.professor);

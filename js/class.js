@@ -127,6 +127,8 @@ class Class {
 
   static form(_class) {
     const form = new Form();
+
+    form.insertTitle(Class.isDummy(_class) ? lang.newClass : lang.editClass);
     form.appendText("className", _class.name, lang.className);
     form.appendText("professor", _class.professor, lang.professor);
     var directory = form.appendText("directory", _class.directory, lang.classDirectory);

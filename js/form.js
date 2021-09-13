@@ -24,9 +24,21 @@ class Form {
     this.form = [];
   }
 
-  appendLabel(_for, _text = "") {
-    if(_text == "")
+  insertTitle(title = "") {
+    if(title == "") {
       return;
+    }
+
+    const h2 = document.createElement("h2");
+    h2.innerText = title;
+    this.wrapper.insertBefore(h2, this.wrapper.firstChild);
+    return h2;
+  }
+
+  appendLabel(_for, _text = "") {
+    if(_text == "") {
+      return;
+    }
 
     const label = document.createElement("label");
     label.innerText = _text;
