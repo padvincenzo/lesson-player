@@ -23,7 +23,7 @@ window.addEventListener("load", () => {
   UI.init();
 });
 
-function createButton(_text = "", _click = null, _id = null) {
+function createButton(_text = "", _click = null, _class = null) {
   const button = document.createElement("button");
   button.innerText = _text;
 
@@ -31,15 +31,15 @@ function createButton(_text = "", _click = null, _id = null) {
     button.addEventListener("click", _click);
   }
 
-  if(_id != null) {
-    button.id = _id;
+  if(_class != null) {
+    button.classList.add(_class);
   }
 
   return button;
 }
 
-function createSmallButton(_text = "", _click = null, _id = null) {
-  const button = createButton(_text, _click, _id);
+function createSmallButton(_text = "", _click = null, _class = null) {
+  const button = createButton(_text, _click, _class);
   button.classList.add("btnSmall");
   return button;
 }
