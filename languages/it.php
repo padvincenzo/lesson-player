@@ -33,6 +33,7 @@ $lang->delete             = "Elimina";
 $lang->edit               = "Modifica";
 $lang->ok                 = "Ok";
 $lang->remove             = "Rimuovi";
+$lang->restore            = "Ripristina";
 $lang->show               = "Mostra";
 
 // Words
@@ -47,6 +48,7 @@ $lang->install            = "Installa";
 $lang->professor          = "Professore";
 $lang->progress           = "Progresso";
 $lang->title              = "Titolo";
+$lang->trashBin           = "Cestino";
 
 // ---------- Class ----------
 $lang->idclass            = "ID del corso";
