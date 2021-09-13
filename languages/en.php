@@ -67,6 +67,8 @@ $lang->classDeleted       = "Class '{className}' deleted";
 $lang->classNotDeleted    = "Class not deleted";
 $lang->classRemoved       = "Class '{className}' removed";
 $lang->classNotRemoved    = "Class not removed";
+$lang->classRestored      = "Class '{className}' restored";
+$lang->classNotRestored   = "Class not restored";
 $lang->classCompleted     = "You have completed this class";
 $lang->classProgress      = "{nWatched} / {nLessons}";
 
@@ -92,6 +94,8 @@ $lang->lessonDeleted      = "Lesson '{lessonTitle}' deleted";
 $lang->lessonNotDeleted   = "Lesson not deleted";
 $lang->lessonRemoved      = "Lesson '{lessonTitle}' removed";
 $lang->lessonNotRemoved   = "Lesson not removed";
+$lang->lessonRestored     = "Lesson '{lessonTitle}' restored";
+$lang->lessonNotRestored  = "Lesson not restored";
 
 // Lesson status
 $lang->started            = "Started";
