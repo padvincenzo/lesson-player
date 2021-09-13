@@ -27,16 +27,16 @@ class Class {
     if(Class.btnNewClass == null || Class.btnNewClass == undefined) {
       Class.btnNewClass = createButton(lang.newClass, () => {
         Class.form(Class.dummy());
-      }, "newClass");
+      }, "btnAdd");
     }
 
     return request("class.php", {request: "list"})
       .then((classes) => {
         classes.forEach((c, i) => {
           // Check if the class is already in memory
-          var _class = Class.getById(c.idclass);
-          if(_class) {
-            _class.update(c);
+          let existingClass = Class.getById(c.idclass);
+          if(existingClass) {
+            existingClass.update(c);
           } else {
             Class.classes.push(new Class(c));
           }
@@ -52,6 +52,26 @@ class Class {
         } else {
           Message.text(`FAIL: ${message}`);
         }
+      });
+  }
+
+  static viewRemoved() {
+    var removedClasses = [];
+
+    return request("class.php", {request: "listRemoved"})
+      .then((classes) => {
+        classes.forEach((c, i) => {
+          removedClasses.push(new Class(c));
+        });
+
+        var cards = document.createElement("div");
+        cards.classList.add("cards");
+
+        for(let i = 0; i < removedClasses.length; i++) {
+          cards.appendChild(removedClasses[i].toCard());
+        }
+
+        Message.view(cards);
       });
   }
 
@@ -153,9 +173,10 @@ class Class {
       });
   }
 
+
   // idclass, name, professor, directory, lessons, nLessons, nWatched;
   // card, removed, searchBox;
-  // btnResume, btnEdit, btnShow, btnAddLesson;
+  // btnResume, btnEdit, btnShow, btnAddLesson, btnRemove, btnRestore;
   // nextLesson;
 
   constructor(_data) {
@@ -170,6 +191,7 @@ class Class {
     this.directory = decodeString(_data.directory);
     this.nLessons = _data.nLessons;
     this.nWatched = _data.nWatched ? _data.nWatched : 0;
+    this.removed = _data.removed == true;
 
     if(!Player.unavailable() && this.isPlaying()) {
       Player.updateOverlay();
@@ -212,19 +234,26 @@ class Class {
 
   createCard() {
     if(this.card != null) {
+      // The card already exists
       return;
     }
 
-    this.btnAddLesson = createButton(lang.newLesson, () => { this.newLesson(); });
-    this.btnResume = createSmallButton(lang.resume, () => { this.resume(); });
-    this.btnEdit = createSmallButton(lang.edit, () => { this.edit(); });
-    this.btnShow = createSmallButton(lang.show, () => { this.show(); });
-    this.btnRemove = createSmallButton(lang.remove, () => { this.askToRemove(); });
+    this.btnAddLesson = createButton(lang.newLesson, () => { this.newLesson(); }, "btnAdd");
+    this.btnRemovedLessons = createButton(lang.trashBin, () => { this.viewRemovedLessons(); }, "btnRemove");
+
+    this.btnResume = createSmallButton(lang.resume, () => { this.resume(); }, "btnPlay");
+    this.btnEdit = createSmallButton(lang.edit, () => { this.edit(); }, "btnEdit");
+    this.btnShow = createSmallButton(lang.show, () => { this.show(); }, "btnShow");
+    this.btnRemove = createSmallButton(lang.remove, () => { this.askToRemove(); }, "btnRemove");
+    this.btnRestore = createSmallButton(lang.restore, (e) => { this.dbRestore(e); }, "btnRestore");
 
     this.card = {};
 
     this.card.dom = document.createElement("div");
     this.card.dom.classList.add("card", "class");
+    if(this.removed) {
+      this.card.dom.classList.add("removed");
+    }
 
     this.card.name = document.createElement("div");
     this.card.name.innerText = this.name;
@@ -241,10 +270,11 @@ class Class {
 
     this.card.buttons = document.createElement("div");
     this.card.buttons.setAttribute("class", "buttons");
-    this.card.buttons.appendChild(this.btnResume);
     this.card.buttons.appendChild(this.btnShow);
+    this.card.buttons.appendChild(this.btnResume);
     this.card.buttons.appendChild(this.btnEdit);
     this.card.buttons.appendChild(this.btnRemove);
+    this.card.buttons.appendChild(this.btnRestore);
     this.card.dom.appendChild(this.card.buttons);
 
     this.card.dom.addEventListener("dblclick", () => {
@@ -280,6 +310,14 @@ class Class {
     }
 
     this.card.dom.tabIndex = tabIndex;
+
+    if(this.removed && !this.card.dom.classList.contains("removed")) {
+      this.card.dom.classList.add("removed");
+    }
+    if(!this.removed && this.card.dom.classList.contains("removed")) {
+      this.card.dom.classList.remove("removed");
+    }
+
     return this.card.dom;
   }
 
@@ -325,8 +363,7 @@ class Class {
 
   show() {
     return this.retrieveLessons().then(() => {
-      UI.display(this.listLessons(), br(), UI.btnHome, this.btnAddLesson);
-      document.title = `${this.name} | Lesson Player`;
+      UI.display(this.listLessons(), br(), UI.btnHome, this.btnAddLesson, this.btnRemovedLessons);
     });
   }
 
@@ -357,6 +394,26 @@ class Class {
     return lessons;
   }
 
+  viewRemovedLessons() {
+    var removedLessons = [];
+
+    return request("lesson.php", {request:"listRemoved", idclass:this.idclass})
+      .then((lessons) => {
+        lessons.forEach((l) => {
+          removedLessons.push(new Lesson(l, this));
+        });
+
+        var cards = document.createElement("div");
+        cards.classList.add("cards");
+
+        for(let i = 0; i < removedLessons.length; i++) {
+          cards.appendChild(removedLessons[i].toCard());
+        }
+
+        Message.view(cards);
+      });
+  }
+
   edit() {
     Class.form(this);
   }
@@ -379,10 +436,32 @@ class Class {
       .then((_response) => {
         this.removed = true;
         UI.listClasses();
-        Message.text(this.dictionaryReplace(lang.classRemoved));
+        Message.text(this.dictionaryReplace(lang.classRemoved), true, lang.restore, lang.ok)
+          .then(() => {
+            this.dbRestore();
+          }).catch(() => {
+            // Do nothing
+          });
       })
       .catch((_message) => {
         Message.text(`${lang.failed}: ${_message}`);
+      });
+  }
+
+  dbRestore(e) {
+    let data = {request: "restore", idclass: this.idclass};
+    return request("class.php", data)
+      .then((_response) => {
+        this.removed = false;
+        if(e) {
+          // Hide the card from trash bin's message window
+          e.target.parentNode.parentNode.style.display = "none";
+        }
+        UI.listClasses();
+        console.log(this.dictionaryReplace(lang.classRestored));
+      })
+      .catch((_message) => {
+        console.log(`${lang.failed}: ${_message}`);
       });
   }
 

@@ -29,7 +29,8 @@ class Lesson {
       dated: "",
       title: "",
       professor: _class.professor,
-      filename: ""
+      filename: "",
+      removed: false
     }, _class);
   }
 
@@ -128,6 +129,7 @@ class Lesson {
     this.mark = _data.mark ?? 0;
     this.watched = _data.watched == true;
     this.playbackRate = (+_data.playbackRate ?? 1).toFixed(1);
+    this.removed = _data.removed == true;
 
     if(!Player.unavailable() && this.isPlaying()) {
       Player.updateOverlay();
@@ -174,11 +176,12 @@ class Lesson {
       return;
     }
 
-    this.btnPlay = createSmallButton(this.mark == 0 ? lang.play : lang.resume, () => { this.play(); });
-    this.btnEdit = createSmallButton(lang.edit, () => { this.edit(); });
-    this.btnSetAsWatched = createSmallButton(lang.setAsWatched, () => { this.dbSetAsWatched(); });
-    this.btnSetToBeWatched = createSmallButton(lang.setToBeWatched, () => { this.dbSetToBeWatched(); });
-    this.btnRemove = createSmallButton(lang.remove, () => { this.askToRemove(); });
+    this.btnPlay = createSmallButton(this.mark == 0 ? lang.play : lang.resume, () => { this.play(); }, "btnPlay");
+    this.btnEdit = createSmallButton(lang.edit, () => { this.edit(); }, "btnEdit");
+    this.btnSetAsWatched = createSmallButton(lang.setAsWatched, () => { this.dbSetAsWatched(); }, "btnSetAsWatched");
+    this.btnSetToBeWatched = createSmallButton(lang.setToBeWatched, () => { this.dbSetToBeWatched(); }, "btnSetToBeWatched");
+    this.btnRemove = createSmallButton(lang.remove, () => { this.askToRemove(); }, "btnRemove");
+    this.btnRestore = createSmallButton(lang.restore, (e) => { this.dbRestore(e); }, "btnRestore");
 
     this.card = {};
 
@@ -207,6 +210,7 @@ class Lesson {
     this.card.buttons.appendChild(this.btnSetToBeWatched);
     this.card.buttons.appendChild(this.btnSetAsWatched);
     this.card.buttons.appendChild(this.btnRemove);
+    this.card.buttons.appendChild(this.btnRestore);
     this.card.dom.appendChild(this.card.buttons);
 
     if(this.watched) {
@@ -250,6 +254,13 @@ class Lesson {
     }
 
     this.card.dom.tabIndex = tabIndex;
+
+    if(this.removed && !this.card.dom.classList.contains("removed")) {
+      this.card.dom.classList.add("removed");
+    }
+    if(!this.removed && this.card.dom.classList.contains("removed")) {
+      this.card.dom.classList.remove("removed");
+    }
 
     return this.card.dom;
   }
@@ -347,10 +358,32 @@ class Lesson {
       .then((_response) => {
         this.removed = true;
         this.parentClass.show();
-        console.log(this.dictionaryReplace(lang.lessonRemoved));
+        Message.text(this.dictionaryReplace(lang.lessonRemoved), true, lang.restore, lang.ok)
+          .then(() => {
+            this.dbRestore();
+          }).catch(() => {
+            // Do nothing
+          });
       })
       .catch((_message) => {
         Message.text(`${lang.failed}: ${_message}`);
+      });
+  }
+
+  dbRestore(e) {
+    let data = {request: "restore", idlesson: this.idlesson};
+    return request("lesson.php", data)
+      .then((_response) => {
+        this.removed = false;
+        if(e) {
+          // Hide the card from trash bin's message window
+          e.target.parentNode.parentNode.style.display = "none";
+        }
+        this.parentClass.show();
+        console.log(this.dictionaryReplace(lang.lessonRestored));
+      })
+      .catch((_message) => {
+        console.log(`${lang.failed}: ${_message}`);
       });
   }
 

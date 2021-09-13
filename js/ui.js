@@ -17,7 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 class UI {
-  // wrapper, btnHome;
+  // wrapper, separator, btnHome, btnRemovedClasses;
 
   static init() {
     UI.wrapper = document.getElementById("container");
@@ -28,6 +28,10 @@ class UI {
 
     UI.btnHome = createButton(lang.homePage, () => {
       UI.listClasses();
+    });
+
+    UI.btnRemovedClasses = createButton(lang.trashBin, () => {
+      Class.viewRemoved();
     });
 
     document.getElementById("header-logo").addEventListener("click", () => {
@@ -50,8 +54,7 @@ class UI {
 
   static listClasses() {
     return Class.retrieve().then(() => {
-      UI.display(Class.cards(), br(), Class.btnNewClass);
-      document.title = `${lang.classList} | Lesson Player`;
+      UI.display(Class.cards(), br(), Class.btnNewClass, UI.btnRemovedClasses);
     });
   }
 
