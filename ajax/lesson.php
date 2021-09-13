@@ -59,6 +59,12 @@ switch($request) {
   case "delete": {
     return deleteLesson(); // Also remove videos from the server
   }
+  case "restore": {
+    return restoreLesson();
+  }
+  case "listRemoved": {
+    return listRemoved();
+  }
 }
 
 
@@ -262,6 +268,19 @@ function listLessons() {
   return Response::ok($lang->lessonList, $lessons);
 }
 
+function listRemoved() {
+  global $dbh, $lang, $data;
+
+  Input::number($data, "idclass");
+  if(Input::errors())
+    return Response::err_data();
+
+  $idclass = $data->idclass;
+  $result = $dbh->query("select * from lesson where idclass = '$idclass' and removed is true order by dated, idlesson;");
+  $lessons = $result->fetch_all(MYSQLI_ASSOC);
+  return Response::ok($lang->lessonList, $lessons);
+}
+
 function insertSilences() {
   global $dbh, $lang, $data;
 
@@ -332,6 +351,23 @@ function deleteLesson() {
   }
 
   return Response::err($lang->lessonNotDeleted);
+}
+
+function restoreLesson() {
+  global $dbh, $lang, $data;
+
+  Input::number($data, "idlesson");
+  if(Input::errors())
+    return Response::err_data();
+
+  $idlesson = $data->idlesson;
+
+  $result = $dbh->query("update lesson set removed = false where idlesson = '$idlesson';");
+  if($result) {
+    return Response::ok($lang->lessonRestored);
+  }
+
+  return Response::err($lang->lessonNotRestored);
 }
 
 ?>

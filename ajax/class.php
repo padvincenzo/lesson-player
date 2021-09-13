@@ -38,6 +38,12 @@ switch($request) {
   case "delete": {
     return deleteClass(); // Also remove videos from the server
   }
+  case "restore": {
+    return restoreClass();
+  }
+  case "listRemoved": {
+    return listRemoved();
+  }
 }
 
 
@@ -136,9 +142,27 @@ function deleteClass() {
   return Response::err($lang->classNotDeleted);
 }
 
+function restoreClass() {
+  global $dbh, $lang, $data;
+
+  Input::number($data, "idclass");
+  if(Input::errors())
+    return Response::err_data();
+
+  $idclass = $data->idclass;
+
+  // Remove class from database
+  $result = $dbh->query("update class set removed = false where idclass = '$idclass';");
+  if($result) {
+    return Response::ok($lang->classRestored);
+  }
+
+  return Response::err($lang->classNotRestored);
+}
+
 function listClasses() {
   global $dbh, $lang;
-  $result = $dbh->query("select c.idclass, c.name, c.professor, c.directory, count(l.idclass) as nLessons, sum(l.watched) as nWatched
+  $result = $dbh->query("select c.idclass, c.name, c.professor, c.directory, count(l.idclass) as nLessons, sum(l.watched) as nWatched, c.removed
     from class c left join (select * from lesson where removed is not true) l
     on l.idclass = c.idclass
     where c.removed is not true
@@ -150,6 +174,22 @@ function listClasses() {
   }
 
   return Response::err($lang->notYetInstalled);
+}
+
+function listRemoved() {
+  global $dbh, $lang;
+  $result = $dbh->query("select c.idclass, c.name, c.professor, c.directory, count(l.idclass) as nLessons, sum(l.watched) as nWatched, c.removed
+    from class c left join (select * from lesson where removed is not true) l
+    on l.idclass = c.idclass
+    where c.removed is true
+    group by c.idclass
+    order by count(l.idclass) = sum(l.watched) asc, max(l.lastPlayed) desc;");
+  if($result) {
+    $classes = $result->fetch_all(MYSQLI_ASSOC);
+    return Response::ok($lang->classList, $classes);
+  }
+
+  return Response::err("error");
 }
 
 ?>
