@@ -58,6 +58,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 .card:active,
 .card:focus {
   z-index: 2;
+  color: var(--color-primary);
 }
 
 .card:hover::after,
