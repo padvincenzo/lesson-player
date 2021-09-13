@@ -175,6 +175,8 @@ class UI {
 
   static feedback() {
     var form = new Form();
+
+    form.insertTitle(lang.feedback);
     form.appendText("name", "", lang.yourName, 100);
     form.appendText("mail", "", lang.yourMail, 150);
     form.appendTextarea("feedback", "", lang.feedbackWrite, 1000);
