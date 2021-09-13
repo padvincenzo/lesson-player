@@ -140,6 +140,94 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   display: block;
 }
 
+.card.removed {
+  width: -moz-available;
+  height: auto;
+  position: relative;
+  cursor: default;
+  float: none;
+}
+
+.card.removed:nth-of-type(even) {
+  background-color: #0002;
+}
+
+.card.removed:hover,
+.card.removed:active,
+.card.removed:focus {
+  color: inherit;
+}
+
+.card.removed:hover::after,
+.card.removed:active::after,
+.card.removed:focus::after {
+  display: none;
+}
+
+.card.removed .buttons {
+  width: -moz-available;
+  padding: 1em 0;
+  text-align: center;
+  border: none;
+  background-color: transparent;
+  display: block;
+}
+
+.card .btnPlay,
+.card .btnEdit,
+.card .btnShow,
+.card .btnRemove,
+.card .btnSetAsWatched,
+.card .btnSetToBeWatched {
+  display: inline-block;
+}
+
+.card .btnRestore {
+  display: none;
+}
+
+.card.removed .btnPlay,
+.card.removed .btnEdit,
+.card.removed .btnShow,
+.card.removed .btnRemove,
+.card.removed .btnSetAsWatched,
+.card.removed .btnSetToBeWatched {
+  display: none;
+}
+
+.card.removed .btnRestore {
+  display: inline-block;
+}
+
+.btnPlay {
+
+}
+
+.btnEdit {
+
+}
+
+.btnShow {
+
+}
+
+.btnRemove {
+
+}
+
+.btnSetAsWatched {
+
+}
+
+.btnSetToBeWatched {
+
+}
+
+.btnRestore {
+
+}
+
+
 @media only screen and (max-width: 600px) {
   .card {
     height: auto;
