@@ -67,6 +67,10 @@ class Class {
         var cards = document.createElement("div");
         cards.classList.add("cards");
 
+        let title = document.createElement("h2");
+        title.innerText = lang.trashBin;
+        cards.appendChild(title);
+
         for(let i = 0; i < removedClasses.length; i++) {
           cards.appendChild(removedClasses[i].toCard());
         }
@@ -405,6 +409,10 @@ class Class {
 
         var cards = document.createElement("div");
         cards.classList.add("cards");
+
+        let title = document.createElement("h2");
+        title.innerText = lang.trashBin;
+        cards.appendChild(title);
 
         for(let i = 0; i < removedLessons.length; i++) {
           cards.appendChild(removedLessons[i].toCard());
