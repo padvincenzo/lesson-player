@@ -42,6 +42,25 @@ $dbh->close();
 		<link href="video.js@7.11.8/video-js.min.css" rel="stylesheet">
 		<link href="video.js@7.11.8/theme.css" rel="stylesheet">
 
+		<!-- Plugins -->
+		<script src="plugins/vjs-notifier/vjs-notifier.js"></script>
+		<link href="plugins/vjs-notifier/vjs-notifier.css" rel="stylesheet">
+
+		<script src="plugins/vjs-silences/vjs-silences.js"></script>
+		<link href="plugins/vjs-silences/vjs-silences.css" rel="stylesheet">
+
+		<script src="plugins/vjs-lesson-overlay/vjs-lesson-overlay.js"></script>
+		<link href="plugins/vjs-lesson-overlay/vjs-lesson-overlay.css" rel="stylesheet">
+
+		<script src="plugins/vjs-area-selector/vjs-area-selector.js"></script>
+		<link href="plugins/vjs-area-selector/vjs-area-selector.css" rel="stylesheet">
+
+		<script src="plugins/vjs-zoom/vjs-zoom.js"></script>
+		<link href="plugins/vjs-zoom/vjs-zoom.css" rel="stylesheet">
+
+		<script src="plugins/vjs-take-notes/vjs-take-notes.js"></script>
+		<link href="plugins/vjs-take-notes/vjs-take-notes.css" rel="stylesheet">
+
 		<link href="style/style.css" rel="stylesheet">
 		<link href="style/message.css" rel="stylesheet">
 		<link href="style/player.css" rel="stylesheet">
