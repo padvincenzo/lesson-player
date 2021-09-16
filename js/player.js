@@ -18,12 +18,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 class Player {
   // static player, wrapper, background, video;
-  // static overlay;
-  // static silences, fastSilenceButton;
-  // static notice, noticeTimeout;
   // static lesson, hasJustLoaded;
   // static minPlaybackRate, maxPlaybackRate;
-  // static areaSelector;
 
   static init() {
     /* Editable configuration */
@@ -37,23 +33,52 @@ class Player {
       preload: "auto",
       playbackRates: ["0.5", "0.6", "0.7", "0.8", "0.9", "1", "1.1", "1.2", "1.3", "1.4", "1.5", "1.6", "1.7", "1.8", "1.9", "2", "2.2", "2.5", "2.8", "3"],
       rewind: true,
-      inactivityTimeout: 4000
+      inactivityTimeout: 4000,
+      plugins: {
+        notifier: {
+          defaultTimeout: 1500
+        },
+        lessonOverlay: {
+          data: ["class", "date", "professor", "title"],
+          doNotShowIf: () => {
+            return Player.isSelectingArea() || Player.isWritingNote();
+          }
+        },
+        silences: {
+          fastRate: 8,
+          normalRate: 1,
+          displayRealRemainingTime: true,
+          onSkip: (newTime) => {
+            Player.notify(secondsToTime(newTime));
+          }
+        },
+        areaSelector: {},
+        zoom: {
+          beforeZoom: () => {
+            Player.notify(lang.zoomArea, 3000);
+          },
+          onReset: () => {
+            Player.notify(lang.zoomReseted);
+          }
+        },
+        takeNotes: {
+          onInsert: (note) => {
+            console.log("You have inserted: " + note);
+          }
+        }
+      }
     });
     Player.wrapper = Player.player.el();
     Player.background = document.getElementById("my-p-background");
-    Player.video = Player.wrapper.childNodes[0];
+    Player.video = Player.wrapper.querySelector("video");
 
     Player.wrapper.parentNode.style.position = "relative";
-    Player.notice = Player.appendLayer("notice");
 
     Player.initWrapperFunctions();
     Player.initShortcuts();
-    Player.initOverlay();
-    Player.initSilences();
     Player.initLessonUpdater();
     Player.removeTabIndexes();
     Player.initUserActivity();
-    Player.initAreaSelector();
   }
 
   static unavailable() {
@@ -61,33 +86,38 @@ class Player {
   }
 
   static initWrapperFunctions() {
-    let wrapperFunctions = [
+    // player's methods
+    [
       "src",
-      "play",
-      "pause",
-      "paused",
+      "play", "pause", "paused",
       "userActive",
-      "seeking",
-      "currentTime",
-      "duration",
-      "muted",
-      "isFullscreen",
-      "requestFullscreen",
-      "exitFullscreen",
-      "playbackRate",
-      "defaultPlaybackRate",
-      "volume",
-      "currentTime"
-    ];
-
-    for(let i = 0; i < wrapperFunctions.length; i++) {
-      Player[wrapperFunctions[i]] = (_value) => {
+      "seeking", "currentTime", "duration",
+      "muted", "volume",
+      "isFullscreen", "requestFullscreen", "exitFullscreen",
+      "playbackRate", "defaultPlaybackRate",
+      "videoWidth", "videoHeight"
+    ].forEach((fn) => {
+      Player[fn] = (_value) => {
         if(Player.unavailable())
           return;
 
-        return Player.player[wrapperFunctions[i]](_value);
+        return Player.player[fn](_value);
       };
-    }
+    });
+
+    // Plugins
+    [
+      "notify",
+      "isInSilence", "skipCurrentSilence", "setNormalRate", "getNormalRate", "getFastRate",
+      "shouldDisplayRealRemainingTime", "setSilenceTimestamps",
+      "select", "cancelSelection", "isSelectingArea",
+      "zoom", "zoomReset", "isZoomed",
+      "toggleNotes", "isWritingNote"
+    ].forEach((fn) => {
+      Player[fn] = Player.player[fn];
+    });
+
+    Player.lessonOverlay = Player.player.lessonOverlay;
   }
 
   static initShortcuts() {
@@ -103,7 +133,7 @@ class Player {
       if(Player.isSelectingArea()) {
         if(e.code == "Escape") {
           e.preventDefault();
-          Player.areaSelector.promise.reject("Canceled");
+          Player.cancelSelection();
         }
         return;
       }
@@ -150,9 +180,7 @@ class Player {
         case "KeyS": {
           e.preventDefault();
           /* Skip silence */
-          Player.silences.skipCurrent((t_end) => {
-            // Player.notify(secondsToTime(t_end));
-          });
+          Player.skipCurrentSilence();
           break;
         }
         case "KeyP": {
@@ -164,9 +192,7 @@ class Player {
         case "KeyO": {
           e.preventDefault();
           /* Toggle overlay On/Off */
-          Player.overlay.toggle((enabled) => {
-            Player.notify(enabled ? lang.overlayEnabled : lang.overlayDisabled);
-          });
+          Player.notify(Player.lessonOverlay.toggle() ? lang.overlayEnabled : lang.overlayDisabled);
           break;
         }
         case "KeyX": {
@@ -176,6 +202,11 @@ class Player {
           } else {
             Player.zoom();
           }
+          break;
+        }
+        case "KeyW": {
+          e.preventDefault();
+          Player.noteTaking.toggle();
           break;
         }
       }
@@ -242,449 +273,6 @@ class Player {
     });
   }
 
-  static initSilences() {
-    Player.silences = {
-      timestamps: [],
-      button: null,
-      fastRate: "8",
-      normalRate: "1",
-      nextEnd: 0,
-      skipCurrent: null,
-      currentRemainingTimeDisplay: null,
-      remainingTimeDisplay: null,
-      displayRealRemainingTime: true,
-      init: function(_player, _button, _fastRate = "8", _normalRate = "1") {
-        this.player = _player;
-        this.button = _button;
-        this.fastRate = (+_fastRate).toFixed(1);
-        this.normalRate = (+_normalRate).toFixed(1);
-
-        // Set up a custom element that displays the actually remaining time
-        this.currentRemainingTimeDisplay = document.querySelector(".vjs-remaining-time-display");
-        this.remainingTimeDisplay = document.createElement("span");
-        this.remainingTimeDisplay.classList.add("vjs-remaining-time-display-custom");
-        this.currentRemainingTimeDisplay.parentNode.insertBefore(this.remainingTimeDisplay, this.currentRemainingTimeDisplay);
-        this.currentRemainingTimeDisplay.style.display = "none";
-
-        this.skipCurrent = (_callback) => {
-          if(this.nextEnd != 0) {
-            _player.currentTime(this.nextEnd);
-            if(_callback != null) {
-              _callback(this.nextEnd);
-            }
-          }
-        }
-
-        _player.on("timeupdate", (e) => {
-          if(e.manuallyTriggered) {
-            return;
-          }
-
-          let currentTime = +_player.currentTime();
-          let currentSilence = this.getCurrent(currentTime);
-
-          if(currentSilence != undefined) {
-            _player.playbackRate(this.fastRate);
-            this.button.style.display = "inline-block";
-            this.nextEnd = currentSilence.t_end;
-          } else {
-            _player.playbackRate(this.normalRate);
-            this.button.style.display = "none";
-            this.nextEnd = 0;
-          }
-
-          if(this.displayRealRemainingTime) {
-            // Assuming that silences' timestamp are correct
-            let remainingSilences = this.timestamps.filter((silence) => silence.t_end > currentTime);
-            let remainingSilenceSeconds = 0;
-
-            if(remainingSilences.length > 0) {
-              // Eventually correct currentSilence
-              if(currentTime > remainingSilences[0].t_start) {
-                remainingSilenceSeconds -= currentTime - remainingSilences[0].t_start;
-              }
-
-              remainingSilenceSeconds += remainingSilences.reduce((seconds, silence) => seconds + (silence.t_end - silence.t_start), 0);
-            }
-
-            let remainingSpokenSeconds = _player.duration() - currentTime - remainingSilenceSeconds;
-            let realRemainingSeconds = (remainingSpokenSeconds / +this.normalRate) + (remainingSilenceSeconds / +this.fastRate);
-
-            this.remainingTimeDisplay.innerText = secondsToTime(realRemainingSeconds);
-          }
-        });
-      },
-      shouldDisplayRealRemainingTime: function(should = true) {
-        this.displayRealRemainingTime = should;
-
-        if(should) {
-          this.remainingTimeDisplay.style.display = "inline";
-          this.currentRemainingTimeDisplay.style.display = "none";
-        } else {
-          this.remainingTimeDisplay.style.display = "none";
-          this.currentRemainingTimeDisplay.style.display = "inline";
-        }
-      },
-      setTimestamps: function(_timestamps) {
-        this.timestamps = _timestamps
-          .map((silence) => { return {t_start: +silence.t_start, t_end: +silence.t_end} })  // Make sure timestamps are numbers
-          .filter((silence) => silence.t_end > silence.t_start)                             // Remove no sense silences
-          .sort((silence1, silence2) => silence1.t_start - silence2.t_start);               // Sort timestamps to improve read speed
-
-        this.nextEnd = 0;
-      },
-      setNormalRate: function(_normalRate) {
-        this.normalRate = (+_normalRate).toFixed(1);
-      },
-      getCurrent: function(needle = 0) {
-        if(this.timestamps == null) {
-          return undefined;
-        }
-
-        // Silences are in order, so just check for the first silence that comes after the needle
-        let current = this.timestamps.find((silence) => needle <= silence.t_end);
-        return (current && current.t_start <= needle) ? current : undefined;
-      },
-      isInSilence: function() {
-        return this.nextEnd != 0;
-      }
-    };
-
-
-    Player.fastSilenceButton = Player.appendLayer("fastSilence");
-    Player.fastSilenceButton.innerText = "»";
-
-    Player.fastSilenceButton.addEventListener("click", () => {
-      Player.silences.skipCurrent((t_end) => {
-        // Player.notify(secondsToTime(t_end));
-      });
-    });
-
-    Player.silences.init(Player, Player.fastSilenceButton);
-  }
-
-  static get shouldDisplayRealRemainingTime() {
-    return Player.silences.displayRealRemainingTime;
-  }
-
-  static set shouldDisplayRealRemainingTime(should) {
-    should = should == "true" || should === true;
-    Player.silences.shouldDisplayRealRemainingTime(should);
-  }
-
-  static initOverlay() {
-
-    Player.overlay = {
-      dom: null,
-      data: {},
-      enabled: true,
-      init: function(_player, _dom, _data) {
-        this.dom = _dom;
-
-        for(const id in _data) {
-          this.data[id] = document.createElement("div");
-          this.data[id].id = id;
-          this.data[id].innerText = _data[id];
-          this.dom.appendChild(this.data[id]);
-        };
-
-        this.dom.addEventListener("click", () => {
-          this.hide();
-          _player.play();
-          _player.userActive(true);
-        });
-
-        _player.on("useractive", () => {
-          this.hide();
-        });
-
-        _player.on("userinactive", () => {
-          if(_player.paused()) {
-            this.show();
-          } else {
-            // do nothing
-          }
-        });
-
-        _player.on("pause", () => {
-          this.hide();
-          _player.userActive(true);
-        });
-
-        _player.on("play", () => {
-          this.hide();
-          _player.userActive(true);
-        });
-      },
-      update: function(_data) {
-        for(const id in this.data) {
-          this.data[id].innerText = _data[id];
-        }
-      },
-      hide: function() {
-        this.dom.style.display = "none";
-      },
-      show: function() {
-        if(this.enabled && !Player.isSelectingArea()) {
-          this.dom.style.display = "";
-        }
-      },
-      toggle: function(_callback = null) {
-        if(this.enabled) {
-          this.enabled = false;
-          this.hide();
-        } else {
-          this.enabled = true;
-        }
-
-        if(_callback != null) {
-          _callback(this.enabled);
-        }
-      }
-    }
-
-    Player.overlay.init(
-      Player,
-      Player.appendLayer("my-p-overlay"),
-      {
-        class: "",
-        date: "",
-        professor: "",
-        title: ""
-      }
-    );
-
-  }
-
-  static initAreaSelector() {
-
-    Player.areaSelector = {
-      background: null,
-      rectangle: {
-        dom: null,
-        coordinates: {
-          offset: {width: 0, height: 0},  // player wrapper's getBoundingClientRect()
-          x1: 0, x2: 0, y1: 0, y2: 0,
-          left: function() {
-            return Math.min(this.x1, this.x2);
-          },
-          top: function() {
-            return Math.min(this.y1, this.y2);
-          },
-          width: function() {
-            return Math.max(this.x1, this.x2) - this.left();
-          },
-          height: function() {
-            return Math.max(this.y1, this.y2) - this.top();
-          },
-          relativeWidth: function() {
-            return this.offset.width / this.width();
-          },
-          relativeHeight: function() {
-            return this.offset.height / this.height();
-          },
-          relativeLeft: function() {
-            return this.left() / this.width();
-          },
-          relativeTop: function() {
-            return this.top() / this.height();
-          },
-          get: function() {
-            return {
-              left: this.left(),
-              top: this.top(),
-              width: this.width(),
-              height: this.height(),
-              relativeLeft: this.relativeLeft(),
-              relativeTop: this.relativeTop(),
-              relativeWidth: this.relativeWidth(),
-              relativeHeight: this.relativeHeight()
-            };
-          }
-        },
-        update: function() {
-          Object.assign(this.dom.style, {
-            top: `${this.coordinates.top()}px`,
-            left: `${this.coordinates.left()}px`,
-            width: `${this.coordinates.width()}px`,
-            height: `${this.coordinates.height()}px`
-          });
-        }
-      },
-      player: null,
-      init: function(_player) {
-        this.player = _player;
-
-        this.background = document.createElement("div");
-        this.background.classList.add("vjs-area-selector-background");
-
-        this.rectangle.dom = document.createElement("div");
-        this.rectangle.dom.hidden = true;
-        this.rectangle.dom.classList.add("vjs-area-selector-rectangle");
-
-        this.background.appendChild(this.rectangle.dom);
-        this.player.el().appendChild(this.background);
-      },
-      listeners: ["mousedown", "mousemove", "mouseup", "touchstart", "touchmove", "touchend"],
-      handleEvent: function(e) {
-        switch(e.type) {
-          case "mousedown": {
-            this.rectangle.dom.hidden = false;
-            this.rectangle.coordinates.x1 = this.rectangle.coordinates.x2 = e.clientX - this.rectangle.coordinates.offset.x;
-            this.rectangle.coordinates.y1 = this.rectangle.coordinates.y2 = e.clientY - this.rectangle.coordinates.offset.y;
-            this.rectangle.update();
-            break;
-          }
-          case "touchstart": {
-            e.preventDefault();
-            this.rectangle.dom.hidden = false;
-            this.rectangle.coordinates.x1 = this.rectangle.coordinates.x2 = e.changedTouches[0].pageX - this.rectangle.coordinates.offset.x;
-            this.rectangle.coordinates.y1 = this.rectangle.coordinates.y2 = e.changedTouches[0].pageY - this.rectangle.coordinates.offset.y;
-            this.rectangle.update();
-            break;
-          }
-          case "mousemove": {
-            this.rectangle.coordinates.x2 = e.clientX - this.rectangle.coordinates.offset.x;
-            this.rectangle.coordinates.y2 = e.clientY - this.rectangle.coordinates.offset.y;
-            this.rectangle.update();
-            break;
-          }
-          case "touchmove": {
-            e.preventDefault();
-            this.rectangle.coordinates.x2 = e.changedTouches[0].pageX - this.rectangle.coordinates.offset.x;
-            this.rectangle.coordinates.y2 = e.changedTouches[0].pageY - this.rectangle.coordinates.offset.y;
-            this.rectangle.update();
-            break;
-          }
-          case "mouseup": {
-            if(this.promise.resolve != null) {
-              this.promise.resolve();
-            }
-            break;
-          }
-          case "touchend": {
-            e.preventDefault();
-            if(this.promise.resolve != null) {
-              this.promise.resolve();
-            }
-            break;
-          }
-        }
-      },
-      promise: {
-        resolve: null,
-        reject: null
-      },
-      select: function() {
-        return new Promise((_resolve, _reject) => {
-          this.rectangle.coordinates.offset = this.player.el().getBoundingClientRect();
-
-          var wasPlaying = !this.player.paused();
-          this.player.pause();
-          this.player.userActive(true);
-          this.player.controls(false);
-
-          this.listeners.forEach((listener) => {
-            this.background.addEventListener(listener, this, false);
-          });
-
-          this.background.style.display = "block";
-
-          this.promise.resolve = () => {
-            this.listeners.forEach((listener) => {
-              this.background.removeEventListener(listener, this, false);
-            });
-
-            _resolve(this.rectangle.coordinates.get());
-            this.promise.resolve = this.promise.reject = null;
-
-            if(wasPlaying) {
-              this.player.play();
-            }
-
-            this.rectangle.dom.hidden = true;
-            this.background.style.display = "none";
-            this.player.controls(true);
-          };
-
-          this.promise.reject = (cause) => {
-            this.listeners.forEach((listener) => {
-              this.background.removeEventListener(listener, this, false);
-            });
-
-            _reject(cause);
-            this.promise.resolve = this.promise.reject = null;
-
-            if(wasPlaying) {
-              this.player.play();
-            }
-
-            this.rectangle.dom.hidden = true;
-            this.background.style.display = "none";
-            this.player.controls(true);
-          };
-        });
-      },
-      isSelecting: function() {
-        return this.background.style.display == "block";
-      }
-    };
-
-    Player.areaSelector.init(Player.player);
-
-    var zoomBtn = document.createElement("button");
-    zoomBtn.classList.add("vjs-zoom-control", "vjs-control", "vjs-button");
-    zoomBtn.type = "button";
-    zoomBtn.title = "Zoom";
-    zoomBtn.tabIndex = "-1";
-    let zoomText = document.createElement("span");
-    zoomText.innerText = "✂";
-    zoomBtn.appendChild(zoomText);
-
-    document.querySelector(".vjs-fullscreen-control").style.order = 5;
-    zoomBtn.style.order = 4;
-
-    document.querySelector(".vjs-control-bar").appendChild(zoomBtn);
-    zoomBtn.addEventListener("click", () => {
-      if(Player.isZoomed()) {
-        Player.zoomReset();
-      } else {
-        Player.zoom();
-      }
-    });
-  }
-
-  static zoom() {
-    Player.overlay.hide();
-    Player.notify(lang.zoomArea);
-    Player.areaSelector.select().then((coordinates) => {
-
-      // Do nothing if selected area width or height is less than 10%
-      if(coordinates.relativeWidth < 0.1 || coordinates.relativeHeight < 0.1) {
-        return;
-      }
-
-      // Zoom the video using relative position and size
-      Player.video.style.transform = `translate(${-coordinates.relativeLeft * 100}%, ${-coordinates.relativeTop * 100}%) scale(${coordinates.relativeWidth}, ${coordinates.relativeHeight})`;
-
-    }).catch((err) => {
-      console.log(err);
-    });
-  }
-
-  static zoomReset() {
-    Player.video.style.transform = "none";
-    Player.notify(lang.zoomReseted);
-  }
-
-  static isZoomed() {
-    return Player.video.style.transform != "none";
-  }
-
-  static isSelectingArea() {
-    return Player.areaSelector.isSelecting();
-  }
-
   static initLessonUpdater() {
     Player.on("ratechange", (event) => {
       // Prevent playbackRate change
@@ -694,9 +282,9 @@ class Player {
       }
 
       let rate = Player.playbackRate();
-      if(!Player.silences.isInSilence() && rate != Player.silences.normalRate) {
+      if(!Player.isInSilence() && rate != Player.getNormalRate) {
         Player.lesson.dbRate(rate);
-        Player.silences.setNormalRate(rate);
+        Player.setNormalRate(rate);
       }
     });
 
@@ -769,14 +357,14 @@ class Player {
     Player.hasJustLoaded = true;
     Player.lesson = _lesson;
     Player.src(Player.lesson.url());
-    Player.silences.setNormalRate(Player.lesson.playbackRate);
+    Player.setNormalRate(Player.lesson.playbackRate);
 
     // Restore lesson's time and playbackRate
     Player.currentTime(Player.lesson.mark);
     Player.defaultPlaybackRate(playbackRateBackup);
 
     Player.updateOverlay();
-    Player.silences.setTimestamps(Player.lesson.silences);
+    Player.setSilenceTimestamps(Player.lesson.silences);
     Player.notify(`${Player.lesson.parentClass.name}:<br>${Player.lesson.title}`, 2000);
 
     if(_autoplay) {
@@ -791,33 +379,12 @@ class Player {
 
     UI.setHeaderTitle(Player.lesson.parentClass.name, Player.lesson.title);
 
-    Player.overlay.update({
+    Player.lessonOverlay.update({
       class: Player.lesson.parentClass.name,
       date: formatDate(Player.lesson.dated),
       professor: Player.lesson.professor,
       title: Player.lesson.title
     });
-  }
-
-  static appendLayer(_id) {
-    const layer = document.createElement("div");
-    layer.id = _id;
-    Player.wrapper.appendChild(layer);
-    return layer;
-  }
-
-  static notify(_notice, _timeout = 1500) {
-    if(Player.noticeTimeout != null) {
-      clearTimeout(Player.noticeTimeout)
-    }
-
-    Player.notice.innerHTML = _notice;
-    Player.notice.style.display = "inline-block";
-
-    Player.noticeTimeout = setTimeout(() => {
-      Player.notice.style.display = "none";
-      Player.notice.innerText = "";
-    }, _timeout);
   }
 
   static changeVolume(_amount) {
@@ -869,8 +436,8 @@ class Player {
 
     // Screenshot to canvas
     var canvas = document.createElement('canvas');
-    canvas.width = Player.player.videoWidth();
-    canvas.height = Player.player.videoHeight();
+    canvas.width = Player.videoWidth();
+    canvas.height = Player.videoHeight();
     canvas.getContext('2d').drawImage(Player.video, 0, 0, canvas.width, canvas.height);
 
     // Canvas to base64 encoded data
