@@ -206,7 +206,7 @@ class Player {
         }
         case "KeyW": {
           e.preventDefault();
-          Player.noteTaking.toggle();
+          Player.toggleNotes();
           break;
         }
       }
