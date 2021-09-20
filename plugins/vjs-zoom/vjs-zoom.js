@@ -24,10 +24,6 @@ function zoom(options) {
   button.tabIndex = "-1";
   button.style.order = 4;
 
-  const icon = document.createElement("span");
-  icon.innerText = "✂";
-  button.appendChild(icon);
-
   this.ready(() => {
     this.el().querySelector(".vjs-control-bar").appendChild(button);
   });
