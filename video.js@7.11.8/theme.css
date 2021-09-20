@@ -114,6 +114,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   flex: 1;
 }
 
+.vjs-theme-lesson .vjs-fullscreen-control {
+  order: 5;
+}
+
 .vjs-theme-lesson .vjs-volume-panel:hover .vjs-volume-control.vjs-volume-horizontal {
   height: 100%;
 }
