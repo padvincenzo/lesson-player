@@ -24,6 +24,7 @@ $lang = (object) [];
 $lang->dateFormat         = "default";
 $lang->IPAddress          = "Server's local IP address is:";
 $lang->IPNotAvailable     = "Server's local IP address is not available";
+$lang->headerTitle        = "{lessonClass} > {lessonTitle}";
 
 // Actions
 $lang->cancel             = "Cancel";
@@ -153,7 +154,7 @@ $lang->setting = (object) [];
 $lang->setting->dictionaryTags  = "You can use: ";
 $lang->setting->classProgress   = "Class progress";
 $lang->setting->dateFormat      = "Format for dates";
-$lang->setting->separator       = "Separator";
+$lang->setting->headerTitle     = "Header title";
 $lang->setting->screenshotName  = "Screenshot name (.jpg)";
 $lang->setting->theme           = "Theme";
 $lang->setting->timeDisplay     = "Remaining time display mode";
