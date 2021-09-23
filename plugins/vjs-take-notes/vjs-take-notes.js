@@ -107,17 +107,23 @@ function takeNotes(options) {
         0, 0, canvas.width, canvas.height);                                                                       // Destination
 
       // Canvas to base64 encoded data
-      var image = document.createElement("img");
-      image.src = canvas.toDataURL('image/jpeg');
-
-      notes.appendChild(image);
+      insertImage(canvas.toDataURL('image/jpeg'));
     }).catch((err) => {
       console.log(err);
     });
   });
 
+  const closeBtn = document.createElement("div");
+  closeBtn.classList.add("vjs-take-notes-closeBtn");
+
+  closeBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    this.toggleNotes();
+  });
+
   header.appendChild(dragBtn);
   header.appendChild(screenBtn);
+  header.appendChild(closeBtn);
 
   const notes = document.createElement("div");
   notes.classList.add("vjs-take-notes-notes");
@@ -125,7 +131,7 @@ function takeNotes(options) {
   const textbox = document.createElement("textarea");
   textbox.classList.add("vjs-take-notes-textbox");
 
-  textbox.addEventListener("keyup", (e) => {
+  textbox.addEventListener("keydown", (e) => {
     if(e.code == "Enter" && !e.shiftKey) {
       e.preventDefault();
       insertNote(textbox.value);
@@ -133,27 +139,32 @@ function takeNotes(options) {
     }
   });
 
+  const sendBtn = document.createElement("div");
+  sendBtn.classList.add("vjs-take-notes-sendBtn");
+
+  sendBtn.addEventListener("click", (e) => {
+    insertNote(textbox.value);
+    textbox.value = "";
+  });
+
   wrapper.appendChild(header);
   wrapper.appendChild(notes);
   wrapper.appendChild(textbox);
+  wrapper.appendChild(sendBtn);
   this.el().appendChild(wrapper);
 
   const notesBtn = document.createElement("button");
   notesBtn.classList.add("vjs-take-notes-control", "vjs-control", "vjs-button");
   notesBtn.type = "button";
   notesBtn.title = "Take notes";
-  notesBtn.tabIndex = "-1";
   notesBtn.style.order = 4;
-  let notesText = document.createElement("span");
-  notesText.innerText = "📝";
-  notesBtn.appendChild(notesText);
 
   this.ready(() => {
     this.el().querySelector(".vjs-control-bar").appendChild(notesBtn);
     notesBtn.addEventListener("click", () => {
       this.toggleNotes();
     });
-  })
+  });
 
   const insertNote = (text = "") => {
     text = text.replace(/^(\s|\n)*|(\s|\n)*$/g, "").replace(/ {2,}/g, " ").replace(/\n{2,}/g, "\n");
@@ -162,10 +173,23 @@ function takeNotes(options) {
     note.innerText = text;
     notes.appendChild(note);
 
+    notes.scrollTop = notes.scrollHeight;
+
     if(options.onInsert) {
       options.onInsert(text);
     }
+
+    textbox.focus();
+    textbox.select();
   };
+
+  const insertImage = (src) => {
+    const image = document.createElement("img");
+    image.src = src;
+
+    notes.appendChild(image);
+    notes.scrollTop = notes.scrollHeight;
+  }
 
   this.toggleNotes = () => {
     wrapper.style.display = wrapper.style.display == "none" ? "flex" : "none";
