@@ -26,7 +26,7 @@ $dbh->close();
 	<head>
 		<title>Lesson Player</title>
 		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 		<link rel="manifest" href="manifest.json">
 
 		<!-- Disable cache (to avoid problems in updates. Better solutions are welcome) -->
@@ -91,15 +91,8 @@ $dbh->close();
 	<body>
 
 		<div id="header">
-			<div id="header-logo" title="<?php echo $lang->homePage; ?>">
-				<img src="img/icon.svg" alt="Lesson Player">
-				<p>Lesson Player</p>
-			</div>
-			<div id="header-title">
-				<p id="header-class"></p>
-				<p id="header-separator"></p>
-				<p id="header-lesson"></p>
-			</div>
+			<div id="header-homepage" title="<?php echo $lang->homePage; ?>"></div>
+			<div id="header-title"></div>
 		</div>
 
 		<div id="my-p-background" tabindex="1">
