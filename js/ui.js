@@ -34,11 +34,9 @@ class UI {
       Class.viewRemoved();
     });
 
-    document.getElementById("header-logo").addEventListener("click", () => {
+    document.getElementById("header-homepage").addEventListener("click", () => {
       UI.listClasses();
     });
-
-    UI.separator = ">";
 
     UI.getLocalIPAddress();
   }
@@ -58,18 +56,9 @@ class UI {
     });
   }
 
-  static setHeaderTitle(_class, _lesson) {
-    document.title = `${_class}: ${_lesson}`;
-    document.getElementById("header-class").innerText = _class;
-    document.getElementById("header-lesson").innerText = _lesson;
-  }
-
-  static get separator() {
-    return document.getElementById("header-separator").innerText;
-  }
-
-  static set separator(value) {
-    document.getElementById("header-separator").innerText = value;
+  static setHeaderTitle(string) {
+    document.title = string;
+    document.getElementById("header-title").innerText = string;
   }
 
   static get theme() {
@@ -236,7 +225,6 @@ class UI {
     var form = new Form();
 
     form.insertTitle(lang.settings);
-    form.appendText("separator", UI.separator, lang.setting.separator, 10);
     form.appendSelect("theme", UI.themes, lang.setting.theme);
 
     form.appendSelect("remainingTime", [
@@ -251,8 +239,13 @@ class UI {
     form.appendText("classProgress", lang.classProgress, lang.setting.classProgress);
     form.help(dictionaryTags(Class.dummy().dictionary()));
 
+    var lessonTags = dictionaryTags(Lesson.dummy(Class.dummy()).dictionary());
+
+    form.appendText("headerTitle", lang.headerTitle, lang.setting.headerTitle);
+    form.help(lessonTags);
+
     form.appendText("screenshotName", lang.screenshotName, lang.setting.screenshotName);
-    form.help(dictionaryTags(Lesson.dummy(Class.dummy()).dictionary()));
+    form.help(lessonTags);
 
     // To add more
 
@@ -262,13 +255,13 @@ class UI {
         return;
       }
 
-      UI.separator = decodeString(values.separator);
       UI.theme = decodeString(values.theme);
 
       // console.log(values.remainingTime);
       Player.shouldDisplayRealRemainingTime(values.remainingTime);
 
       // Language preferences
+      lang.headerTitle = decodeString(values.headerTitle);
       lang.dateFormat = decodeString(values.dateFormat);
       lang.classProgress = decodeString(values.classProgress);
       lang.screenshotName = decodeString(values.screenshotName);

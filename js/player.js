@@ -49,7 +49,7 @@ class Player {
           normalRate: 1,
           displayRealRemainingTime: true,
           onSkip: (newTime) => {
-            Player.notify(secondsToTime(newTime));
+            // Player.notify(secondsToTime(newTime));
           }
         },
         areaSelector: {},
@@ -63,7 +63,7 @@ class Player {
         },
         takeNotes: {
           onInsert: (note) => {
-            console.log("You have inserted: " + note);
+            // console.log("You have inserted: " + note);
           }
         }
       }
@@ -77,7 +77,6 @@ class Player {
     Player.initWrapperFunctions();
     Player.initShortcuts();
     Player.initLessonUpdater();
-    Player.removeTabIndexes();
     Player.initUserActivity();
   }
 
@@ -299,17 +298,6 @@ class Player {
     });
   }
 
-  static removeTabIndexes() {
-    let controls = Player.wrapper.querySelectorAll("[tabindex='0'], button");
-    for(let i = 0; i < controls.length; i++) {
-      controls[i].tabIndex = -1;
-
-      controls[i].addEventListener("click", () => {
-        Player.focus();
-      });
-    }
-  }
-
   static initUserActivity() {
     // When fullscreen, set the landscape orientation on mobile
     Player.wrapper.addEventListener("fullscreenchange", () => {
@@ -323,10 +311,6 @@ class Player {
 
   static on(_event, _function) {
     return Player.player.on(_event, _function);
-  }
-
-  static focus() {
-    Player.background.focus();
   }
 
   static hide() {
@@ -377,7 +361,7 @@ class Player {
       return;
     }
 
-    UI.setHeaderTitle(Player.lesson.parentClass.name, Player.lesson.title);
+    UI.setHeaderTitle(Player.lesson.dictionaryReplace(lang.headerTitle));
 
     Player.lessonOverlay.update({
       class: Player.lesson.parentClass.name,
@@ -456,11 +440,7 @@ class Player {
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
-    }).catch((err = "") => {
-      if(err != "") {
-        console.log(err);
-      }
-
+    }).catch((err) => {
       // Automatically resume the video if the screenshot has been discarded
       if(wasPlaying) {
         Player.play();
