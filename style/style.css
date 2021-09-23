@@ -50,7 +50,8 @@ br {
   text-align: center;
 }
 
-button:not([tabIndex = "-1"]) {
+#container button,
+#msg_wrapper button {
   cursor: pointer;
   width: 16em;
   line-height: 2em;
@@ -64,17 +65,22 @@ button:not([tabIndex = "-1"]) {
   transition: background-color 0.1s;
 }
 
-button:not([tabIndex = "-1"]):hover,
-button:not([tabIndex = "-1"]):active,
-button:not([tabIndex = "-1"]):focus {
+#container button:hover,
+#container button:active,
+#container button:focus,
+#msg_wrapper button:hover,
+#msg_wrapper button:active,
+#msg_wrapper button:focus, {
   background: var(--background);
 }
 
-button:not([tabIndex = "-1"]).btnSmall {
+#container button.btnSmall,
+#msg_wrapper button.btnSmall {
   width: auto;
   min-width: 7em;
   line-height: 1.8em;
   font-size: 1em;
+  margin: 0.3em;
 }
 
 footer {
@@ -115,43 +121,41 @@ ul, ol {
   display: flex;
 }
 
-#header-logo {
-  display: flex;
+#header-homepage {
   flex: none;
   cursor: pointer;
   padding: 10px 15px;
   margin-right: 20px;
-  align-items: center;
+  margin: 0 10px 0 0;
+  padding: 1em 1em 0 1em;
 }
 
-#header-logo:hover {
+#header-homepage:hover {
   background-color: var(--background-focused);
 }
 
-#header-logo img {
+#header-homepage::before {
+  display: inline-block;
+  background-image: url("../img/icon.svg");
+  background-size: 2em 2em;
+  height: 2em;
+  width: 2em;
+  content: "";
   margin-right: 5px;
-  height: 40px;
+  float: left;
+  position: relative;
+  top: -0.33em;
 }
 
-#header-logo p,
-#header-title p {
-  padding: 10px 0;
-  margin: 0;
+#header-homepage::after {
+  display: inline-block;
+  content: "Lesson Player";
 }
 
 #header-title {
-  display: flex;
   width: 100%;
-  padding: 10px 15px;
-  align-items: center;
-}
-
-p#header-class {
-  text-align: center;
-}
-
-p#header-separator {
-  margin: 0 10px;
+  margin: 0;
+  padding: 1em 0;
 }
 
 .shortcuts {
@@ -205,7 +209,7 @@ p#header-separator {
 
 
 @media only screen and (max-width: 600px) {
-  #header-logo p {
-    display: none;
+  #header-homepage::after {
+    content: "";
   }
 }
