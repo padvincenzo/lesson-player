@@ -95,7 +95,7 @@ $dbh->close();
 			<div id="header-title"></div>
 		</div>
 
-		<div id="my-p-background" tabindex="1">
+		<div id="my-p-background">
 			<div id="my-p-wrapper">
 				<video id="my-player" disableRemotePlayback class="video-js vjs-theme-lesson"></video>
 			</div>
