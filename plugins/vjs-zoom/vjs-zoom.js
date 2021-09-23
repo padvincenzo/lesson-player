@@ -21,7 +21,6 @@ function zoom(options) {
   button.classList.add("vjs-zoom-control", "vjs-control", "vjs-button");
   button.type = "button";
   button.title = "Zoom";
-  button.tabIndex = "-1";
   button.style.order = 4;
 
   this.ready(() => {
