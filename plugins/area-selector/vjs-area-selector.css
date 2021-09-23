@@ -22,13 +22,12 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 3;
-  display: none;
   box-shadow: inset 0px 0px 10px 1px #F00C;
   cursor: crosshair;
+  display: none;
 }
 
-.vjs-area-selector-rectangle {
+.vjs-area-selector {
   box-shadow: 0px 0px 0px 100vw #0007;
   position: absolute;
 }

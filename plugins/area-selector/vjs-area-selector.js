@@ -20,19 +20,16 @@ function areaSelector(options) {
   const background = document.createElement("div");
   background.classList.add("vjs-area-selector-background");
 
-  const rectangle = {};
-  rectangle.dom = document.createElement("div");
-  rectangle.dom.hidden = true;
-  rectangle.dom.classList.add("vjs-area-selector-rectangle");
+  const dom = document.createElement("div");
+  dom.hidden = true;
+  dom.classList.add("vjs-area-selector");
 
-  background.appendChild(rectangle.dom);
+  background.appendChild(dom);
   this.el().appendChild(background);
 
-  this.ready(() => {
-    this.el().querySelector(".vjs-fullscreen-control").style.order = 5;
-  });
+  const video = this.el().querySelector("video");
 
-  rectangle.coordinates = {
+  const coordinates = {
     offset: {width: 0, height: 0},  // player wrapper's getBoundingClientRect()
     video: {width: 0, height: 0},   // video's absolute width and height
     x1: 0, x2: 0, y1: 0, y2: 0,
@@ -90,44 +87,66 @@ function areaSelector(options) {
     }
   };
 
-  rectangle.update = () => {
-    Object.assign(rectangle.dom.style, {
-      top: `${rectangle.coordinates.top()}px`,
-      left: `${rectangle.coordinates.left()}px`,
-      width: `${rectangle.coordinates.width()}px`,
-      height: `${rectangle.coordinates.height()}px`
+  const update = () => {
+    Object.assign(dom.style, {
+      top: `${coordinates.top()}px`,
+      left: `${coordinates.left()}px`,
+      width: `${coordinates.width()}px`,
+      height: `${coordinates.height()}px`
     });
   };
 
   const listeners = ["mousedown", "mousemove", "mouseup", "touchstart", "touchmove", "touchend"];
+
+  const limit = {
+    x: (x) => {
+      if(x < coordinates.offset.left) {
+        return coordinates.offset.left;
+      }
+      if(x > coordinates.offset.right) {
+        return coordinates.offset.right;
+      }
+      return x;
+    },
+    y: (y) => {
+      if(y < coordinates.offset.top) {
+        return coordinates.offset.top;
+      }
+      if(y > coordinates.offset.bottom) {
+        return coordinates.offset.bottom;
+      }
+      return y;
+    }
+  };
+
   const handleEvent = (e) => {
     switch(e.type) {
       case "mousedown": {
-        rectangle.dom.hidden = false;
-        rectangle.coordinates.x1 = rectangle.coordinates.x2 = e.clientX - rectangle.coordinates.offset.x;
-        rectangle.coordinates.y1 = rectangle.coordinates.y2 = e.clientY - rectangle.coordinates.offset.y;
-        rectangle.update();
+        dom.hidden = false;
+        coordinates.x1 = coordinates.x2 = limit.x(e.clientX) - coordinates.offset.left;
+        coordinates.y1 = coordinates.y2 = limit.y(e.clientY) - coordinates.offset.top;
+        update();
         break;
       }
       case "touchstart": {
         e.preventDefault();
-        rectangle.dom.hidden = false;
-        rectangle.coordinates.x1 = rectangle.coordinates.x2 = e.changedTouches[0].pageX - rectangle.coordinates.offset.x;
-        rectangle.coordinates.y1 = rectangle.coordinates.y2 = e.changedTouches[0].pageY - rectangle.coordinates.offset.y;
-        rectangle.update();
+        dom.hidden = false;
+        coordinates.x1 = coordinates.x2 = limit.x(e.changedTouches[0].pageX) - coordinates.offset.left;
+        coordinates.y1 = coordinates.y2 = limit.y(e.changedTouches[0].pageY) - coordinates.offset.top;
+        update();
         break;
       }
       case "mousemove": {
-        rectangle.coordinates.x2 = e.clientX - rectangle.coordinates.offset.x;
-        rectangle.coordinates.y2 = e.clientY - rectangle.coordinates.offset.y;
-        rectangle.update();
+        coordinates.x2 = limit.x(e.clientX) - coordinates.offset.left;
+        coordinates.y2 = limit.y(e.clientY) - coordinates.offset.top;
+        update();
         break;
       }
       case "touchmove": {
         e.preventDefault();
-        rectangle.coordinates.x2 = e.changedTouches[0].pageX - rectangle.coordinates.offset.x;
-        rectangle.coordinates.y2 = e.changedTouches[0].pageY - rectangle.coordinates.offset.y;
-        rectangle.update();
+        coordinates.x2 = limit.x(e.changedTouches[0].pageX) - coordinates.offset.left;
+        coordinates.y2 = limit.y(e.changedTouches[0].pageY) - coordinates.offset.top;
+        update();
         break;
       }
       case "mouseup": {
@@ -148,16 +167,60 @@ function areaSelector(options) {
 
   const promise = {
     resolve: null,
-    reject: null
+    reject: null,
+    anyway: (wasPlaying) => {
+      listeners.forEach((listener) => {
+        document.body.removeEventListener(listener, handleEvent, false);
+      });
+
+      dom.hidden = true;
+      this.controls(true);
+
+      background.style.display = "none";
+
+      if(wasPlaying) {
+        this.play();
+      }
+    }
+  };
+
+  this.videoCoordinates = () => {
+    // From https://stackoverflow.com/a/39326690
+
+    // Ratio of the video's intrisic dimensions
+    var videoRatio = video.videoWidth / video.videoHeight;
+
+    // The width and height of the video element
+    var width = video.offsetWidth, height = video.offsetHeight;
+
+    // The ratio of the element's width to its height
+    var elementRatio = width / height;
+
+    if(elementRatio > videoRatio) { // The video element is short and wide
+      width = height * videoRatio;
+    } else {                        // It is tall and thin, or exactly equal to the original ratio
+      height = width / videoRatio;
+    }
+
+    // var offsetTop = ();
+
+    // var offset = video.getBoundingClientRect();
+
+    return {
+      width: width,
+      height: height
+    };
   };
 
   this.select = () => {
     return new Promise((_resolve, _reject) => {
-      rectangle.coordinates.offset = this.el().childNodes[0].getBoundingClientRect();
-      rectangle.coordinates.video = {
+      coordinates.offset = video.getBoundingClientRect();
+      coordinates.video = {
         width: this.videoWidth(),
         height: this.videoHeight()
       };
+
+      background.style.display = "block";
 
       var wasPlaying = !this.paused();
       this.pause();
@@ -165,48 +228,26 @@ function areaSelector(options) {
       this.controls(false);
 
       listeners.forEach((listener) => {
-        background.addEventListener(listener, handleEvent, false);
+        document.body.addEventListener(listener, handleEvent, false);
       });
 
-      background.style.display = "block";
-
       promise.resolve = () => {
-        listeners.forEach((listener) => {
-          background.removeEventListener(listener, handleEvent, false);
-        });
+        promise.anyway(wasPlaying);
 
-        if(rectangle.coordinates.width() <= 1 || rectangle.coordinates.height() <= 1) {
+        if(coordinates.width() <= 1 || coordinates.height() <= 1) {
           _reject("Nothing selected");
         } else {
-          _resolve(rectangle.coordinates.get());
+          _resolve(coordinates.get());
         }
 
         promise.resolve = promise.reject = null;
-
-        if(wasPlaying) {
-          this.play();
-        }
-
-        rectangle.dom.hidden = true;
-        background.style.display = "none";
-        this.controls(true);
       };
 
       promise.reject = (cause) => {
-        listeners.forEach((listener) => {
-          background.removeEventListener(listener, this, false);
-        });
+        promise.anyway(wasPlaying);
 
         _reject(cause);
         promise.resolve = promise.reject = null;
-
-        if(wasPlaying) {
-          this.play();
-        }
-
-        rectangle.dom.hidden = true;
-        background.style.display = "none";
-        this.controls(true);
       };
     });
   };
@@ -218,7 +259,7 @@ function areaSelector(options) {
   };
 
   this.isSelectingArea = () => {
-    return background.style.display == "block";
+    return promise.resolve != null;
   };
 }
 
