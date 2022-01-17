@@ -7,6 +7,8 @@ Le sue principali caratteristiche sono:
 3) Ingrandisci rapidamente sull'area importante della lezione;
 4) Visualizza il tempo residuo effettivo, considerando sia la velocità di riproduzione che i silenzi.
 
+[Puoi discutere del futuro di questo progetto qui](https://github.com/padvincenzo/lesson-player/discussions/3)
+
 Ti sta piacendo questo progetto? Scrivimi una tua opinione a [padvincenzo@gmail.com](mailto:padvincenzo@gmail.com) oppure lascia un commento su [vincenzopadula.altervista.org/lesson-player/](https://vincenzopadula.altervista.org/lesson-player/), grazie.
 
 *Leggi in altre lingue: [Inglese](README.md), Italiano.*
