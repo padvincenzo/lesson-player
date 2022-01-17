@@ -7,6 +7,8 @@ Main features are:
 3) Quickly zoom in on the important area of the lesson;
 4) Displays the actual remaining time, considering both playback speed and silences.
 
+[You can discuss the future of this project here](https://github.com/padvincenzo/lesson-player/discussions/3)
+
 Are you enjoying this project? Please write me your opinion at [padvincenzo@gmail.com](mailto:padvincenzo@gmail.com) or leave a comment at [vincenzopadula.altervista.org/lesson-player/](https://vincenzopadula.altervista.org/lesson-player/), thank you.
 
 *Read what follows in other languages: English, [Italian](README.it.md).*
